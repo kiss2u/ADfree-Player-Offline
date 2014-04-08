@@ -2,7 +2,7 @@
    "background": {
       "scripts": [ "background.js" ]
    },
-   "description": "去广告离线测试版DEV",
+   "description": "去广告离线测试版",
    "icons": {
       "128": "icon128.png"
    },
