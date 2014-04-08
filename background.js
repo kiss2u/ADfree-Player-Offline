@@ -11,7 +11,11 @@
  */
 
 var taburls = []; //存放tab的url与flag，用作判断重定向
+<<<<<<< HEAD
 var baesite = ['','','http://127.0.0.1/']; //在线播放器地址.因lovejiani拥有大量免费流量,后面将较多的使用baesite[2].如果拥有自己的服务器也可在此修改
+=======
+var baesite = ['', 'http://127.0.0.1/']; //在线播放器地址.因lovejiani拥有大量免费流量,后面将较多的使用baesite[2].如果拥有自己的服务器也可在此修改
+>>>>>>> parent of b7b79c7... Revert "done"
 var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换
 var proxyflag = 0;	//proxy调试标记
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
