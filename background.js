@@ -430,9 +430,10 @@ var redirectlist = [{
 		extra: "adkillrule"
 	}, {
 		name: "letv",
-		find: /http:\/\/.*letv[\w]*\.com\/(.*\/(?!Live)(S[\w]{2,3})?[\w]{4}Player[^\.]*|[\w]*cloud)\.swf/i,
-		//		replace: getUrl('swf/letv.swf'),
-		//		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
+		find: /^http:\/\/.*letv[\w]*\.com\/.*\/(?!(Live|seed))((S[\w]{2,3})?[\w]{4}|swf)Player[^\.]*\.swf/i,
+//		find: /http:\/\/.*letv[\w]*\.com\/(.*\/(?!Live)(S[\w]{2,3})?[\w]{4}Player[^\.]*|[\w]*cloud)\.swf/i,
+//		replace: getUrl('swf/letv.swf'),
+//		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
 		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letvsdk.swf',
 		extra: "adkillrule"
 	},
@@ -445,7 +446,7 @@ var redirectlist = [{
 		//		replace: localflag ? getUrl('swf/kernelletv.swf') : baesite[ getRandom(3) ] + 'kernelletv.swf',
 		extra: "adkillrule"
 	},
-	*/
+
 	//letv本地版特有部分结束
 	{
 		name: "letvviki",
@@ -454,7 +455,8 @@ var redirectlist = [{
 		//		replace: localflag ? getUrl('swf/letvsdk.swf') : baesite[ getRandom(3) ] + 'letvsdk.swf',
 		replace: localflag ? getUrl('swf/letvviki.swf') : baesite[2] + 'letvviki.swf',
 		extra: "adkillrule"
-	}, {
+	}, 	*/
+	{
 		name: "pplive",
 		find: /(\/\/|\.)player\.pplive\.cn.*\/PPLivePlugin\.swf/i,
 		replace: "about:blank",
@@ -488,9 +490,10 @@ var redirectlist = [{
 		extra: "adkillrule"
 	},*/ {
 		name: "sohu",
-		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
-		//		replace: getUrl('swf/iqiyi5.swf'),
-		//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
+		find: /http:\/\/(tv\.sohu\.com\/upload\/swf\/.*\d+|.*\/test\/player)\/(Main|playershell)\.swf/i,
+//		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
+//		replace: getUrl('swf/iqiyi5.swf'),
+//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
 		//replace: localflag ? getUrl('swf/sohu.swf') : baesite[2] + 'sohu.swf',
 		replace: baesite[2] + 'sohu.swf',
 		extra: "adkillrule"
@@ -539,7 +542,9 @@ var proxylist = [{
 		extra: "crossdomain"
 	},{
 		name: "crossdomain_sohu",
-		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
+		find: /http:\/\/(tv\.sohu\.com\/upload\/swf\/.*\d+|.*\/test\/player)\/main\.swf/i,
+
+//		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
 		//monitor: /.*skins\/s[\d]+\.swf/i,
 		monitor: /http:\/\/live\.tv\.sohu\.com\/crossdomain\.xml/i,
 		extra: "crossdomain"
