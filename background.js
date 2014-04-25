@@ -284,7 +284,12 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					newUrl = url.replace(redirectlist[i].find, baesite[2] + 'letv.swf'); //转换成在线
 				}
 				break;
-
+/*
+				case "letvpccs":
+				//console.log("Switch : letvpccs");
+				
+				break;
+*/
 				case "iqiyi":
 				//console.log("Switch : iqiyi");	
 				if(/v\..*site=iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
@@ -430,11 +435,18 @@ var redirectlist = [{
 		extra: "adkillrule"
 	}, {
 		name: "letv",
+<<<<<<< HEAD
+		find: /http:\/\/.*letv[\w]*\.com\/(.*\/(?!Live)(S[\w]{2,3})?[\w]{4}Player[^\.]*|[\w]*cloud)\.swf/i,
+		//		replace: getUrl('swf/letv.swf'),
+		//		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
+		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letv.swf',
+=======
 		find: /^http:\/\/.*letv[\w]*\.com\/.*\/(?!(Live|seed))((S[\w]{2,3})?[\w]{4}|swf)Player[^\.]*\.swf/i,
 //		find: /http:\/\/.*letv[\w]*\.com\/(.*\/(?!Live)(S[\w]{2,3})?[\w]{4}Player[^\.]*|[\w]*cloud)\.swf/i,
 //		replace: getUrl('swf/letv.swf'),
 //		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
 		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letvsdk.swf',
+>>>>>>> b18c37fd88a2a830847d9ad7e33e3e3b59e78315
 		extra: "adkillrule"
 	},
 	//letv本地版特有部分,某些情况下本地加载不可使用,同时在线服务器未同步对应swf文件,如后续同步可开启
@@ -449,11 +461,9 @@ var redirectlist = [{
 
 	//letv本地版特有部分结束
 	{
-		name: "letvviki",
-		find: /http:\/\/.*letv[\w]*\.com\/.*\/V[^\.]*\.swf/i,
-		//		replace: getUrl('swf/letvsdk.swf'),
-		//		replace: localflag ? getUrl('swf/letvsdk.swf') : baesite[ getRandom(3) ] + 'letvsdk.swf',
-		replace: localflag ? getUrl('swf/letvviki.swf') : baesite[2] + 'letvviki.swf',
+		name: "letvpccs",
+		find: /http:\/\/www.letv.com\/zt\/cmsapi\/playerapi\/pccs.*_(\d+)\.xml/i,
+		replace: "http://www.letv.com/zt/cmsapi/playerapi/pccs_sdk_$1.xml",
 		extra: "adkillrule"
 	}, 	*/
 	{
