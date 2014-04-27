@@ -151,6 +151,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 							break;
 						}
 
+						case "referer_iqiyi":
+						if (/qiyi\.com/i.test(details.requestHeaders[j].value)) {
+							console.log("Referer Modifier : No need to change");
+							break;
+						}
+
 						default:
 						console.log("Referer Modifier : Switch Default");
 						if (refererslist[i].extra === "remove"){
@@ -435,18 +441,10 @@ var redirectlist = [{
 		extra: "adkillrule"
 	}, {
 		name: "letv",
-<<<<<<< HEAD
 		find: /http:\/\/.*letv[\w]*\.com\/(.*\/(?!Live)(S[\w]{2,3})?[\w]{4}Player[^\.]*|[\w]*cloud)\.swf/i,
 		//		replace: getUrl('swf/letv.swf'),
 		//		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
 		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letv.swf',
-=======
-		find: /^http:\/\/.*letv[\w]*\.com\/.*\/(?!(Live|seed))((S[\w]{2,3})?[\w]{4}|swf)Player[^\.]*\.swf/i,
-//		find: /http:\/\/.*letv[\w]*\.com\/(.*\/(?!Live)(S[\w]{2,3})?[\w]{4}Player[^\.]*|[\w]*cloud)\.swf/i,
-//		replace: getUrl('swf/letv.swf'),
-//		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
-		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letvsdk.swf',
->>>>>>> b18c37fd88a2a830847d9ad7e33e3e3b59e78315
 		extra: "adkillrule"
 	},
 	//letv本地版特有部分,某些情况下本地加载不可使用,同时在线服务器未同步对应swf文件,如后续同步可开启
@@ -458,15 +456,19 @@ var redirectlist = [{
 		//		replace: localflag ? getUrl('swf/kernelletv.swf') : baesite[ getRandom(3) ] + 'kernelletv.swf',
 		extra: "adkillrule"
 	},
-
+	*/
 	//letv本地版特有部分结束
 	{
 		name: "letvpccs",
 		find: /http:\/\/www.letv.com\/zt\/cmsapi\/playerapi\/pccs.*_(\d+)\.xml/i,
 		replace: "http://www.letv.com/zt/cmsapi/playerapi/pccs_sdk_$1.xml",
 		extra: "adkillrule"
-	}, 	*/
-	{
+	},/*{
+		name: "letvskin",
+		find: /http:\/\/.*letv[\w]*\.com\/p\/\d+\/\d+\/(?!1456)\d*\/newplayer\/\d+\/SLetvPlayer\.swf/i,
+		replace: "http://player.letvcdn.com/p/201403/05/1456/newplayer/1/SLetvPlayer.swf",
+		extra: "adkillrule"
+	},*/ {
 		name: "pplive",
 		find: /(\/\/|\.)player\.pplive\.cn.*\/PPLivePlugin\.swf/i,
 		replace: "about:blank",
@@ -500,10 +502,9 @@ var redirectlist = [{
 		extra: "adkillrule"
 	},*/ {
 		name: "sohu",
-		find: /http:\/\/(tv\.sohu\.com\/upload\/swf\/.*\d+|.*\/test\/player)\/(Main|playershell)\.swf/i,
-//		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
-//		replace: getUrl('swf/iqiyi5.swf'),
-//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
+		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
+		//		replace: getUrl('swf/iqiyi5.swf'),
+		//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
 		//replace: localflag ? getUrl('swf/sohu.swf') : baesite[2] + 'sohu.swf',
 		replace: baesite[2] + 'sohu.swf',
 		extra: "adkillrule"
@@ -523,7 +524,12 @@ var refererslist = [{
 		extra: ""	//use "remove" is also acceptable
 	},{
 		name: "referer_56",
-		find: /\.56\.com/,
+		find: /\.56\.com/i,
+		replace: "",
+		extra: "remove"
+	},{
+		name: "referer_iqiyi",
+		find: /cache\.video\.qiyi\.com/i,
 		replace: "",
 		extra: "remove"
 	}
@@ -552,9 +558,7 @@ var proxylist = [{
 		extra: "crossdomain"
 	},{
 		name: "crossdomain_sohu",
-		find: /http:\/\/(tv\.sohu\.com\/upload\/swf\/.*\d+|.*\/test\/player)\/main\.swf/i,
-
-//		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
+		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
 		//monitor: /.*skins\/s[\d]+\.swf/i,
 		monitor: /http:\/\/live\.tv\.sohu\.com\/crossdomain\.xml/i,
 		extra: "crossdomain"
