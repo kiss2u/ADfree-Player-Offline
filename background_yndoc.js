@@ -14,6 +14,7 @@ var taburls = []; //存放tab的url与flag，用作判断重定向
 var baesite = ['http://tfetcher.duapp.com/player/','http://haoutil.duapp.com/player/','http://code.taobao.org/svn/noadsplayer/trunk/Player/','http://local.haoutil.com/']; 
 var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换
 var proxyflag = 0;	//proxy调试标记
+var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 //var xhr = new XMLHttpRequest();	
 
 //====================================Crossdomin Spoofer Test
@@ -53,6 +54,7 @@ function ProxyControl(pram) {
 			if(pram == "unset"){
 				console.log("Release Proxy");
 				chrome.proxy.settings.clear({scope: "regular"});
+				FlushCache();
 			}
 			break;
 			default:
@@ -63,6 +65,18 @@ function ProxyControl(pram) {
 			break;
 		}
 	});
+}
+function FlushCache() {
+	if(cacheflag) {
+		chrome.browsingData.remove(
+			{},{
+			"cache": true,
+			"fileSystems": true,
+		},
+		function() {
+			console.log('Now flushing Cache!');
+		});
+	}
 }
 //Listeners
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
@@ -90,6 +104,8 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 	for (var i = 0; i < proxylist.length; i++) {
 		if (proxylist[i].monitor.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details);
+			cacheflag = false;
+			cacheflag = details.fromCache;
 			console.log("Capture Moniter Url :" + details.url + " fromCache :" + details.fromCache + " ip :" + details.ip);
 			switch (proxylist[i].name) {
 
@@ -132,6 +148,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 							console.log("Referer Modifier : No need to change");
 							break;
 						}
+						
+						case "referer_iqiyi":
+						if (/qiyi\.com/i.test(details.requestHeaders[j].value)) {
+							console.log("Referer Modifier : No need to change");
+							break;
+						}
 
 						default:
 						console.log("Referer Modifier : Switch Default");
@@ -156,14 +178,26 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 			}
 		}
 	}
+	//Add Cache Controler
+/*	for (var i = 0; i < proxylist.length; i++){
+			if (proxylist[i].realurl.test(details.url)) {
+				console.log('Cache-Control Modifier');
+				for (var j = 0; j < details.requestHeaders.length; ++j) {
+					if (details.requestHeaders[j].name === 'Cache-Control') {
+						details.requestHeaders[j].value = "no-cache";
+				}
+				break;
+			}
+		}
+	}
+*/
 	return {requestHeaders: details.requestHeaders};
 },{urls: ["http://*/*", "https://*/*"]},
 ["blocking", "requestHeaders"]);
 
 //====================================
 ///阻挡广告及重定向
-chrome.webRequest.onBeforeRequest.addListener(
-	function(details) {
+chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	var url = details.url;
 	var id = "tabid" + details.tabId; //记录当前请求所属标签的id
 	var type = details.type;
@@ -178,7 +212,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 		taburls[id][0] = url;
 		taburls[id][1] = 1; //默认值,对于iqiyi来说是载入v5播放器,对于letv来说是载入普通LETV播放器可本地(但在线调用letv播放器如:AB站 Letvcloud LetvViKi,不能使用本地地址)
 //=======================
-		if (/((?!(baidu|61|178)).)*\.iqiyi\.com|v\.pps\.tv/i.test(url)) { //消耗流量与资源对iqiyi(pps)和letv的进一步判断,iqiyi可与v4的正则表达式相同,
+		if (/((?!(61|178)).)*\.iqiyi\.com|v\.pps\.tv/i.test(url)) { //消耗流量与资源对iqiyi(pps)和letv的进一步判断,iqiyi可与v4的正则表达式相同,
 //		if (/(^((?!(baidu|61)).)*\.iqiyi\.com)|(letv.*\..*htm)/i.test(url)) {
 			var xhr = new XMLHttpRequest();
 			xhr.open("GET", url, true);
@@ -252,11 +286,17 @@ chrome.webRequest.onBeforeRequest.addListener(
 					} 
 				break;
 
-/*				case "letv_c":
+/*
+				case "letvpccs":
+				//console.log("Switch : letvpccs");
+				
+				break;
+				
+				case "letv_c":
 				//console.log("switch : letv");
 				letvflag = taburls[id][1];
-				if (/(bilibili\.kankanews)/i.test(testUrl)) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
-					newUrl = url; //转换成在线
+				if (/(bilibili\.kankanews)/i.test(testUrl)) { 
+					newUrl = url; 
 					} 
 				break;
 */				
@@ -265,7 +305,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 				if(/v\..*site=iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
 					console.log("force to iqiyi5");
 				} else {
-					if (!/((?!(baidu|61|178)).)*\.iqiyi\.com|v\.pps\.tv/i.test(testUrl)) { //外链,名单
+					if (!/^((?!(baidu|61|178)).)*\.iqiyi\.com|v\.pps\.tv/i.test(testUrl)) { //外链,名单
 						if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
 							//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
 							newUrl = url.replace(redirectlist[i].find, baesite[2] + 'iqiyi_out.swf');
@@ -393,19 +433,25 @@ var redirectlist = [{
 		extra: "adkillrule"
 	},{
 		name: "letv",
-		find: /^http:\/\/.*letv[\w]*\.com\/.*\/(?!(Live|seed))((S[\w]{2,3})?[\w]{4}|swf)Player[^\.]*\.swf/i,
-		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
+		find: /^http:\/\/.*letv[\w]*\.com\/(hz|.*\/(?!(Live|seed))((S[\w]{2,3})?[\w]{4}|swf)Player[^\.]*)\.swf/i,
+//		find: /^http:\/\/.*letv[\w]*\.com\/.*\/(?!(Live|seed))((S[\w]{2,3})?[\w]{4}|swf)Player[^\.]*\.swf/i,
+		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letv.swf',
 		extra: "adkillrule"
 	},{
 		name:"letv_c",
 //		find: /^http:\/\/.*letv[\w]*\.com\/.*cloud[^\.]*\.swf/i,
 		find: /^http:\/\/.*letv[\w]*\.com\/.*cloud(?!(_bili).*)?\.swf/i,
-		replace: baesite[2] + 'letv.swf',
+		replace: baesite[2] + 'letv0225.swf',
 		extra:"adkillrule"
 	},{
 		name: "letv_out",
 		find: /^http:\/\/.*\.letvimg\.com\/.*\/(letvbili|lbplayer|letv-wrapper)\.swf/,
 		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letv.swf',
+		extra: "adkillrule"
+	},{
+		name: "letvpccs",
+		find: /http:\/\/www.letv.com\/zt\/cmsapi\/playerapi\/pccs.*_(\d+)\.xml/i,
+		replace: "http://www.letv.com/zt/cmsapi/playerapi/pccs_sdk_$1.xml",
 		extra: "adkillrule"
 	},
 //letv本地版特有部分,某些情况下本地加载不可使用,同时在线服务器未同步对应swf文件,如后续同步可开启
@@ -421,7 +467,22 @@ var redirectlist = [{
 		extra: "adkillrule"
 	},
 //letv本地版特有部分结束
-*/
+/*	{
+		name:"letvskin",
+		find: /http:\/\/.*letv[\w]*\.com\/p\/\d+\/\d+\/(?!1456)\d*\/newplayer\/\d+\/SLetvPlayer\.swf/i,
+		replace: "http://player.letvcdn.com/p/201403/05/1456/newplayer/1/SLetvPlayer.swf",
+		extra: "adkillrule"
+	},{
+		name: "pplive",
+		find: /^http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf/,
+		replace: localflag ? getUrl('swf/pplive.swf') : baesite[2] + 'pplive.swf',
+		extra:"adkillrule"
+	},{
+		name:"pplive_live",
+		find: /^http:\/\/player\.pplive\.cn\/live\/.*\/player4live2\.swf/,
+		replace: localflag ? getUrl('swf/pplive_live.swf') : baesite[2] + 'pplive_live.swf',
+		extra: "adkillrule"
+	},*/ 
 	{
 		name: "pplive",
 		find: /(\/\/|\.)player\.pplive\.cn.*\/PPLivePlugin\.swf/i,
@@ -429,7 +490,7 @@ var redirectlist = [{
 		extra: "adkillrule"
 	},{
 		name: "iqiyi",
-		find: /^http:\/\/www\.iqiyi\.com\/player\/\d+\/Player\.swf/,
+		find: /^http:\/\/www\.iqiyi\.com\/player\/(\d+\/Player|[a-z0-9]*)\.swf/,
 		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[2] + 'iqiyi5.swf',
 		extra: "adkillrule"
 	},{
@@ -463,9 +524,15 @@ var refererslist = [{
 		extra: ""	//use "remove" is also acceptable
 	},{
 		name: "referer_56",
-		find: /\.56\.com/,
+		find: /\.56\.com/i,
 		replace: "",
-		extra: "remove"}
+		extra: "remove"
+	},{
+		name: "referer_iqiyi",
+		find: /cache\.video\.qiyi\.com/i,
+		replace: "",
+		extra: "remove"
+	}
 	]
 //Crossdomain修改规则
 /*格式：
