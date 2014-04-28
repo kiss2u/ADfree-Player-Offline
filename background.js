@@ -217,16 +217,15 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 //		console.log(url);
 		taburls[id][1] = 1; //默认值,对于iqiyi来说是载入v5播放器,对于letv来说是载入普通LETV播放器可本地(但在线调用letv播放器如:AB站 Letvcloud LetvViKi,不能使用本地地址)http://www.letv.com/ptv/pplay/90558/2.html
 		//=======================
-		if (/((?!(baidu|61|178)).)*\.iqiyi\.com|v\.pps\.tv/i.test(url)) { //消耗流量与资源对iqiyi(pps)和letv的进一步判断,iqiyi可与v4的正则表达式相同,
+		if (/.*\.iqiyi\.com/i.test(url)) { //消耗流量与资源对iqiyi和letv的进一步判断,不过现在只有iqiyi的有作用letv不需要这样判断了
 //		if (/(^((?!(baidu|61)).)*\.iqiyi\.com)|(letv.*\..*htm)/i.test(url)) {
 			var xhr = new XMLHttpRequest();
 			xhr.open("GET", url, true);
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4) {	
 //					console.log(/iqiyi|letv/i.exec(url));
-					switch (/iqiyi|pps|letv/i.exec(url)[0]) {
+					switch (/iqiyi|letv/i.exec(url)[0]) {
 						case "iqiyi":
-						case "pps":
 						console.log("XHR Switch : iqiyi|pps");
 						taburls[id][1] = /data-flashplayerparam-flashurl/i.test(xhr.responseText);
 						break;
@@ -298,10 +297,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 */
 				case "iqiyi":
 				//console.log("Switch : iqiyi");	
-				if(/v\..*site=iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
+				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
 					console.log("Force to iqiyi5");
 				} else {
-					if (!/((?!(baidu|61|178)).)*\.iqiyi\.com|v\.pps\.tv/i.test(testUrl)) { //外链,名单
+					if (/(baidu|61|178)\.iqiyi\.com/.test(testUrl)) { //外链名单
+						console.log("Out Side");
 						if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
 							//							newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
 							newUrl = url.replace(redirectlist[i].find, baesite[2] + 'iqiyi_out.swf');
@@ -310,6 +310,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						}
 					} else { //iqiyi本站v4 v5
 						//newUrl = newUrl.replace(/iqiyi5/i,'iqiyi');	//先行替换成v4
+						console.log("Judge Flag");
 						v5flag = taburls[id][1]; //读取flag存储
 						if (!v5flag) newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi'); //不满足v5条件换成v4
 					}
