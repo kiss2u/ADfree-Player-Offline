@@ -312,7 +312,9 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						//newUrl = newUrl.replace(/iqiyi5/i,'iqiyi');	//先行替换成v4
 						console.log("Judge Flag");
 						v5flag = taburls[id][1]; //读取flag存储
-						if (!v5flag) newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi'); //不满足v5条件换成v4
+						if (!v5flag || /pps\.tv/i.test(testUrl)) {	//不满足v5条件换成v4,或者在pps.tv域名下强制改变
+							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi');
+						} 
 					}
 				}
 				break;
