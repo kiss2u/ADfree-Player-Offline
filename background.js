@@ -567,9 +567,9 @@ var proxylist = [{
 		extra: "crossdomain"
 	},{
 		name: "crossdomain_iqiyi|pps",
-		find: /http:\/\/www\.iqiyi\.com\/player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/pps[\w]+)\.swf/i,
+		find: /http:\/\/www\.iqiyi\.com\/player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))\.swf/i,
 		//monitor: /.*skins\/s[\d]+\.swf/i,
-		monitor: /http:\/\/\d+\.\d+\.\d+\.\d+\/crossdomain\.xml/i,
+		monitor: /http:\/\/data\.video\.qiyi\.com\/crossdomain\.xml/i,
 		extra: "crossdomain"
 	}
 	]
