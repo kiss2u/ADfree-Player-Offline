@@ -541,7 +541,7 @@ var refererslist = [{
 /*格式：
 	name:规则名称
 	find:匹配(正则)表达式,当出现匹配地址时,启动crossdomain代理修改
-	monitor:匹配(正则)表达式,当出现匹配地址时,释放crossdomain代理
+	monitor:匹配(正则)表达式,当出现匹配地址时,释放crossdomain代理(接收完成后)
 	extra:额外的属性,crossdomain表示启动修改
 */
 var proxylist = [{
@@ -566,10 +566,17 @@ var proxylist = [{
 		monitor: /http:\/\/live\.tv\.sohu\.com\/crossdomain\.xml/i,
 		extra: "crossdomain"
 	},{
-		name: "crossdomain_iqiyi|pps",
+		name: "crossdomain_iqiyi|pps-1",
 		find: /http:\/\/www\.iqiyi\.com\/player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))\.swf/i,
 		//monitor: /.*skins\/s[\d]+\.swf/i,
 		monitor: /http:\/\/data\.video\.qiyi\.com\/crossdomain\.xml/i,
+		extra: "crossdomain"
+	},{
+		name: "crossdomain_iqiyi|pps-2",
+		find: /http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/icon\.swf/i,
+		//monitor: /.*skins\/s[\d]+\.swf/i,
+		monitor: /http:\/\/sf\.video\.qiyi\.com\/crossdomain\.xml/,
+		//monitor: /http:\/\/\d+.\d+.\d+.\d+\/crossdomain\.xml/i,
 		extra: "crossdomain"
 	}
 	]
