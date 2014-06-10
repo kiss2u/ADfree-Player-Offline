@@ -401,7 +401,7 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
 */
 var redirectlist = [{
 		name: "youku",
-		find: /^http:\/\/static\.youku\.com\/.*?q?(player|loader)(_[^.]+)?\.swf/,
+		find: /^http:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf/,
 		//		replace: getUrl('swf/loader.swf'),	//纯本地
 		//		replace: localflag ? getUrl('swf/loader.swf') : baesite[ getRandom(3) ] + 'loader.swf',	//多服务器流量一样的时候,进行均衡.目前由于流量不一致,不启用.下方语句同理
 		replace: localflag ? getUrl('swf/loader.swf') : baesite[2] + 'loader.swf',
@@ -546,7 +546,7 @@ var refererslist = [{
 */
 var proxylist = [{
 		name: "crossdomain_youku",
-		find: /http:\/\/static\.youku\.com\/.*?q?(player|loader)(_[^.]+)?\.swf/i,	//播放器载入地址
+		find: /http:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf/i,	//播放器载入地址
 		monitor: /http:\/\/v\.youku\.com\/crossdomain\.xml/i,	//youku tudou实际访问的均是这个地址
 		extra: "crossdomain"
 	},{
