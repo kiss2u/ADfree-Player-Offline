@@ -300,7 +300,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
 					console.log("Force to iqiyi5");
 				} else {
-					if (/(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv/.test(testUrl)) { //外链名单
+					if (/(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun/.test(testUrl)) { //外链名单
 						console.log("Out Side");
 						if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
 							//							newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
@@ -442,7 +442,7 @@ var redirectlist = [{
 		//		replace: baesite[ getRandom(3) ] + 'sp.swf',
 		replace: baesite[2] + 'sp.swf',
 		extra: "adkillrule"
-}, {
+	}, {
 		name: "letv",
 		find: /http:\/\/.*letv[\w]*\.com\/(hz|.*\/(?!(Live|seed))(S[\w]{2,3})?(?!Live)[\w]{4})Player[^\.]*\.swf/i,
 		//		replace: getUrl('swf/letv.swf'),
@@ -505,7 +505,7 @@ var redirectlist = [{
 		extra: "adkillrule"
 	},*/ {
 		name: "sohu",
-		find: /http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf/i,
+		find: /http:\/\/(tv\.sohu\.com\/upload\/swf\/.*\d+|61\.135\.176\.223\/.*)\/(main|PlayerShell)\.swf/i,
 		//		replace: getUrl('swf/iqiyi5.swf'),
 		//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
 		//replace: localflag ? getUrl('swf/sohu.swf') : baesite[2] + 'sohu.swf',
