@@ -330,9 +330,9 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				if (!v5flag) newUrl = newUrl.replace(/iqiyicore5/i, 'iqiyicore4'); //不满足v5条件换成v4
 				break;
 */
-				case "youku":
+				case "youkuloader":
 				//console.log("Switch : youku");
-				if (/(bilibili)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
+				if (/(bilibili)/i.test(testUrl) && localflag == 0) { //特殊网址Flash内部调用切换到非本地模式
 				//		newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
 						newUrl = url.replace(redirectlist[i].find, baesite[2] + 'loader.swf');
 					}
@@ -400,13 +400,20 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
 	extra:额外的属性,如adkillrule代表是去广告规则
 */
 var redirectlist = [{
-		name: "youku",
-		find: /^http:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf/,
+		name: "youkuloader",
+		find: /http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf/i,
 		//		replace: getUrl('swf/loader.swf'),	//纯本地
 		//		replace: localflag ? getUrl('swf/loader.swf') : baesite[ getRandom(3) ] + 'loader.swf',	//多服务器流量一样的时候,进行均衡.目前由于流量不一致,不启用.下方语句同理
 		replace: localflag ? getUrl('swf/loader.swf') : baesite[2] + 'loader.swf',
 		extra: "crossdomain"
-	}, /*{
+	}, {
+		name: "youkuplayer",
+		find: /http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf/i,
+		//		replace: getUrl('swf/loader.swf'),	//纯本地
+		//		replace: localflag ? getUrl('swf/loader.swf') : baesite[ getRandom(3) ] + 'loader.swf',	//多服务器流量一样的时候,进行均衡.目前由于流量不一致,不启用.下方语句同理
+		replace: localflag ? getUrl('swf/loader.swf') : baesite[2] + 'player.swf',
+		extra: "crossdomain"
+	},/*{
 		name: "youku_out",
 		find: /http:\/\/player\.youku\.com\/player\.php\/(.*\/)?sid\/([\w=]+)\/v\.swf/,
 		//		replace: getUrl('swf/loader.swf') + "?showAd=0&VideoIDS=$2",
