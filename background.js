@@ -229,12 +229,12 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						console.log("XHR Switch : iqiyi|pps");
 						taburls[id][1] = /data-flashplayerparam-flashurl/i.test(xhr.responseText);
 						break;
-
+/*
 						case "letv":
 						console.log("XHR Switch : letv");
 						taburls[id][1] = !/VLetvPlayer/.test(xhr.responseText);
 						break;
-
+*/
 						default:
 						console.log("XHR Switch : default");
 						break;
@@ -273,19 +273,10 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 			switch (redirectlist[i].name)
 			{
-				case "letvcore":
-				//console.log("Switch : letvcore");
-				console.log("Is OnlinePlayer : " + !letvflag);
-				if (/(bili|acfun|com\/zt)/i.test(testUrl) || !letvflag || !localflag) { //特殊网址的Flash内部调用特例,同时在线播放器不可调用本地核心
-					newUrl = url; //不支持重定向,返回原值,服务器未同步letv核心
-					//newUrl = url.replace(redirectlist[i].find, baesite[2] + 'kernelletv.swf');
-				}
-				break;
-
 				case "letv":
 				//console.log("Switch : letv");
-				letvflag = taburls[id][1];
-				if (/(bili|acfun|com\/zt|duowan)/i.test(testUrl) || !letvflag && localflag) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
+				//letvflag = taburls[id][1];
+				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
 					newUrl = url.replace(redirectlist[i].find, baesite[2] + 'letv.swf'); //转换成在线
 				}
 				break;
@@ -300,7 +291,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
 					console.log("Force to iqiyi5");
 				} else {
-					if (/(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun/.test(testUrl)) { //外链名单
+					if (redirectlist[i].exfind.test(testUrl)) { //外链名单
 						console.log("Out Side");
 						if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
 							//							newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
@@ -318,30 +309,27 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					}
 				}
 				break;
-/*				
-				case "iqiyicore4":
-				case "iqiyicore5":
-				//console.log("Switch : iqiyicore");
-				if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
-					//							newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
-					newUrl = url.replace(redirectlist[i].find, baesite[2] + 'iqiyicore5.swf');
-				}
-				v5flag = taburls[id][1]; //读取flag存储
-				if (!v5flag) newUrl = newUrl.replace(/iqiyicore5/i, 'iqiyicore4'); //不满足v5条件换成v4
-				break;
-*/
+
 				case "youkuloader":
 				//console.log("Switch : youku");
-				if (/(bilibili)/i.test(testUrl) && localflag == 0) { //特殊网址Flash内部调用切换到非本地模式
+				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
 				//		newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
 						newUrl = url.replace(redirectlist[i].find, baesite[2] + 'loader.swf');
+					}
+				break;
+
+				case "youkuplayer":
+				//console.log("Switch : youku");
+				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
+				//		newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
+						newUrl = url.replace(redirectlist[i].find, baesite[2] + 'player.swf');
 					}
 				break;
 
 				//case "tudou_sp":
 				case "tudou":
 				//console.log("Switch : tudou");
-				if (/narutom/i.test(testUrl)) { //特殊网址由于网页本身参数不全无法替换tudou
+				if (redirectlist[i].exfind.test(testUrl)) { //特殊网址由于网页本身参数不全无法替换tudou
 						console.log("Can not redirect Player!");
 						newUrl = url;
 					}
@@ -350,7 +338,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				case "sohu":
 				//console.log("Switch : sohu");
 				letvflag = taburls[id][1];
-				if (/bili|acfun/i.test(testUrl)) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
+				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
 					newUrl = url.replace(redirectlist[i].find, baesite[2] + 'sohu.swf'); //转换成在线
 				}
 				break;
@@ -396,31 +384,25 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
 /*格式：
 	name:规则名称
 	find:匹配(正则)表达式
+	exfind:匹配(正则)表达式,用于匹配特殊网址
 	replace:替换(正则)表达式,注意此处有多种方式,可看后续说明并按需选择
 	extra:额外的属性,如adkillrule代表是去广告规则
 */
 var redirectlist = [{
 		name: "youkuloader",
 		find: /http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf/i,
-		//		replace: getUrl('swf/loader.swf'),	//纯本地
+		exfind: /(bili|acfun)/,
 		//		replace: localflag ? getUrl('swf/loader.swf') : baesite[ getRandom(3) ] + 'loader.swf',	//多服务器流量一样的时候,进行均衡.目前由于流量不一致,不启用.下方语句同理
 		replace: localflag ? getUrl('swf/loader.swf') : baesite[2] + 'loader.swf',
 		extra: "crossdomain"
 	}, {
 		name: "youkuplayer",
 		find: /http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf/i,
-		//		replace: getUrl('swf/loader.swf'),	//纯本地
+		exfind: /(bili|acfun)/,
 		//		replace: localflag ? getUrl('swf/loader.swf') : baesite[ getRandom(3) ] + 'loader.swf',	//多服务器流量一样的时候,进行均衡.目前由于流量不一致,不启用.下方语句同理
 		replace: localflag ? getUrl('swf/loader.swf') : baesite[2] + 'player.swf',
 		extra: "crossdomain"
-	},/*{
-		name: "youku_out",
-		find: /http:\/\/player\.youku\.com\/player\.php\/(.*\/)?sid\/([\w=]+)\/v\.swf/,
-		//		replace: getUrl('swf/loader.swf') + "?showAd=0&VideoIDS=$2",
-		//		replace: ( localflag ? getUrl('swf/loader.swf') : baesite[ getRandom(3) ] + 'loader.swf' ) + "?showAd=0&VideoIDS=$2",
-		replace: (localflag ? getUrl('swf/loader.swf') : baesite[2] + 'loader.swf') + "?showAd=0&VideoIDS=$2",
-		extra: "adkillrule"
-	}, */{
+	}, {
 		name: "ku6",
 		//find: /http:\/\/player\.ku6cdn\.com\/default\/common\/player\/\d*\/player\.swf/,
 		find: /http:\/\/player\.ku6cdn\.com\/default\/loader\/.*\/v\.swf/,
@@ -431,6 +413,7 @@ var redirectlist = [{
 	}, {
 		name: "tudou",
 		find: /http:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf/i,
+		exfind: /narutom/i,
 		//		replace: getUrl('swf/tudou.swf'),
 		//		replace: localflag ? getUrl('swf/tudou.swf') : baesite[ getRandom(3) ] + 'tudou.swf',
 		replace: localflag ? getUrl('swf/tudou.swf') : baesite[2] + 'tudou.swf',
@@ -452,23 +435,12 @@ var redirectlist = [{
 	}, {
 		name: "letv",
 		find: /http:\/\/.*letv[\w]*\.com\/(hz|.*\/(?!(Live|seed))(S[\w]{2,3})?(?!Live)[\w]{4})Player[^\.]*\.swf/i,
+		exfind: /(bili|acfun|com\/zt|duowan)/i,
 		//		replace: getUrl('swf/letv.swf'),
 		//		replace: localflag ? getUrl('swf/letv.swf') : baesite[ getRandom(3) ] + 'letv.swf',
 		replace: localflag ? getUrl('swf/letv.swf') : baesite[2] + 'letv.swf',
 		extra: "adkillrule"
-	},
-	//letv本地版特有部分,某些情况下本地加载不可使用,同时在线服务器未同步对应swf文件,如后续同步可开启
-	/*
-	{
-		name: "letvcore",
-		find: /http:\/\/.*letv[\w]*\.com\/.*\/k.*\.swf/i,
-		replace: getUrl('swf/kernelletv.swf'),
-		//		replace: localflag ? getUrl('swf/kernelletv.swf') : baesite[ getRandom(3) ] + 'kernelletv.swf',
-		extra: "adkillrule"
-	},
-	*/
-	//letv本地版特有部分结束
-	{
+	}, {
 		name: "letvpccs",
 		find: /http:\/\/www.letv.com\/zt\/cmsapi\/playerapi\/pccs_(?!live).*_(\d+)\.xml/i,
 		replace: "http://www.letv.com/zt/cmsapi/playerapi/pccs_sdk_$1.xml",
@@ -486,6 +458,7 @@ var redirectlist = [{
 	}, {
 		name: "iqiyi",
 		find: /^http:\/\/www\.iqiyi\.com\/player\/(\d+\/Player|[a-z0-9]*)\.swf/,
+		exfind: /(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun/,
 		//		replace: getUrl('swf/iqiyi5.swf'),
 		//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
 		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[2] + 'iqiyi5.swf',
@@ -495,27 +468,10 @@ var redirectlist = [{
 		find: /http:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf/i,
 		replace: localflag ? getUrl('swf/pps.swf') : baesite[2] + 'pps.swf',
 		extra: "adkillrule"
-	},
-	/*{
-		name: "iqiyicore4",
-		find: /^http:\/\/www\.qiyipic\.com\/.*\/fix\/cp20.*\.jpg/,
-		//		replace: getUrl('swf/iqiyi5.swf'),
-		//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
-		replace: localflag ? getUrl('swf/iqiyicore4.swf') : baesite[2] + 'iqiyicore4.swf',
-		extra: "adkillrule"
 	}, {
-		name: "iqiyicore5",
-		find: /^http:\/\/www\.qiyipic\.com\/.*\/fix\/cp21.*\.jpg/,
-		//		replace: getUrl('swf/iqiyi5.swf'),
-		//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
-		replace: localflag ? getUrl('swf/iqiyicore5.swf') : baesite[2] + 'iqiyicore5.swf',
-		extra: "adkillrule"
-	},*/ {
 		name: "sohu",
 		find: /http:\/\/(tv\.sohu\.com\/upload\/swf\/.*\d+|61\.135\.176\.223\/.*)\/(main|PlayerShell)\.swf/i,
-		//		replace: getUrl('swf/iqiyi5.swf'),
-		//		replace: localflag ? getUrl('swf/iqiyi5.swf') : baesite[ getRandom(3) ] + 'iqiyi5.swf',
-		//replace: localflag ? getUrl('swf/sohu.swf') : baesite[2] + 'sohu.swf',
+		exfind: /(bili|acfun)/i,
 		replace: baesite[2] + 'sohu.swf',
 		extra: "adkillrule"
 	}
