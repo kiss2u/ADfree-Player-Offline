@@ -10,6 +10,8 @@ Goolge Chrome >= 19
 
 OR
 
+PPAPI Shockwave Flash >= 11
+
 Goolge Chrome Stable >= 38
 
 No settings to configure
