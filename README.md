@@ -8,6 +8,10 @@ PPAPI Shockwave Flash <= 12.0.0.44
 
 Goolge Chrome >= 19
 
+OR
+
+Goolge Chrome Stable >= 38
+
 No settings to configure
 * ADkill Player Offline
 * <http://bbs.kafan.cn/thread-1514537-1-1.html>,
