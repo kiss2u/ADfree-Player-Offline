@@ -1,0 +1,72 @@
+/*
+Copyright (c) 2011 Shyc2001 (http://twitter.com/shyc2001)
+This work is based on:
+*"Switchy! Chrome Proxy Manager and Switcher" (by Mohammad Hejazi (mohammadhi at gmail d0t com))
+*"SwitchyPlus" by @ayanamist (http://twitter.com/ayanamist)
+
+    This file is part of SwitchySharp.
+    SwitchySharp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SwitchySharp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SwitchySharp.  If not, see <http://www.gnu.org/licenses/>.
+*/
+body {
+    margin: 0;
+    color: #345;
+    font: menu;
+    font-size: 9pt;
+    -webkit-user-select: none;
+}
+
+body * {
+    white-space: nowrap;
+}
+
+#menu {
+    margin: 2px 0;
+}
+
+
+#menu .item {
+    padding: 4px 25px;
+    -webkit-padding-start: 6px;
+    margin: 0 2px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#menu .item:hover {
+    padding: 3px 24px;
+    -webkit-padding-start: 5px;
+    border: solid 1px #bcd;
+    border-radius: 3px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(215, 67%, 97%)), color-stop(0.41, hsl(213, 48%, 95%)));
+}
+
+#menu .item:active {
+    padding: 3px 24px;
+    -webkit-padding-start: 5px;
+    border: solid 1px #abc;
+    border-radius: 3px;
+    background: #dde7f2 none;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e8eef4), color-stop(1, #f5f9f4));
+}
+
+#menu .item span {
+    -webkit-padding-start: 4px;
+}
+
+#menu .separator {
+    height: 0;
+    margin: 3px 2px;
+    border: 0;
+    border-top: 1px solid #ddd;
+}
