@@ -65,7 +65,7 @@
     },
     {
         "name": "iqiyi",
-        "find": "http:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/MainPlayer_.*)\.swf",
+        "find": "http:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main)?Player_.*)\.swf",
         "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun",
         "replace": "http://127.0.0.1/iqiyi5.swf",
         "extra": "adkillrule"
