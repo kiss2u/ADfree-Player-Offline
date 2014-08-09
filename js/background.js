@@ -15,10 +15,11 @@ var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=
 var taburls = []; //存放tab的url与flag，用作判断重定向
 var baesite = ['', '','http://127.0.0.1/']; //在线播放器地址.因lovejiani拥有大量免费流量,后面将较多的使用baesite[2].如果拥有自己的服务器也可在此修改
 var ruleName = ['redirectlist','refererslist','proxylist'];
-var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换
+var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换
 var proxyflag = 0;	//proxy调试标记
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
-var severtime = 0;  //时间规则时的服务器时间
+var servertime = 0;  //时间规则时的服务器时间
+var tlimit = 0; //限时变量
 var disable = 0; //升级规则时关闭所有功能
 var proxylist = [];
 var refererslist = [];
@@ -518,26 +519,35 @@ function fetchAllRules(){
 
 //判断是否需要更新规则
 function isNeedUpdate(){
-	console.log("In isNeedUpdate");
-	var url = baesite[2] + "/rulelist/update";
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", url, true);
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4 && xhr.status==200) {
-			severtime = xhr.responseText;
-			chrome.storage.local.get('LastUpdate', function(items) {
-			if(items['LastUpdate'] == null){
-				fetchAllRules();
-			}else if(items['LastUpdate'] < severtime){
-				fetchAllRules();
+	if(Date.now() > tlimit){
+		//限制用户请求update文件(chrome载入后2小时一次,重启就限制不了了)
+		var t = new Date();
+		t.setHours(t.getHours() + 2);
+		tlimit = t.valueOf();
+		//
+		console.log("In isNeedUpdate");
+		var url = baesite[2] + "/rulelist/update";
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status==200) {
+				servertime = xhr.responseText;
+				chrome.storage.local.get('LastUpdate', function(items) {
+				if(items['LastUpdate'] == null){
+					fetchAllRules();
+				}else if(items['LastUpdate'] < servertime){
+					fetchAllRules();
+				}
+//				console.log(items);
+				});
+			}else{
+				//
 			}
-//			console.log(items);
-			});
-		}else{
-			//
 		}
+		xhr.send();
+	}else{
+		console.log("Time Limiter")
 	}
-	xhr.send();
 }
 
 //存储最后更新时间
@@ -552,7 +562,7 @@ function setLastUpdate(){
 //规则初始化
 function initRules(){
 	console.log("Now Initial RuleLists");
-	disable = 1;    //开始更新过程
+	disable = 1;	//开始更新过程
 	isNeedUpdate();
 	chrome.storage.local.get('proxylist', function(items) {
 		if(items['proxylist'] != null) {
@@ -574,7 +584,7 @@ function initRules(){
 					chrome.storage.local.get('proxylist', function(items) {
 						if(items['proxylist'] != null) {
 							proxylist = genRules(items['proxylist']);
-							disable = 0;    //最后一个规则载入完成
+							disable = 0;	//最后一个规则载入完成
 						}
 					});
 					break;
@@ -633,4 +643,10 @@ function genRules(listdata){
 		}
 	}
 	return list;
+}
+
+function switchMode(){
+	localflag =! localflag;
+	console.log("switchMode Current Mode :" + ( localflag ? "Local" : "Online"));
+	initRules();
 }

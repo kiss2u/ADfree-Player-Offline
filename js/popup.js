@@ -12,9 +12,19 @@
  */
 
 var extension = null;
+var flag = 0;
 
 function init() {
     extension = chrome.extension.getBackgroundPage();
+    getColor();
+}
+
+function getColor(){
+    if(extension.localflag){
+        $("#title").css('color','#06a4f4');
+    }else{
+        $("#title").css('color','#345');
+    }
 }
 
 function closePopup() {
@@ -35,15 +45,22 @@ function fetchNewRule() {
     closePopup();
 }
 
-function initRule() {
-    extension.recordlog("Force initRules!");
+function reinitRule() {
+    extension.recordlog("reiniRules!");
     extension.initRules();
+    closePopup();
+}
+
+function changeMode() {
+    extension.recordlog("changeMode!");
+    extension.switchMode();
     closePopup();
 }
 
 $(document).ready(function(){
     init();
     $("#getNewRule").click(fetchNewRule);
-    $("#getinitRule").click(initRule);
+    $("#getinitRule").click(reinitRule);
     $("#getSupport").click(openSupportWebsite);
+    $("#title").click(changeMode);
 });
