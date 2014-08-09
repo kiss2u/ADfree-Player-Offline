@@ -501,7 +501,7 @@ function fetchRules(url,value){
 			}
 					
 		}else{
-			console.log("Fetch Rule Error!");
+//			console.log("Fetch Rule Error!");
 		}
 	}
 	xhr.send();
