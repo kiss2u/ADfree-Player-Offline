@@ -19,6 +19,7 @@ var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网
 var proxyflag = 0;	//proxy调试标记
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var severtime = 0;
+var disable = 0; //升级规则时关闭所有功能
 var proxylist = [];
 var refererslist = [];
 var redirectlist = [];
@@ -92,6 +93,7 @@ function FlushCache() {
 }
 //Listeners
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
+	if(disable) return;
 	for (var i = 0; i < proxylist.length; i++) {
 		if (proxylist[i].find.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details.url);
@@ -113,6 +115,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 ["blocking"]);
 
 chrome.webRequest.onCompleted.addListener(function(details) {
+	if(disable) return;
 	for (var i = 0; i < proxylist.length; i++) {
 		if (proxylist[i].monitor.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details);
@@ -144,6 +147,7 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
 });
 //====================================Headers Modifier Test
 chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
+	if(disable) return {requestHeaders: details.requestHeaders};
 	//console.log(details);
 	for (var i = 0; i < refererslist.length; i++) {
 		if (refererslist[i].find.test(details.url)) {
@@ -210,6 +214,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 
 ///阻挡广告及重定向
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
+	if(disable) return;
 	var url = details.url;
 	var id = "tabid" + details.tabId; //记录当前请求所属标签的id
 	var type = details.type;
@@ -547,6 +552,8 @@ function setLastUpdate(){
 //规则初始化
 function initRules(){
 	console.log("Now Initial RuleLists");
+	disable = 1;    //开始更新过程
+	isNeedUpdate();
 	chrome.storage.local.get('proxylist', function(items) {
 		if(items['proxylist'] != null) {
 			for(var i = 0; i < ruleName.length; i++){
@@ -565,7 +572,10 @@ function initRules(){
 
 					case 'proxylist':
 					chrome.storage.local.get('proxylist', function(items) {
-						if(items['proxylist'] != null) proxylist = genRules(items['proxylist']);
+						if(items['proxylist'] != null) {
+							proxylist = genRules(items['proxylist']);
+							disable = 0;    //最后一个规则载入完成
+						}
 					});
 					break;
 
@@ -575,7 +585,7 @@ function initRules(){
 			}
 		}else{
 			console.log("Initial RuleLists Error!");
-			isNeedUpdate();
+//			isNeedUpdate();
 		}
 	});
 }
