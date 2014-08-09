@@ -1,0 +1,31 @@
+[{
+	"name": "crossdomain_youku",
+	"find": "http:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf",
+	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
+	"name": "crossdomain_tudou",
+	"find": ".*PortalPlayer[^\.]*\.swf",
+	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
+	"name": "crossdomain_tudou_sp",
+	"find": ".*olc[^\.]*\.swf",
+	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
+	"name": "crossdomain_sohu",
+	"find": "http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf",
+	"monitor": "http:\/\/live\.tv\.sohu\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
+	"name": "crossdomain_iqiyi|pps-1",
+	"find": "http:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/MainPlayer_.*)\.swf",
+	"monitor": "http:\/\/data\.video\.qiyi\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
+	"name": "crossdomain_iqiyi|pps-2",
+	"find": "http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/icon\.swf",
+	"monitor": "http:\/\/sf\.video\.qiyi\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}]
