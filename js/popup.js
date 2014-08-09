@@ -16,7 +16,6 @@ var extension = null;
 
 function init() {
     extension = chrome.extension.getBackgroundPage();
-    extension.initRules();
 }
 
 function closePopup() {
@@ -33,12 +32,19 @@ function openSupportWebsite() {
 function fetchNewRule() {
     extension.recordlog("Force Update!");
     extension.recordlog(extension.decode64("aGFoYXRlc3Q="));
-    extension.fetchAllRule();
+    extension.fetchAllRules();
+    closePopup();
+}
+
+function initRule() {
+    extension.recordlog("Force initRules!");
+    extension.initRules();
     closePopup();
 }
 
 $(document).ready(function(){
     init();
     $("#getNewRule").click(fetchNewRule);
+    $("#getinitRule").click(initRule);
     $("#getSupport").click(openSupportWebsite);
 });

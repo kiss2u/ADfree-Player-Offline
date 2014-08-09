@@ -19,6 +19,7 @@ var ruleName = ['redirectlist','refererslist','proxylist'];
 var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换
 var proxyflag = 0;	//proxy调试标记
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
+var severtime = 0;
 var proxylist = [];
 var refererslist = [];
 var redirectlist = [];
@@ -487,6 +488,7 @@ function fetchRules(url,value){
 				chrome.storage.local.set({'proxylist': list}, function() {
 					// Notify that we saved.
 					console.log('Rules Saved:' + value);
+					initRules();	//在最后的规则导入之后启动初始化过程
 				});
 				break;
 
@@ -518,9 +520,9 @@ function isNeedUpdate(){
 	xhr.open("GET", url, true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status==200) {
-			var severtime = xhr.responseText;
+			severtime = xhr.responseText;
 			chrome.storage.local.get('LastUpdate', function(items) {
-			if(items == null){
+			if(items['LastUpdate'] == null){
 				fetchAllRules();
 			}else if(items['LastUpdate'] < severtime){
 				fetchAllRules();
