@@ -2,9 +2,8 @@
  * This file is part of ADkill Player Offline
  * <http://bbs.kafan.cn/thread-1514537-1-1.html>,
  * Copyright (C) yndoc xplsy 15536900
- * This work is based on:
- * "Switchy! Chrome Proxy Manager and Switcher" (by Mohammad Hejazi)
- * "SwitchyPlus" by @ayanamist (http://twitter.com/ayanamist)
+ * Some codes came from:
+ * "Proxy SwitchySharp" (Shyc2001 http://twitter.com/shyc2001)
  * ADkill Player Offline is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
