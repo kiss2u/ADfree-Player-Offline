@@ -71,6 +71,12 @@
         "extra": "adkillrule"
     },
     {
+        "name": "iqiyip2p",
+        "find": "http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/\d[a-z0-9]*.swf",
+        "replace": "http://www.iqiyi.com/player/20140709110406/20088.swf",
+        "extra": "adkillrule"
+    },
+    {
         "name": "pps",
         "find": "http:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
         "replace": "http://127.0.0.1/pps.swf",
@@ -85,8 +91,8 @@
     },
     {
         "name": "duowan",
-        "find": "http:\/\/assets\.dwstatic\.com\/.*\/vppp\.swf",
-        "replace": "http://127.0.0.1/duowan.swf",
+        "find": "http:\/\/untitled\.dwstatic\.com\/.*",
+        "replace": "about:blank",
         "extra": "adkillrule"
     }
 ]
