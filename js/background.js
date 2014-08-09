@@ -19,7 +19,6 @@ var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网
 var proxyflag = 0;	//proxy调试标记
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
-var tlimit = 0; //限时变量
 var disable = 0; //升级规则时关闭所有功能
 var proxylist = [];
 var refererslist = [];
@@ -519,12 +518,8 @@ function fetchAllRules(){
 
 //判断是否需要更新规则
 function isNeedUpdate(){
-	if(Date.now() > tlimit){
-		//限制用户请求update文件(chrome载入后2小时一次,重启就限制不了了)
-		var t = new Date();
-		t.setHours(t.getHours() + 2);
-		tlimit = t.valueOf();
-		//
+	if(!servertime){
+		//限制用户请求update文件(chrome载入后只能执行一次,重启就限制不了了)
 		console.log("In isNeedUpdate");
 		var url = baesite[2] + "/rulelist/update";
 		var xhr = new XMLHttpRequest();
