@@ -82,5 +82,11 @@
         "exfind": "(bili|acfun)",
         "replace": "http://127.0.0.1/sohu.swf",
         "extra": "adkillrule"
+    },
+    {
+        "name": "duowan",
+        "find": "http:\/\/assets\.dwstatic\.com\/.*\/vppp\.swf",
+        "replace": "http://127.0.0.1/duowan.swf",
+        "extra": "adkillrule"
     }
 ]
