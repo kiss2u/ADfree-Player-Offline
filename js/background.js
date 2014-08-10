@@ -13,13 +13,14 @@
 
 var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 var taburls = []; //存放tab的url与flag，用作判断重定向
-var baesite = ['', '','http://127.0.0.1/']; //在线播放器地址.因lovejiani拥有大量免费流量,后面将较多的使用baesite[2].如果拥有自己的服务器也可在此修改
+var baesite = ['', '','http://127.0.0.1/'];  //在线播放器地址.因lovejiani拥有大量免费流量,后面将较多的使用baesite[2].如果拥有自己的服务器也可在此修改
 var ruleName = ['redirectlist','refererslist','proxylist'];
 var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换
 var proxyflag = 0;	//proxy调试标记
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
 var disable = 0; //升级规则时关闭所有功能
+var retry = 5;	//重载重试限制
 var proxylist = [];
 var refererslist = [];
 var redirectlist = [];
@@ -29,8 +30,8 @@ initRules();
 //====================================Crossdomin Spoofer Test
 //pac script
 var pac = {
-  mode: "pac_script",
-  pacScript: {
+	mode: "pac_script",
+	pacScript: {
 	data: "function FindProxyForURL(url, host) {\n" +
 		"	var regexpr = /.*\\/crossdomain\\.xml/;\n" +	//使用过程中\\将被解析成\,所以在正常正则表达式中的\/需要改写成\\/
 		"	if(regexpr.test(url)){\n " +
@@ -38,7 +39,7 @@ var pac = {
 		"	}\n" +
 		"	return 'DIRECT';\n" +
 		"}"
-  }
+	}
 };
 //Permission Check + Proxy Control
 function ProxyControl(pram) {
@@ -582,6 +583,7 @@ function initRules(){
 						if(items['proxylist'] != null) {
 							proxylist = genRules(items['proxylist']);
 							disable = 0;	//最后一个规则载入完成
+							retry = 5; //恢复重试次数
 						}
 					});
 					break;
@@ -595,11 +597,17 @@ function initRules(){
 //			isNeedUpdate();
 		}
 	});
-	if(!(redirectlist.length&&refererslist.length&&proxylist.length)&&servertime){
-        console.log("Check RuleLists Error :reinit");
-        initRules();    //检查是否已经载入
-	}
 }
+
+//开启新插签时检查规则
+chrome.tabs.onCreated.addListener(function(tab) {
+	if(!(redirectlist.length&&refererslist.length&&proxylist.length)){
+		if(--retry > 0){
+			console.log("Check RuleLists Error :reinit");
+			initRules();	//检查是否已经载入
+		}
+	}
+});
 
 //通过JSON数组生成所需规则结构
 function genRules(listdata){
