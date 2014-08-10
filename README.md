@@ -1,20 +1,31 @@
-Fork from Adkill and Media Download 0.42.3
+### ADkill Player Offline: Elegant China Video Adblock Extension in Chrome
 
-========================
-This is online/offline mod.
-Requires:
+## Features
 
-PPAPI Shockwave Flash <= 12.0.0.44
+- Block ads in online flash video players.
+- Online/Offline switchable.
+- Support online rules.
+- Support manual update.
+- Support manual load rules.
 
-Goolge Chrome >= 19
+## Requirements
 
-OR
+- PPAPI Shockwave Flash <= 12.0.0.44
+- Goolge Chrome >= 19
+- - OR
+- PPAPI Shockwave Flash >= 11
+- Goolge Chrome Stable >= 38
 
-PPAPI Shockwave Flash >= 11
+## Contact
 
-Goolge Chrome Stable >= 38
+Post reply in [Kafan Forums](http://bbs.kafan.cn/thread-1514537-1-1.html)
 
-No settings to configure
-* ADkill Player Offline
-* <http://bbs.kafan.cn/thread-1514537-1-1.html>,
-* Copyright (C) yndoc xplsy 15536900
+### Creator
+
+- [kafan15536900](http://github.com/kafan15536900) ([@sdAonDoM](https://twitter.com/@sdAonDoM))
+- xplsy
+- yndoc
+
+## License
+
+ADkill Player Offline is released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/) version 3 as published by the Free Software Foundation.
