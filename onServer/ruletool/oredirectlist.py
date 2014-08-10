@@ -3,46 +3,46 @@
         "name": "youkuloader",
         "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf",
         "exfind": "(bili|acfun)",
-        "replace": "http://127.0.0.1/loader.swf",
+        "replace": "hostsite/loader.swf",
         "extra": "crossdomain"
     },
     {
         "name": "youkuplayer",
         "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf",
         "exfind": "(bili|acfun)",
-        "replace": "http://127.0.0.1/player.swf",
+        "replace": "hostsite/player.swf",
         "extra": "crossdomain"
     },
     {
         "name": "ku6",
         "find": "http:\/\/player\.ku6cdn\.com\/default\/loader\/.*\/v\.swf",
-        "replace": "http://127.0.0.1/ku6.swf",
+        "replace": "hostsite/ku6.swf",
         "extra": "adkillrule"
     },
     {
         "name": "tudou",
         "find": "http:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf",
         "exfind": "narutom",
-        "replace": "http://127.0.0.1/tudou.swf",
+        "replace": "hostsite/tudou.swf",
         "extra": "adkillrule"
     },
     {
         "name": "tudou_olc",
         "find": "http:\/\/js\.tudouui\.com\/.*olc[^\.]*\.swf",
-        "replace": "http://127.0.0.1/olc_8.swf",
+        "replace": "hostsite/olc_8.swf",
         "extra": "adkillrule"
     },
     {
         "name": "tudou_sp",
         "find": "http:\/\/js\.tudouui\.com\/.*SocialPlayer[^\.]*\.swf",
-        "replace": "http://127.0.0.1/sp.swf",
+        "replace": "hostsite/sp.swf",
         "extra": "adkillrule"
     },
     {
         "name": "letv",
         "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed))(S[\w]{2,3})?[\w]{4})Player*\.swf",
         "exfind": "(bili|acfun|com\/zt|duowan)",
-        "replace": "http://127.0.0.1/letv.swf",
+        "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
     },
     {
@@ -65,28 +65,28 @@
     },
     {
         "name": "iqiyi",
-        "find": "http:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main)?Player_.*)\.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main)?Player_.*)\.swf",
         "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun",
-        "replace": "http://127.0.0.1/iqiyi5.swf",
+        "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
     },
     {
         "name": "iqiyip2p",
-        "find": "http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/\d[a-z0-9]*.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/\d[a-z0-9]*.swf",
         "replace": "http://www.iqiyi.com/player/20140709110406/20088.swf",
         "extra": "adkillrule"
     },
     {
         "name": "pps",
-        "find": "http:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
-        "replace": "http://127.0.0.1/pps.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
+        "replace": "hostsite/pps.swf",
         "extra": "adkillrule"
     },
     {
         "name": "sohu",
         "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/.*\d+|61\.135\.176\.223\/.*)\/(main|PlayerShell)\.swf",
         "exfind": "(bili|acfun)",
-        "replace": "http://127.0.0.1/sohu.swf",
+        "replace": "hostsite/sohu.swf",
         "extra": "adkillrule"
     },
     {

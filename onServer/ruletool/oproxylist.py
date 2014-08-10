@@ -20,12 +20,12 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-1",
-	"find": "http:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/(Main)?Player_.*)\.swf",
+	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/(Main)?Player_.*)\.swf",
 	"monitor": "http:\/\/data\.video\.qiyi\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-2",
-	"find": "http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/icon\.swf",
+	"find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/common\/icon\.swf",
 	"monitor": "http:\/\/sf\.video\.qiyi\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }]
