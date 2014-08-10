@@ -478,6 +478,7 @@ function fetchRules(url,value){
 				chrome.storage.local.set({'redirectlist' : list}, function() {
 					// Notify that we saved.
 					console.log('Rules Saved:' + value);
+					initRules();	//规则导入之后启动初始化过程
 				});
 				break;
 
@@ -485,6 +486,7 @@ function fetchRules(url,value){
 				chrome.storage.local.set({'refererslist': list}, function() {
 					// Notify that we saved.
 					console.log('Rules Saved:' + value);
+					initRules();	//规则导入之后启动初始化过程
 				});
 				break;
 
@@ -492,7 +494,7 @@ function fetchRules(url,value){
 				chrome.storage.local.set({'proxylist': list}, function() {
 					// Notify that we saved.
 					console.log('Rules Saved:' + value);
-					initRules();	//在最后的规则导入之后启动初始化过程
+					initRules();	//规则导入之后启动初始化过程
 				});
 				break;
 
