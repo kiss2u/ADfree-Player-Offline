@@ -10,6 +10,8 @@
 
 ## Requirements
 
+- Online server
+- Python (version 2.7.2 is OK)
 - PPAPI Shockwave Flash <= 12.0.0.44
 - Goolge Chrome >= 19
 - - OR
