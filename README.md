@@ -1,4 +1,4 @@
-### ADkill Player Offline: Elegant China Video Adblock Extension in Chrome
+### ADkill Player Offline: Elegant China Video Adblock Extension for Chrome
 
 ## Features
 
