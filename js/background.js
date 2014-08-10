@@ -511,7 +511,7 @@ function fetchRules(url,value){
 function fetchAllRules(){
 	console.log("Now Fetching RuleList");
 	for(var i = 0; i < ruleName.length; i++){
-		fetchRules(baesite[2] + "/rulelist/" + ruleName[i],ruleName[i]);
+		fetchRules(baesite[2] + "rulelist/" + ruleName[i],ruleName[i]);
 	}
 	setLastUpdate();
 }
@@ -521,7 +521,7 @@ function isNeedUpdate(){
 	if(!servertime){
 		//限制用户请求update文件(chrome载入后只能执行一次,重启就限制不了了)
 		console.log("In isNeedUpdate");
-		var url = baesite[2] + "/rulelist/update";
+		var url = baesite[2] + "rulelist/update";
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET", url, true);
 		xhr.onreadystatechange = function() {
@@ -593,6 +593,10 @@ function initRules(){
 //			isNeedUpdate();
 		}
 	});
+	if(!(redirectlist.length&&refererslist.length&&proxylist.length)&&servertime){
+        console.log("Check RuleLists Error :reinit");
+        initRules();    //检查是否已经载入
+	}
 }
 
 //通过JSON数组生成所需规则结构
