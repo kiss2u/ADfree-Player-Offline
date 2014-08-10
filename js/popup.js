@@ -13,6 +13,7 @@
 
 var extension = null;
 var flag = 0;
+var count = 0;
 
 function init() {
     extension = chrome.extension.getBackgroundPage();
@@ -39,10 +40,20 @@ function openSupportWebsite() {
 }
 
 function fetchNewRule() {
-    extension.recordlog("Force Update!");
-    extension.recordlog(extension.decode64("aGFoYXRlc3Q="));
-    extension.fetchAllRules();
-    closePopup();
+    if(++count){
+        if(count > 0 && count != 32){
+            $(".pts").text(count.toString());
+            $(".pts").show();
+        }else{
+            count = 0;
+            extension.recordlog("Force Update!");
+            extension.recordlog(extension.decode64("aGFoYXRlc3Q="));
+            extension.fetchAllRules();
+            closePopup();
+            $(".pts").hide();
+        }
+    }
+    
 }
 
 function reinitRule() {
