@@ -15,7 +15,7 @@ var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=
 var taburls = []; //存放tab的url与flag，用作判断重定向
 var baesite = ['', '','http://127.0.0.1/'];  //在线播放器地址.因lovejiani拥有大量免费流量,后面将较多的使用baesite[2].如果拥有自己的服务器也可在此修改
 var ruleName = ['redirectlist','refererslist','proxylist'];
-var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换
+var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = 0;	//proxy调试标记
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
@@ -561,6 +561,11 @@ function setLastUpdate(){
 function initRules(){
 	console.log("Now Initial RuleLists");
 	disable = 1;	//开始更新过程
+	if(localStorage['localflag'] == undefined){
+		localStorage['localflag'] = localflag;
+	}else{
+		localflag = Number(localStorage['localflag']);
+	}
 	isNeedUpdate();
 	chrome.storage.local.get('proxylist', function(items) {
 		if(items['proxylist'] != null) {
@@ -655,7 +660,8 @@ function genRules(listdata){
 }
 
 function switchMode(){
-	localflag =! localflag;
+	localflag = localflag ? 0 : 1;
 	console.log("switchMode Current Mode :" + ( localflag ? "Local" : "Online"));
+	localStorage['localflag'] = localflag;
 	initRules();
 }

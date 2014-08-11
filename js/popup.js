@@ -65,6 +65,7 @@ function reinitRule() {
 function changeMode() {
     extension.recordlog("changeMode!");
     extension.switchMode();
+    getColor();
     closePopup();
 }
 
