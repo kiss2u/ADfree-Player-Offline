@@ -15,7 +15,7 @@
     },
     {
         "name": "ku6",
-        "find": "http:\/\/player\.ku6cdn\.com\/default\/loader\/.*\/v\.swf",
+        "find": "http:\/\/player\.ku6cdn\.com\/default\/.*\/(v|player)\.swf",
         "replace": "hostsite/ku6.swf",
         "extra": "adkillrule"
     },
@@ -40,7 +40,7 @@
     },
     {
         "name": "letv",
-        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed))(S[\w]{2,3})?[\w]{4})Player*\.swf",
+        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
         "exfind": "(bili|acfun|com\/zt|duowan)",
         "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
