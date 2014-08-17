@@ -40,21 +40,15 @@
     },
     {
         "name": "letv",
-        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
+        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed))((C|S)[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
         "exfind": "(bili|acfun|com\/zt|duowan)",
         "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
     },
     {
         "name": "letvpccs",
-        "find": "http:\/\/www.letv.com\/zt\/cmsapi\/playerapi\/pccs_(?!live).*_(\d+)\.xml",
-        "replace": "http://www.letv.com/zt/cmsapi/playerapi/pccs_sdk_$1.xml",
-        "extra": "adkillrule"
-    }, 
-    {
-        "name": "letvhzpccs",
         "find": "http:\/\/www.letv.com\/.*\/playerapi\/pccs_(?!live).*_(\d+)\.xml",
-        "replace": "http://www.letv.com/zt/cmsapi/playerapi/pccs_sdk_2014061610.xml",
+        "replace": "http://www.letv.com/cmsdata/playerapi/pccs_sdk_$1.xml",
         "extra": "adkillrule"
     },
     {
