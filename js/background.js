@@ -652,6 +652,10 @@ function genRules(listdata){
 				if(localflag) list[i].replace = getUrl('swf/pps.swf');
 			break;
 			
+			case "sohu":
+				if(localflag) list[i].replace = getUrl('swf/sohu.swf');
+			break;
+			
 			default:
 			break;
 		}
