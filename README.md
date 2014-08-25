@@ -1,4 +1,5 @@
-## ![Logo](https://raw.githubusercontent.com/kafan15536900/ADkill-Player-Offline/Dev/icon/icon32.png)ADkill Player Offline: Elegant China Video Adblock Extension for Chrome
+# ![Logo](https://raw.githubusercontent.com/kafan15536900/ADkill-Player-Offline/Dev/icon/icon32.png)ADkill Player Offline
+## Elegant China Video Adblock Extension for Chrome
 
 ## Features
 
@@ -13,7 +14,7 @@
 #### Server
 
 - HTTP Server (must be accessable by clients)
-- Adobe Cross Domain Policy File (crossdomain.xml must be set to <allow-access-from domain="*" />)
+- Adobe Cross Domain Policy File (crossdomain.xml must be set to allow-access-from domain="*")
 - Python (version 2.7.2 is OK)
 
 #### Cilent
