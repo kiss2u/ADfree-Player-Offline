@@ -1,5 +1,7 @@
-![Logo](https://raw.githubusercontent.com/kafan15536900/ADkill-Player-Offline/Dev/icon/icon64.png)
-# ADkill Player Offline: Elegant China Video Adblock Extension for Chrome
+<img src="https://raw.githubusercontent.com/kafan15536900/ADkill-Player-Offline/Dev/icon/icon64.png" align="left" alt="" />
+<h1>
+	ADkill Player Offline: Elegant China Video Adblock Extension for Chrome
+</h1>
 
 ## Features
 
