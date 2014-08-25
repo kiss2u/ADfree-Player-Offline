@@ -15,8 +15,8 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_sohu",
-	"find": "http:\/\/tv\.sohu\.com\/upload\/swf\/.*\d+\/(main|PlayerShell)\.swf",
-	"monitor": "http:\/\/live\.tv\.sohu\.com\/crossdomain\.xml",
+	"find": "http:\/\/(tv\.sohu\.com\/|61\.135\.176\.223.*).*\/(main|PlayerShell)\.swf",
+	"monitor": "http:\/\/(photocdn|live\.tv)\.sohu\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-1",
