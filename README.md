@@ -10,13 +10,19 @@
 
 ## Requirements
 
-- Online server
+#### Server
+
+- HTTP Server (must be accessable by clients)
+- Adobe Cross Domain Policy File (crossdomain.xml must be set to <allow-access-from domain="*" />)
 - Python (version 2.7.2 is OK)
+
+#### Cilent
+
 - PPAPI Shockwave Flash <= 12.0.0.44
-- Goolge Chrome >= 19
+- Goolge Chrome/Chromium >= 19
 - - OR
 - PPAPI Shockwave Flash >= 11
-- Goolge Chrome Stable >= 38
+- Goolge Chrome Stable/Chromium >= 38
 
 ## Contact
 
