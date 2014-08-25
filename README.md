@@ -6,8 +6,8 @@
 - Block ads in online flash video players.
 - Online/Offline switchable.
 - Support online rules.
-- Support manual update.
-- Support manual load rules.
+- Manual switch for checking update.
+- Manual switch for initializing rules.
 
 ## Requirements
 
