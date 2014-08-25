@@ -1,8 +1,19 @@
-<img src="https://raw.githubusercontent.com/kafan15536900/ADkill-Player-Offline/Dev/icon/icon32.png" align="left" alt="" /> 
-<h1>
-	ADkill Player Offline: Elegant China Video Adblock Extension for Chrome
-</h1>
-
+<table style="width:100%;" cellpadding="0" cellspacing="0" border="1">
+	<tbody>
+		<tr>
+			<td>
+				<img src="https://raw.githubusercontent.com/kafan15536900/ADkill-Player-Offline/Dev/icon/icon32.png" align="left" alt="" /><br />
+			</td>
+			<td>
+				<h1>
+					ADkill Player Offline: Elegant China Video Adblock Extension for Chrome<span style="line-height:1.5;"></span>
+				</h1>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br />
+<br />
 ## Features
 
 - Block ads in online flash video players.
