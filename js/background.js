@@ -13,10 +13,11 @@
 
 var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 var taburls = []; //存放tab的url与flag，用作判断重定向
-var baesite = ['', '','http://127.0.0.1/'];  //在线播放器地址.后面规则载入使用baesite[2],并会使用规则中tudou_olc的地址来填充baesite[0],而baesite[0]将会作为那些必须在线的swf的载入地址.如果拥有自己的服务器也可在此修改baesite[2]
+var baesite = ['', '','http://127.0.0.1/'];
+//在线播放器地址.后面规则载入使用baesite[2],并会使用规则中tudou_olc的地址来填充baesite[0],而baesite[0]将会作为那些必须在线的swf的载入地址.如果拥有自己的服务器也可在此修改baesite[2],baesite[1]将会被填充为crossdomain的代理地址
 var ruleName = ['redirectlist','refererslist','proxylist'];
 var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
-var proxyflag = 0;	//proxy调试标记
+var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
 var disable = 0; //升级规则时关闭所有功能
@@ -42,7 +43,7 @@ var pac = {
 	}
 };
 //Permission Check + Proxy Control
-function ProxyControl(pram) {
+function ProxyControl(pram , ip) {
 	chrome.proxy.settings.get({incognito: false}, function(config){
 		//console.log(config.levelOfControl);
 		//console.log(config);
@@ -52,7 +53,7 @@ function ProxyControl(pram) {
 			case "controllable_by_this_extension":
 			// 可获得proxy控制权限，显示信息
 			console.log("Have Proxy Permission");
-			proxyflag = 1;
+//			proxyflag = 1;
 			if(pram == "set"){
 				console.log("Setup Proxy");
 				chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
@@ -62,11 +63,12 @@ function ProxyControl(pram) {
 			case "controlled_by_this_extension":
 			// 已控制proxy，显示信息
 			console.log("Already controlled");
-			proxyflag = 2;
+//			proxyflag = 2;
 			if(pram == "unset"){
 				console.log("Release Proxy");
 				chrome.proxy.settings.clear({scope: "regular"});
-				FlushCache();
+				if(typeof(ip) == 'undefined') ip = "none";
+				FlushCache(ip);
 			}
 			break;
 
@@ -74,14 +76,14 @@ function ProxyControl(pram) {
 			// 未获得proxy控制权限，显示信息
 			console.log("No Proxy Permission");
 			console.log("Skip Proxy Control");
-			proxyflag = 0;
+//			proxyflag = 0;
 			break;
 
 		}
 	});
 }
-function FlushCache() {
-	if(cacheflag) {
+function FlushCache(ip) {
+	if(cacheflag && ip != proxyflag || ip == "none") {
 		chrome.browsingData.remove(
 			{},{
 			"cache": true,
@@ -118,6 +120,13 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 chrome.webRequest.onCompleted.addListener(function(details) {
 	if(disable) return;
 	for (var i = 0; i < proxylist.length; i++) {
+		//获取Proxy的具体IP地址
+		if(details.url.indexOf(baesite[1].slice(0,-6)) >= 0 && details.url.indexOf("crossdomain.xml") >= 0) {  //:xxxxx 6个字符,差不多就行
+			console.log(details.url);
+			proxyflag = details.ip;
+			console.log("Capture Proxy IP :" + proxyflag);
+			return;
+		}
 		if (proxylist[i].monitor.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details);
 			cacheflag = false;
@@ -127,7 +136,7 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 
 				default:
 				console.log("Now Release Proxy ");
-				ProxyControl("unset");
+				ProxyControl("unset" , details.ip);
 				break;
 
 			}
@@ -599,7 +608,18 @@ function initRules(){
 					chrome.storage.local.get('proxylist', function(items) {
 						if(items['proxylist'] != null) {
 							proxylist = genRules(items['proxylist']);
+						//向baesite[1]填充数据,从"extra": "proxy"中提取代理地址.
+						//因为生成顺序不为恒定因此只好使用循环来搜索
+							for (var i = proxylist.length; i > 0 ; i--) {
+								if(proxylist[i-1].extra == 'proxy') {
+									baesite[1] = proxylist[i-1].name;
+									console.log("Loaded proxysite :" + baesite[1]);
+									pac.pacScript.data = pac.pacScript.data.replace(/yk.*:80/i,baesite[1]); //替换掉原来的
+									break;
+									}
+								}
 							disable = 0;	//最后一个规则载入完成
+							getProxyIP();   //获取ProxyIP
 							retry = 5; //恢复重试次数
 						}
 					});
@@ -616,9 +636,19 @@ function initRules(){
 	});
 }
 
+//载入获取Proxy的IP地址
+function getProxyIP() {
+	if(baesite[1] != '') {
+		var xhr = new XMLHttpRequest();
+		url = "http://" + baesite[1] + "/crossdomain.xml";
+		xhr.open("GET", url, true);
+		xhr.send();
+	}
+}
+
 //开启新插签时检查规则
 chrome.tabs.onCreated.addListener(function(tab) {
-	if(!(redirectlist.length&&refererslist.length&&proxylist.length)){
+	if(!(redirectlist.length&&refererslist.length&&proxylist.length)||baesite[1] == ''){
 		if(--retry > 0){
 			console.log("Check RuleLists Error :reinit");
 			initRules();	//检查是否已经载入
