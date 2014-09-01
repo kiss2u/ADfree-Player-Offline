@@ -28,10 +28,4 @@
 	"find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/common\/icon\.swf",
 	"monitor": "http:\/\/sf\.video\.qiyi\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
-},{
-	"name": "yk.pp.navi.youku.com:80",
-	"find": "",
-	"monitor": "",
-	"extra": "proxy"
-}
-]
+}]
