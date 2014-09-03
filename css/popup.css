@@ -1,5 +1,5 @@
 /*
- * This file is part of ADkill Player Offline
+ * This file is part of ADfree Player Offline
  * <http://bbs.kafan.cn/thread-1514537-1-1.html>,
  * Copyright (C) yndoc xplsy 15536900
  * Some codes came from:
