@@ -83,7 +83,7 @@ function ProxyControl(pram , ip) {
 	});
 }
 function FlushCache(ip) {
-	if(cacheflag && ip != proxyflag || ip == "none") {
+	if(!chrome.runtime.lastError && ( cacheflag && ip.slice(0,ip.lastIndexOf(".")) != proxyflag.slice(0,proxyflag.lastIndexOf(".")) || ip == "none") ) { //ip地址前3段一致即可,如果上次出错则跳过
 		chrome.browsingData.remove(
 			{},{
 			"cache": true,
@@ -220,6 +220,16 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 },{urls: ["http://*/*", "https://*/*"]},
 ["blocking", "requestHeaders"]);
 
+//====================================CSS injector
+function insertCSS(tabId , Details) {
+	chrome.tabs.insertCSS(tabId ,Details, function() {
+		if (chrome.runtime.lastError) {
+			console.log('Not allowed to inject CSS into page.');
+		} else {
+			console.log('CSS : Injected style!');
+		}
+	});
+}
 //====================================
 
 ///阻挡广告及重定向
@@ -355,6 +365,10 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				if (redirectlist[i].exfind.test(testUrl)) { //特殊网址由于网页本身参数不全无法替换tudou
 						console.log("Can not redirect Player!");
 						newUrl = url;
+					}
+				if(/tudou\.com/i.test(testUrl) && typeof(redirectlist[i].css) != "undefined") { //tudou主站css修正
+					console.log("Tudou CSS");
+					insertCSS(details.tabId , {code: redirectlist[i].css});
 					}
 				break;
 

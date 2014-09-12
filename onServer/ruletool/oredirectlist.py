@@ -4,14 +4,14 @@
         "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/loader.swf",
-        "extra": "crossdomain"
+        "extra": "adkillrule"
     },
     {
         "name": "youkuplayer",
         "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
-        "extra": "crossdomain"
+        "extra": "adkillrule"
     },
     {
         "name": "ku6",
@@ -24,6 +24,7 @@
         "find": "http:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf",
         "exfind": "narutom",
         "replace": "hostsite/tudou.swf",
+        "css": ".player {height: 465px !important;}",
         "extra": "adkillrule"
     },
     {
