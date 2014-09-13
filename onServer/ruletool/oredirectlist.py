@@ -24,7 +24,7 @@
         "find": "http:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf",
         "exfind": "narutom",
         "replace": "hostsite/tudou.swf",
-        "css": ".player {height: 465px !important;}",
+        "css": ".player {height: inherit !important;}",
         "extra": "adkillrule"
     },
     {
