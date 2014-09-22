@@ -41,7 +41,7 @@
     },
     {
         "name": "letv",
-        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed))((C|S)[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
+        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))((C|S)[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
         "exfind": "(bili|acfun|com\/zt|duowan)",
         "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
@@ -61,7 +61,7 @@
     {
         "name": "iqiyi",
         "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main|Share)?Player_.*)\.swf",
-        "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun",
+        "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun|music\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
     },
