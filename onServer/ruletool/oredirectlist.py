@@ -41,7 +41,7 @@
     },
     {
         "name": "letv",
-        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))((C|S)[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
+        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
         "exfind": "(bili|acfun|com\/zt|duowan)",
         "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
