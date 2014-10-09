@@ -66,12 +66,6 @@
         "extra": "adkillrule"
     },
     {
-        "name": "iqiyip2p",
-        "find": "https?:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/\d[a-z0-9]*.swf",
-        "replace": "http://www.iqiyi.com/player/20140709110406/20088.swf",
-        "extra": "adkillrule"
-    },
-    {
         "name": "pps",
         "find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
         "replace": "hostsite/pps.swf",
