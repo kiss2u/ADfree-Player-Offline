@@ -19,16 +19,21 @@
 	"monitor": "http:\/\/(photocdn|live\.tv)\.sohu\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
-	"name": "crossdomain_iqiyi|pps-1",
+	"name": "crossdomain_iqiyi|pps-c1",
 	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/(Main|Share)?Player_.*)\.swf",
-	"monitor": "http:\/\/data\.video\.qiyi\.com\/crossdomain\.xml",
+	"monitor": "notavailable",
 	"extra": "crossdomain"
 }, {
-	"name": "crossdomain_iqiyi|pps-2",
+	"name": "crossdomain_iqiyi|pps-c2",
 	"find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/common\/icon\.swf",
-	"monitor": "http:\/\/sf\.video\.qiyi\.com\/crossdomain\.xml",
+	"monitor": "notavailable",
 	"extra": "crossdomain"
-},{
+}, {
+	"name": "crossdomain_iqiyi|pps-main",
+	"find": "https?:\/\/.*(iqiyi|pps)\.com\/.*\.htm",
+	"monitor": "\/(vodpb\.gif\?url|adpb\.gif\?pbtp=show)",
+	"extra": "crossdomain"
+}, {
 	"name": "yk.pp.navi.youku.com:80",
 	"find": "",
 	"monitor": "",
