@@ -8,7 +8,7 @@
     },
     {
         "name": "youkuplayer",
-        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf",
+        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player.*|\w{13})\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
         "extra": "adkillrule"
@@ -17,6 +17,12 @@
         "name": "ku6",
         "find": "http:\/\/player\.ku6cdn\.com\/default\/.*\/(v|player)\.swf",
         "replace": "hostsite/ku6.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name":"ku6_out",
+        "find": "http:\/\/player\.ku6\.com\/(inside|refer)\/([^\/]+)\/v\.swf",
+        "replace": "hostsite/ku6_out.swf",
         "extra": "adkillrule"
     },
     {
@@ -41,26 +47,38 @@
     },
     {
         "name": "letv",
-        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
-        "exfind": "(bili|acfun|com\/zt|duowan)",
+        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf|VLetv)Player[^\.]*\.swf",
+        "exfind": "(bili|acfun|(comic|hz)\.letv|duowan)",
         "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
     },
     {
-        "name": "letvpccs",
-        "find": "http:\/\/www.letv.com\/.*\/playerapi\/pccs_(?!live).*_(\d+)\.xml",
-        "replace": "http://www.letv.com/cmsdata/playerapi/pccs_sdk_$1.xml",
-        "extra": "adkillrule"
-    },
-    {
-        "name": "pplive",
-        "find": "(\/\/|\.)player\.pplive\.cn.*\/PPLivePlugin\.swf",
+        "name": "letv_live",
+        "find": "http:\/\/(ark|fz)\.letv\.com\/.*",
         "replace": "about:blank",
         "extra": "adkillrule"
     },
     {
+        "name": "letv_cloud",
+        "find": "http:\/\/.*(letv[\w]*|dwstatic)\.com\/.*(cloud|vpp)\.swf",
+        "replace": "hostsite/letv0225.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "pplive",
+        "find": "http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf",
+        "replace": "hostsite/pplive.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "pplive_live",
+        "find": "http:\/\/player\.pplive\.cn\/live\/.*\/player4live2\.swf",
+        "replace": "hostsite/pplive_live.swf",
+        "extra": "adkillrule"
+    },
+    {
         "name": "iqiyi",
-        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main|Share)?Player_.*)\.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/((PPS)?Main|Share)?Player[^\.]*)\.swf",
         "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun|music\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
@@ -73,22 +91,41 @@
     },
     {
         "name": "sohu",
-        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+)).*\d+\/(main|PlayerShell)\.swf",
+        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+)).*\d+\/(Main|PlayerShell)\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu.swf",
         "extra": "adkillrule"
     },
     {
         "name": "sohu_live",
-        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(live\/|)\d+|61\.135\.176\.223.*\/.*)\/(main|PlayerShell)\.swf",
+        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(live\/|)\d+|(\d+\.){3}\d+(:\d+)?\/.*player)\/(Main|PlayerShell)\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu_live.swf",
         "extra": "adkillrule"
     },
     {
-        "name": "duowan",
-        "find": "http:\/\/untitled\.dwstatic\.com\/.*",
-        "replace": "about:blank",
+        "name": "17173_in_Vod",
+        "find": "http:\/\/f\.v\.17173cdn\.com\/\d+\/flash\/PreloaderFile(Customer)?\.swf",
+        "replace": "hostsite/17173.in.vod.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "17173_out_Vod",
+        "find": "http:\/\/f\.v\.17173cdn\.com\/flash\/PreloaderFileFirstpage\.swf",
+        "replace": "hostsite/17173.out.vod.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "17173_in_Live",
+        "find": "http:\/\/f\.v\.17173cdn\.com\/\d+\/flash\/Player_stream(_firstpage)?\.swf",
+        "replace": "hostsite/17173.in.live.swf",
+        "css": "#livePlayerMin {height: 549px !important;}",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "17173_out_Live",
+        "find": "http:\/\/v\.17173\.com\/live\/player\/Player_stream_(custom)?Out\.swf",
+        "replace": "hostsite/17173.out.live.swf",
         "extra": "adkillrule"
     }
 ]
