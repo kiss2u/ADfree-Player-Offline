@@ -1,6 +1,6 @@
 [{
 	"name": "crossdomain_youku",
-	"find": "http:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf",
+	"find": "http:\/\/static\.youku\.com\/.*?q?(player|loaders?|\w{13})(_[^.]+)?\.swf",
 	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
@@ -15,12 +15,12 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_sohu",
-	"find": "http:\/\/(tv\.sohu\.com\/|61\.135\.176\.223.*).*\/(main|PlayerShell)\.swf",
+	"find": "http:\/\/(tv\.sohu\.com\/|(\d+\.){3}\d+(:\d+)?).*\/(Main|PlayerShell)\.swf",
 	"monitor": "http:\/\/(photocdn|live\.tv)\.sohu\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-c1",
-	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/(Main|Share)?Player_.*)\.swf",
+	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/((PPS)?Main|Share)?Player_.*)\.swf",
 	"monitor": "notavailable",
 	"extra": "crossdomain"
 }, {
