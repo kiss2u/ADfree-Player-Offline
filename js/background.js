@@ -327,7 +327,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					if (redirectlist[i].exfind.test(testUrl)) { //外链名单
 						console.log("Out Side");
 						if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
-							//							newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
+							//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
 							newUrl = url.replace(redirectlist[i].find, baesite[0] + 'iqiyi_out.swf');
 						} else {
 							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi_out');
@@ -378,6 +378,22 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
 					newUrl = url.replace(redirectlist[i].find, baesite[0] + 'sohu.swf'); //转换成在线
 				}
+				break;
+
+				case "sohu_live":
+				//console.log("Switch : sohu_live");
+				letvflag = taburls[id][1];
+				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
+					newUrl = url.replace(redirectlist[i].find, baesite[0] + 'sohu_live.swf'); //转换成在线
+				}
+				break;
+
+				case "17173_in_Live":
+				//console.log("Switch : 17173_in_Live");
+				if(/v\.17173\.com/i.test(testUrl) && typeof(redirectlist[i].css) != "undefined") { //17173直播主站css修正
+					console.log("17173_in_Live CSS");
+					insertCSS(details.tabId , {code: redirectlist[i].css});
+					}
 				break;
 
 				default:
@@ -710,6 +726,10 @@ function genRules(listdata){
 			
 			case "sohu":
 				if(localflag) list[i].replace = getUrl('swf/sohu.swf');
+			break;
+			
+			case "sohu_live":
+				if(localflag) list[i].replace = getUrl('swf/sohu_live.swf');
 			break;
 			
 			default:
