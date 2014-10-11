@@ -123,6 +123,12 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 		//获取Proxy的具体IP地址
 		if(details.url.indexOf(baesite[1].slice(0,-6)) >= 0 && details.url.indexOf("crossdomain.xml") >= 0) {  //:xxxxx 6个字符,差不多就行
 			console.log(details.url);
+			if(details.fromCache) { //如果crossdomain来自于本地缓存,那么需要清除缓存后重新获取
+				FlushCache("none");
+				var timer=setTimeout(getProxyIP,5000);  //5s时间延迟
+				return;
+			}
+			//console.log(details);
 			proxyflag = details.ip;
 			console.log("Capture Proxy IP :" + proxyflag);
 			return;
