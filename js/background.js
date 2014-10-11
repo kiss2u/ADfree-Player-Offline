@@ -121,7 +121,7 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 	if(disable) return;
 	for (var i = 0; i < proxylist.length; i++) {
 		//获取Proxy的具体IP地址
-		if(details.url.indexOf(!details.fromCache && baesite[1].slice(0,-6)) >= 0 && details.url.indexOf("crossdomain.xml") >= 0) {  //:xxxxx 6个字符,差不多就行
+		if(!details.fromCache && details.url.indexOf(baesite[1].slice(0,-6)) >= 0 && details.url.indexOf("crossdomain.xml") >= 0) {  //:xxxxx 6个字符,差不多就行
 			console.log(details.url);
 			//console.log(details);
 			proxyflag = details.ip;
