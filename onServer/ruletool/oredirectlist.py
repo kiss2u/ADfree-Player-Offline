@@ -1,21 +1,21 @@
 [
     {
         "name": "youkuloader",
-        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf",
+        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/loader.swf",
         "extra": "adkillrule"
     },
     {
         "name": "youkuplayer",
-        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player.*|\w{13})\.swf",
+        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player[^\.]*|\w{13})\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
         "extra": "adkillrule"
     },
     {
         "name": "ku6",
-        "find": "http:\/\/player\.ku6cdn\.com\/default\/.*\/(v|player)\.swf",
+        "find": "http:\/\/player\.ku6cdn\.com\/default\/.*\/(v|player)[^\.]*\.swf",
         "replace": "hostsite/ku6.swf",
         "extra": "adkillrule"
     },
@@ -91,40 +91,40 @@
     },
     {
         "name": "sohu",
-        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+)).*\d+\/(Main|PlayerShell)\.swf",
+        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+)).*\d+\/(Main|PlayerShell)[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu.swf",
         "extra": "adkillrule"
     },
     {
         "name": "sohu_live",
-        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(live\/|)\d+|(\d+\.){3}\d+(:\d+)?\/.*player)\/(Main|PlayerShell)\.swf",
+        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(live\/|)\d+|(\d+\.){3}\d+(:\d+)?\/.*player)\/(Main|PlayerShell)[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu_live.swf",
         "extra": "adkillrule"
     },
     {
         "name": "17173_in_Vod",
-        "find": "http:\/\/f\.v\.17173cdn\.com\/\d+\/flash\/PreloaderFile(Customer)?\.swf",
+        "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFile(Customer)?\.swf",
         "replace": "hostsite/17173.in.vod.swf",
         "extra": "adkillrule"
     },
     {
         "name": "17173_out_Vod",
-        "find": "http:\/\/f\.v\.17173cdn\.com\/flash\/PreloaderFileFirstpage\.swf",
+        "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFileFirstpage\.swf",
         "replace": "hostsite/17173.out.vod.swf",
         "extra": "adkillrule"
     },
     {
         "name": "17173_in_Live",
-        "find": "http:\/\/f\.v\.17173cdn\.com\/\d+\/flash\/Player_stream(_firstpage)?\.swf",
+        "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf",
         "replace": "hostsite/17173.in.live.swf",
         "css": "#livePlayerMin {height: 549px !important;}",
         "extra": "adkillrule"
     },
     {
         "name": "17173_out_Live",
-        "find": "http:\/\/v\.17173\.com\/live\/player\/Player_stream_(custom)?Out\.swf",
+        "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream_(custom)?Out\.swf",
         "replace": "hostsite/17173.out.live.swf",
         "extra": "adkillrule"
     }
