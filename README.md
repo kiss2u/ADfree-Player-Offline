@@ -20,10 +20,10 @@
 #### Cilent
 
 - PPAPI Shockwave Flash <= 12.0.0.44
-- Goolge Chrome/Chromium >= 19
+- Google Chrome/Chromium >= 19
 - - OR
 - PPAPI Shockwave Flash >= 11
-- Goolge Chrome Stable/Chromium >= 38
+- Google Chrome Stable/Chromium >= 38
 
 ## Contact
 
