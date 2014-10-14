@@ -60,8 +60,8 @@
     },
     {
         "name": "iqiyi",
-        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main|Share)?Player_.*)\.swf",
-        "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun|music\.baidu",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main|Share)?Player.*_.)\.swf",
+        "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun|(music|tieba)\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
     },
