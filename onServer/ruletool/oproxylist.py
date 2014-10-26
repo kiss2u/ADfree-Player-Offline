@@ -20,7 +20,7 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-c1",
-	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/((PPS)?Main|Share)?Player_.*)\.swf",
+	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/((PPS)?Main|Share)?Player.*_(.|ad\d+))\.swf",
 	"monitor": "notavailable",
 	"extra": "crossdomain"
 }, {
