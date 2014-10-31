@@ -65,6 +65,12 @@
         "extra": "adkillrule"
     },
     {
+        "name": "letv_out",
+        "find": "http:\/\/.*\.letvimg\.com\/.*\/(letvbili|lbplayer|letv-wrapper|acfunletv[^\.]*)\.swf",
+        "replace": "hostsite/letv.swf",
+        "extra": "adkillrule"
+    },
+    {
         "name": "pplive",
         "find": "http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf",
         "replace": "hostsite/pplive.swf",
