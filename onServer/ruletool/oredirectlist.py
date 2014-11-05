@@ -112,26 +112,32 @@
     {
         "name": "17173_in_Vod",
         "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFile(Customer)?\.swf",
-        "replace": "hostsite/17173.in.vod.swf",
+        "replace": "hostsite/17173.in.Vod.swf",
         "extra": "adkillrule"
     },
     {
         "name": "17173_out_Vod",
         "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFileFirstpage\.swf",
-        "replace": "hostsite/17173.out.vod.swf",
+        "replace": "hostsite/17173.out.Vod.swf",
         "extra": "adkillrule"
     },
     {
         "name": "17173_in_Live",
         "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf",
-        "replace": "hostsite/17173.in.live.swf",
+        "replace": "hostsite/17173.in.Live.swf",
         "css": "#livePlayerMin {height: 549px !important;}",
         "extra": "adkillrule"
     },
     {
         "name": "17173_out_Live",
         "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream_(custom)?Out\.swf",
-        "replace": "hostsite/17173.out.live.swf",
+        "replace": "hostsite/17173.out.Live.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "baidu_call",
+        "find": "http\:\/\/list\.video\.baidu\.com\/swf\/advPlayer\.swf",
+        "replace": "hostsite/baidu.call.swf",
         "extra": "adkillrule"
     }
 ]
