@@ -73,13 +73,13 @@
     {
         "name": "pplive",
         "find": "http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf",
-        "replace": "hostsite/pplive.swf",
+        "replace": "hostsite/pptv.in.Ikan.swf",
         "extra": "adkillrule"
     },
     {
         "name": "pplive_live",
         "find": "http:\/\/player\.pplive\.cn\/live\/.*\/player4live2\.swf",
-        "replace": "hostsite/pplive_live.swf",
+        "replace": "hostsite/pptv.in.Live.swf",
         "extra": "adkillrule"
     },
     {
