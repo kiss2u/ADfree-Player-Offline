@@ -67,8 +67,8 @@
     },
     {
         "name": "pps",
-        "find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
-        "replace": "hostsite/pps.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/common\/.*\/pps[\w]+.swf",
+        "replace": "hostsite/iqiyi_out.swf",
         "extra": "adkillrule"
     },
     {
