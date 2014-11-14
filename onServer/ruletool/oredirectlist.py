@@ -20,12 +20,6 @@
         "extra": "adkillrule"
     },
     {
-        "name":"ku6_out",
-        "find": "http:\/\/player\.ku6\.com\/(inside|refer)\/([^\/]+)\/v\.swf",
-        "replace": "hostsite/ku6_out.swf",
-        "extra": "adkillrule"
-    },
-    {
         "name": "tudou",
         "find": "http:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf",
         "exfind": "narutom",
@@ -65,12 +59,6 @@
         "extra": "adkillrule"
     },
     {
-        "name": "letv_out",
-        "find": "http:\/\/.*\.letvimg\.com\/.*\/(letvbili|lbplayer|letv-wrapper|acfunletv[^\.]*)\.swf",
-        "replace": "hostsite/letv.swf",
-        "extra": "adkillrule"
-    },
-    {
         "name": "pplive",
         "find": "http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf",
         "replace": "hostsite/pptv.in.Ikan.swf",
@@ -87,6 +75,12 @@
         "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/((PPS)?Main|Share)?Player.*_(.|ad\d+))\.swf",
         "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun|(music|tieba)\.baidu",
         "replace": "hostsite/iqiyi5.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "iqiyi_out",
+        "find": "https?:\/\/(player|dispatcher)\.video\.i?qiyi\.com\/.*\/shareplayer\.swf",
+        "replace": "hostsite/iqiyi_out.swf",
         "extra": "adkillrule"
     },
     {

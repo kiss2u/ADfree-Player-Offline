@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of ADfree Player Offline
  * <http://bbs.kafan.cn/thread-1514537-1-1.html>,
  * Copyright (C) yndoc xplsy 15536900
@@ -579,7 +579,7 @@ function isNeedUpdate(){
 				if(items['LastUpdate'] == null){
 					fetchAllRules();
 				}else if(items['LastUpdate'] < servertime){
-//					localStorage['localflag'] = 1;  //规则更新恢复本地模式,去掉注释即可开启
+					localStorage['localflag'] = 1;  //规则更新恢复本地模式,去掉注释即可开启
 					fetchAllRules();
 				}
 //				console.log(items);
@@ -712,10 +712,6 @@ function genRules(listdata){
 				list[i].replace = getUrl('swf/player.swf');
 				break;
 				
-				case "ku6":
-				list[i].replace = getUrl('swf/ku6.swf');
-				break;
-				
 				case "tudou":
 				list[i].replace = getUrl('swf/tudou.swf');
 				break;
@@ -726,10 +722,6 @@ function genRules(listdata){
 				
 				case "iqiyi":
 				list[i].replace = getUrl('swf/iqiyi5.swf');
-				break;
-				
-				case "pps":
-				list[i].replace = getUrl('swf/pps.swf');
 				break;
 				
 				case "sohu":
