@@ -74,6 +74,7 @@ function ProxyControl(pram , ip) {
 
 			default:
 			// 未获得proxy控制权限，显示信息
+			warn();	//添加无权限提醒
 			console.log("No Proxy Permission");
 			console.log("Skip Proxy Control");
 //			proxyflag = 0;
@@ -745,4 +746,15 @@ function switchMode(){
 	console.log("switchMode Current Mode :" + ( localflag ? "Local" : "Online"));
 	localStorage['localflag'] = localflag;
 	initRules();
+}
+
+function warn() {
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {	//获取当前活动tab id
+//		if(pram=="set") {
+			chrome.browserAction.setBadgeText({"text": "Stop", tabId: tabs[0].id});	//提醒
+/*		}else{
+			chrome.browserAction.setBadgeText({"text": "", tabId: tabs[0].id});	//清除提醒
+		}
+*/
+	});
 }
