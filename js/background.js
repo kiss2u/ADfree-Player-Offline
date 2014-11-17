@@ -743,7 +743,7 @@ function switchMode(){
 function warn() {
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {	//获取当前活动tab id
 //		if(pram=="set") {
-			chrome.browserAction.setBadgeText({"text": "STOP", tabId: tabs[0].id});	//提醒
+			chrome.browserAction.setBadgeText({"text": "Stop", tabId: tabs[0].id});	//提醒
 /*		}else{
 			chrome.browserAction.setBadgeText({"text": "", tabId: tabs[0].id});	//清除提醒
 		}
