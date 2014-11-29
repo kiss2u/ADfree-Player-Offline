@@ -346,7 +346,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						v5flag = taburls[id][1]; //读取flag存储
 						if (!v5flag || /pps\.tv/i.test(testUrl)) {	//不满足v5条件换成v4,或者在pps.tv域名下强制改变
 							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi');
-						} 
+						}  else {
+							if (/(^((?!(iqiyi)).)*\.(com|tv|net))/i.test(testUrl)){//不满足以上条件的且非iqiyi本站(及主连接中不含iqiyi)强制使用本地iqiyi_out
+							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi_out');
+							}
+						}
 					}
 				}
 				break;

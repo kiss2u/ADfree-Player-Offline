@@ -53,9 +53,9 @@
         "extra": "adkillrule"
     },
     {
-        "name": "letv_cloud",
-        "find": "http:\/\/.*(letv[\w]*|dwstatic)\.com\/.*(cloud|vpp)\.swf",
-        "replace": "hostsite/letv0225.swf",
+        "name": "duowan",
+        "find": "http:\/\/assets\.dwstatic\.com\/.*\/vppp\.swf",
+        "replace": "http://yuntv.letv.com/bcloud.swf",
         "extra": "adkillrule"
     },
     {
@@ -78,15 +78,15 @@
         "extra": "adkillrule"
     },
     {
-        "name": "iqiyi_out",
-        "find": "https?:\/\/(player|dispatcher)\.video\.i?qiyi\.com\/.*\/shareplayer\.swf",
+        "name": "pps",
+        "find": "https?:\/\/www\.iqiyi\.com\/common\/.*\/pps[\w]+.swf",
         "replace": "hostsite/iqiyi_out.swf",
         "extra": "adkillrule"
     },
     {
-        "name": "pps",
-        "find": "https?:\/\/www\.iqiyi\.com\/common\/.*\/pps[\w]+.swf",
-        "replace": "hostsite/iqiyi_out.swf",
+        "name": "pps_live",
+        "find": "https?:\/\/www\.iqiyi\.com\/common\/.*\/am[^\.]*.swf",
+        "replace": "about:blank",
         "extra": "adkillrule"
     },
     {
