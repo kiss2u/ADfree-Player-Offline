@@ -15,13 +15,14 @@ var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=
 var taburls = []; //存放tab的url与flag，用作判断重定向
 var baesite = ['', '','http://127.0.0.1/'];
 //在线播放器地址.后面规则载入使用baesite[2],并会使用规则中tudou_olc的地址来填充baesite[0],而baesite[0]将会作为那些必须在线的swf的载入地址.如果拥有自己的服务器也可在此修改baesite[2],baesite[1]将会被填充为crossdomain的代理地址
-var ruleName = ['redirectlist','refererslist','proxylist'];
+var ruleName = ['configlist','redirectlist','refererslist','proxylist'];
 var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
 var disable = 0; //升级规则时关闭所有功能
 var retry = 5;	//重载重试限制
+var configlist = [];
 var proxylist = [];
 var refererslist = [];
 var redirectlist = [];
@@ -521,6 +522,14 @@ function fetchRules(url,value){
 		if (xhr.readyState == 4 && xhr.status==200) {
 			var list = xhr.responseText;
 			switch(value){
+				case 'configlist':
+				chrome.storage.local.set({'configlist' : list}, function() {
+					// Notify that we saved.
+					console.log('Rules Saved:' + value);
+					initRules();	//规则导入之后启动初始化过程
+				});
+				break;
+
 				case 'redirectlist':
 				chrome.storage.local.set({'redirectlist' : list}, function() {
 					// Notify that we saved.
@@ -618,6 +627,12 @@ function initRules(){
 		if(items['proxylist'] != null) {
 			for(var i = 0; i < ruleName.length; i++){
 				switch(ruleName[i]){
+					case 'configlist':
+					chrome.storage.local.get('configlist', function(items) {
+						if(items['configlist'] != null) configlist = genRules(items['configlist']);
+					});
+					break;
+
 					case 'redirectlist':
 					chrome.storage.local.get('redirectlist', function(items) {
 						if(items['redirectlist'] != null) {
@@ -703,39 +718,37 @@ function genRules(listdata){
 		list[i].find = new RegExp(list[i].find,"i");
 		if(list[i].exfind != null) list[i].exfind = new RegExp(list[i].exfind,"i");
 		if(list[i].monitor != null) list[i].monitor = new RegExp(list[i].monitor,"i");
-		if(localflag) {
-			switch(list[i].name){
-				case "youkuloader":
-				list[i].replace = getUrl('swf/loader.swf');
-				break;
-				
-				case "youkuplayer":
-				list[i].replace = getUrl('swf/player.swf');
-				break;
-				
-				case "tudou":
-				list[i].replace = getUrl('swf/tudou.swf');
-				break;
-				
-				case "letv":
-				list[i].replace = getUrl('swf/letv.swf');
-				break;
-				
-				case "iqiyi":
-				list[i].replace = getUrl('swf/iqiyi5.swf');
-				break;
-				
-				case "sohu":
-				list[i].replace = getUrl('swf/sohu.swf');
-				break;
-				
-				case "sohu_live":
-				list[i].replace = getUrl('swf/sohu_live.swf');
-				break;
-				
-				default:
-				break;
-			}
+		switch(list[i].name){
+			case "youkuloader":
+			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/loader.swf');
+			break;
+			
+			case "youkuplayer":
+			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/player.swf');
+			break;
+			
+			case "tudou":
+			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/tudou.swf');
+			break;
+			
+			case "letv":
+			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/letv.swf');
+			break;
+			
+			case "iqiyi":
+			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/iqiyi5.swf');
+			break;
+			
+			case "sohu":
+			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/sohu.swf');
+			break;
+			
+			case "sohu_live":
+			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/sohu_live.swf');
+			break;
+			
+			default:
+			break;
 		}
 	}
 	return list;
@@ -757,4 +770,12 @@ function warn() {
 		}
 */
 	});
+}
+
+function chkConfig(value) { //根据status来控制规则,-1为强制本地,0为不干预,1为强制在线 
+	if (configlist.length <= 0 || value == null ) return 0;
+	for (var i = 0; i < configlist.length; i++) {
+		if (configlist[i].name == "s" + value) break;
+	}
+	return parseInt(configlist[i].status);
 }
