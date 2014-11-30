@@ -332,7 +332,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
 					console.log("Force to iqiyi5");
 				} else {
-					if (redirectlist[i].exfind.test(testUrl)) { //外链名单
+					if (redirectlist[i].exfind.test(testUrl) || /share/i.test(url)) { //外链名单
 						console.log("Out Side");
 						if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
 							//							newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
