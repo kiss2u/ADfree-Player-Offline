@@ -332,7 +332,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
 					console.log("Force to iqiyi5");
 				} else {
-					if (redirectlist[i].exfind.test(testUrl)) { //外链名单
+					if (redirectlist[i].exfind.test(testUrl) || /share/i.test(url)) { //外链名单
 						console.log("Out Side");
 						if (/(bili|acfun)/i.test(testUrl)) { //特殊网址Flash内部调用切换到非本地模式
 							//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'iqiyi_out.swf');	//多服务器均衡,因服务器原因暂未开启
@@ -346,10 +346,6 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						v5flag = taburls[id][1]; //读取flag存储
 						if (!v5flag || /pps\.tv/i.test(testUrl)) {	//不满足v5条件换成v4,或者在pps.tv域名下强制改变
 							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi');
-						}  else {
-							if (/(^((?!(iqiyi)).)*\.(com|tv|net))/i.test(testUrl)){//不满足以上条件的且非iqiyi本站(及主连接中不含iqiyi)强制使用本地iqiyi_out
-							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi_out');
-							}
 						}
 					}
 				}
@@ -593,7 +589,7 @@ function isNeedUpdate(){
 				if(items['LastUpdate'] == null){
 					fetchAllRules();
 				}else if(items['LastUpdate'] < servertime){
-					localStorage['localflag'] = 1;  //规则更新恢复本地模式,去掉注释即可开启
+					//localStorage['localflag'] = 1;  //规则更新恢复本地模式,去掉注释即可开启
 					fetchAllRules();
 				}
 //				console.log(items);
