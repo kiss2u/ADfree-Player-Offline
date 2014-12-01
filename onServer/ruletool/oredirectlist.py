@@ -47,6 +47,12 @@
         "extra": "adkillrule"
     },
     {
+        "name": "letvpccs",
+        "find": "http:\/\/www.letv.com\/.*\/playerapi\/pccs_(\d+)\.xml",
+        "replace": "http://www.letv.com/cmsdata/playerapi/pccs_sdk_201409191523.xml",
+        "extra": "adkillrule"
+    },
+    {
         "name": "letv_live",
         "find": "http:\/\/(ark|fz)\.letv\.com\/.*",
         "replace": "about:blank",
