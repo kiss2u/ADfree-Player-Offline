@@ -102,10 +102,16 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	if(disable) return;
 	for (var i = 0; i < proxylist.length; i++) {
 		if (proxylist[i].find.test(details.url) && proxylist[i].extra == "crossdomain") {
-			//console.log(details.url);
+			//console.log(details);
 			console.log('Crossdomin Spoofer Rule : ' + proxylist[i].name);
 			proxynum = i;   //存储当前proxy
 			switch (proxylist[i].name) {
+
+				case "crossdomain_tudou":   //特殊规则
+				var id = "tabid" + details.tabId;
+				taburls[id] = [];
+				taburls[id][0] = false;
+				taburls[id][1] = false;
 
 				default:
 				//console.log("In Proxy Set");
@@ -123,7 +129,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 chrome.webRequest.onCompleted.addListener(function(details) {
 	if(disable) return;
-	var bflag = false;
+	var bflag = true;
 	for (var i = 0; i < proxylist.length; i++) {
 		//获取Proxy的具体IP地址
 		if(details.url.indexOf(baesite[1].slice(0,-6)) >= 0 && details.url.indexOf("crossdomain.xml") >= 0) {  //:xxxxx 6个字符,差不多就行
@@ -146,13 +152,23 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 			switch (proxylist[proxynum].name) {
 
 				case "crossdomain_tudou":   //特殊规则
-				if(proxylist[proxynum].monitor.test(details.url)){ bflag = !bflag;
-					console.log("Hold Proxy in Tudou");
+				var id = "tabid" + details.tabId;
+				if(typeof(taburls[id]) != "undefined") {
+					if(proxylist[proxynum].monitor.test(details.url)) taburls[id][0]=true;
+					if(proxylist[proxynum].exfind.test(details.url)) taburls[id][1]=true;
+					if(taburls[id][0] && taburls[id][1]){
+						bflag = true;
+					}else{
+						bflag = false;
+						console.log("Hold Proxy in Tudou");
+					}
+				}else{
+				bflag = false;
+				console.log("Error!(Hold Proxy) ");
 				}
 				//break;
 
 				default:
-				bflag = !bflag;
 				if(bflag) {
 					console.log("Now Release Proxy ");
 					ProxyControl("unset" , details.ip);
