@@ -6,8 +6,7 @@
 }, {
 	"name": "crossdomain_tudou",
 	"find": ".*PortalPlayer[^\.]*\.swf",
-	"exfind": "youku",
-	"monitor": "http:\/\/www\.tudou\.com\/crossdomain\.xml",
+	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_tudou_sp",
