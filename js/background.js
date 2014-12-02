@@ -18,6 +18,7 @@ var baesite = ['', '','http://127.0.0.1/'];
 var ruleName = ['configlist','redirectlist','refererslist','proxylist'];
 var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
+var proxynum = 0;	//当前proxy位于proxylist中的位置
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
 var disable = 0; //升级规则时关闭所有功能
@@ -103,6 +104,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		if (proxylist[i].find.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details.url);
 			console.log('Crossdomin Spoofer Rule : ' + proxylist[i].name);
+			proxynum = i;   //存储当前proxy
 			switch (proxylist[i].name) {
 
 				default:
@@ -135,12 +137,20 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 			console.log("Capture Proxy IP :" + proxyflag);
 			return;
 		}
+		var bflag = true;
 		if (proxylist[i].monitor.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details);
 			cacheflag = false;
 			cacheflag = details.fromCache;
 			console.log("Capture Moniter Url :" + details.url + " fromCache :" + details.fromCache + " ip :" + details.ip);
-			switch (proxylist[i].name) {
+			switch (proxylist[proxynum].name) {
+
+				case "crossdomain_tudou":   //特殊规则
+				if( proxylist[proxynum].exfind.test(details.url) ) {
+					bflag = !bflag;
+					console.log("Hold Proxy in Tudou");
+					break;
+				}
 
 				default:
 				console.log("Now Release Proxy ");
@@ -149,7 +159,7 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 
 			}
 			
-			break;
+			if(bflag) break;
 		}
 	}
 	
