@@ -6,7 +6,8 @@
 }, {
 	"name": "crossdomain_tudou",
 	"find": ".*PortalPlayer[^\.]*\.swf",
-	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"exfind": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"monitor": "http:\/\/www\.tudou\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_tudou_sp",
@@ -31,7 +32,7 @@
 }, {
 	"name": "crossdomain_iqiyi|pps-main",
 	"find": "https?:\/\/.*(iqiyi|pps)\.com\/.*\.htm",
-	"monitor": "\/(vodpb\.gif\?url|adpb\.gif\?pbtp=show)",
+	"monitor": "policy\.video\.iqiyi\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "yk.pp.navi.youku.com:80",
