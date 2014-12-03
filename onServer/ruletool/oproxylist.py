@@ -12,7 +12,8 @@
 }, {
 	"name": "crossdomain_tudou_sp",
 	"find": ".*olc[^\.]*\.swf",
-	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"exfind": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"monitor": "http:\/\/www\.tudou\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_sohu",

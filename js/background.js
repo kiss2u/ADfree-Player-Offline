@@ -108,6 +108,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 			switch (proxylist[i].name) {
 
 				case "crossdomain_tudou":   //特殊规则
+				case "crossdomain_tudou_sp":
 				var id = "tabid" + details.tabId;
 				taburls[id] = [];
 				taburls[id][0] = false;
@@ -152,6 +153,7 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 			switch (proxylist[proxynum].name) {
 
 				case "crossdomain_tudou":   //特殊规则
+				case "crossdomain_tudou_sp":
 				var id = "tabid" + details.tabId;
 				if(typeof(taburls[id]) != "undefined") {
 					if(proxylist[proxynum].monitor.test(details.url)) taburls[id][0]=true;
