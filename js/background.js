@@ -108,10 +108,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 			switch (proxylist[i].name) {
 
 				case "crossdomain_tudou":   //特殊规则
+				case "crossdomain_tudou_sp":
 				var id = "tabid" + details.tabId;
-				taburls[id] = [];
-				taburls[id][0] = false;
-				taburls[id][1] = false;
+				//taburls[id] = [];
+				taburls[id][2] = false;
+				taburls[id][3] = false;
 
 				default:
 				//console.log("In Proxy Set");
@@ -152,11 +153,12 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 			switch (proxylist[proxynum].name) {
 
 				case "crossdomain_tudou":   //特殊规则
+				case "crossdomain_tudou_sp":
 				var id = "tabid" + details.tabId;
 				if(typeof(taburls[id]) != "undefined") {
-					if(proxylist[proxynum].monitor.test(details.url)) taburls[id][0]=true;
-					if(proxylist[proxynum].exfind.test(details.url)) taburls[id][1]=true;
-					if(taburls[id][0] && taburls[id][1]){
+					if(proxylist[proxynum].monitor.test(details.url)) taburls[id][2]=true;
+					if(proxylist[proxynum].exfind.test(details.url)) taburls[id][3]=true;
+					if(taburls[id][2] && taburls[id][3]){
 						bflag = true;
 					}else{
 						bflag = false;
