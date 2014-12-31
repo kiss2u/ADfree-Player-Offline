@@ -17,6 +17,7 @@ var baesite = ['', '','http://127.0.0.1/'];
 //在线播放器地址.后面规则载入使用baesite[2],并会使用规则中tudou_olc的地址来填充baesite[0],而baesite[0]将会作为那些必须在线的swf的载入地址.如果拥有自己的服务器也可在此修改baesite[2],baesite[1]将会被填充为crossdomain的代理地址
 var ruleName = ['configlist','redirectlist','refererslist','proxylist'];
 var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
+var flushallow = 1; //用于控制是否自动清理缓存,1为自动,0为手动,initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
 var proxynum = 0;	//当前proxy位于proxylist中的位置
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
@@ -86,7 +87,7 @@ function ProxyControl(pram , ip) {
 	});
 }
 function FlushCache(ip) {
-	if(!chrome.runtime.lastError && ( cacheflag && ip.slice(0,ip.lastIndexOf(".")) != proxyflag.slice(0,proxyflag.lastIndexOf(".")) || ip == "none") ) { //ip地址前3段一致即可,如果上次出错则跳过
+	if(flushallow && !chrome.runtime.lastError && ( cacheflag && ip.slice(0,ip.lastIndexOf(".")) != proxyflag.slice(0,proxyflag.lastIndexOf(".")) || ip == "none") ) { //ip地址前3段一致即可,如果上次出错则跳过
 		chrome.browsingData.remove(
 			{},{
 			"cache": true,
@@ -135,7 +136,7 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 		//获取Proxy的具体IP地址
 		if(details.url.indexOf(baesite[1].slice(0,-6)) >= 0 && details.url.indexOf("crossdomain.xml") >= 0) {  //:xxxxx 6个字符,差不多就行
 			console.log(details.url);
-			if(details.fromCache) { //如果crossdomain来自于本地缓存,那么需要清除缓存后重新获取
+			if(flushallow && details.fromCache) { //如果crossdomain来自于本地缓存,那么需要清除缓存后重新获取
 				FlushCache("none");
 				var timer=setTimeout(getProxyIP,5000);  //5s时间延迟
 				return;
@@ -636,6 +637,12 @@ function initRules(){
 	}else{
 		localflag = Number(localStorage['localflag']);
 	}
+	if(localStorage['flushallow'] == undefined){
+		localStorage['flushallow'] = flushallow;
+	}else{
+		flushallow = Number(localStorage['flushallow']);
+	}
+	if(!flushallow) console.warn("Now Extension Has Already Been Set To Manual Flush Mode!! This Mode Can Cause System Instability!!");
 	isNeedUpdate();
 	chrome.storage.local.get('proxylist', function(items) {
 		if(items['proxylist'] != null) {
@@ -776,7 +783,7 @@ function genRules(listdata){
 	return list;
 }
 
-function switchMode(){
+function switchMode() {
 	localflag = localflag ? 0 : 1;
 	console.log("switchMode Current Mode :" + ( localflag ? "Local" : "Online"));
 	localStorage['localflag'] = localflag;
@@ -800,4 +807,11 @@ function chkConfig(value) { //根据status来控制规则,-1为强制本地,0为
 		if (configlist[i].name == "s" + value) break;
 	}
 	return parseInt(configlist[i].status);
+}
+
+function switchCacheMode() {
+	flushallow = flushallow ? 0 : 1;
+	console.log("Flush Cache Mode :" + ( flushallow ? "Auto" : "Manual"));
+	localStorage['flushallow'] = flushallow;
+	initRules();
 }
