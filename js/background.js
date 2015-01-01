@@ -18,6 +18,7 @@ var baesite = ['', '','http://127.0.0.1/'];
 var ruleName = ['configlist','redirectlist','refererslist','proxylist'];
 var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
 var flushallow = 1; //用于控制是否自动清理缓存,1为自动,0为手动,initRules过程中将会改变并使用localStorage[]存取该值
+var compatible = 0;	//用于控制是否启动代理控制,1为禁用,0为启用,initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
 var proxynum = 0;	//当前proxy位于proxylist中的位置
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
@@ -47,44 +48,46 @@ var pac = {
 };
 //Permission Check + Proxy Control
 function ProxyControl(pram , ip) {
-	chrome.proxy.settings.get({incognito: false}, function(config){
-		//console.log(config.levelOfControl);
-		//console.log(config);
-		//console.log(pac);
+	if(!compatible) {
+		chrome.proxy.settings.get({incognito: false}, function(config){
+			//console.log(config.levelOfControl);
+			//console.log(config);
+			//console.log(pac);
 
-		switch(config.levelOfControl) {
-			case "controllable_by_this_extension":
-			// 可获得proxy控制权限，显示信息
-			console.log("Have Proxy Permission");
-//			proxyflag = 1;
-			if(pram == "set"){
-				console.log("Setup Proxy");
-				chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
+			switch(config.levelOfControl) {
+				case "controllable_by_this_extension":
+				// 可获得proxy控制权限，显示信息
+				console.log("Have Proxy Permission");
+//				proxyflag = 1;
+				if(pram == "set"){
+					console.log("Setup Proxy");
+					chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
+				}
+				break;
+
+				case "controlled_by_this_extension":
+				// 已控制proxy，显示信息
+				console.log("Already controlled");
+//				proxyflag = 2;
+				if(pram == "unset"){
+					console.log("Release Proxy");
+					chrome.proxy.settings.clear({scope: "regular"});
+					if(typeof(ip) == 'undefined') ip = "none";
+					FlushCache(ip);
+				}
+				break;
+
+				default:
+				// 未获得proxy控制权限，显示信息
+				warn();	//添加无权限提醒
+				console.log("No Proxy Permission");
+				console.log("Skip Proxy Control");
+//				proxyflag = 0;
+				break;
+
 			}
-			break;
-
-			case "controlled_by_this_extension":
-			// 已控制proxy，显示信息
-			console.log("Already controlled");
-//			proxyflag = 2;
-			if(pram == "unset"){
-				console.log("Release Proxy");
-				chrome.proxy.settings.clear({scope: "regular"});
-				if(typeof(ip) == 'undefined') ip = "none";
-				FlushCache(ip);
-			}
-			break;
-
-			default:
-			// 未获得proxy控制权限，显示信息
-			warn();	//添加无权限提醒
-			console.log("No Proxy Permission");
-			console.log("Skip Proxy Control");
-//			proxyflag = 0;
-			break;
-
-		}
-	});
+		});
+	}
 }
 function FlushCache(ip) {
 	if(flushallow && !chrome.runtime.lastError && ( cacheflag && ip.slice(0,ip.lastIndexOf(".")) != proxyflag.slice(0,proxyflag.lastIndexOf(".")) || ip == "none") ) { //ip地址前3段一致即可,如果上次出错则跳过
@@ -643,6 +646,16 @@ function initRules(){
 		flushallow = Number(localStorage['flushallow']);
 	}
 	if(!flushallow) console.warn("Now Extension Has Already Been Set To Manual Flush Mode!! This Mode Can Cause System Instability!!");
+	if(localStorage['compatible'] == undefined){
+		localStorage['compatible'] = compatible;
+	}else{
+		compatible = Number(localStorage['compatible']);
+	}
+	if(compatible) {
+		console.log("Now Extension Has Already Been Set To Compatible Mode!!");
+		console.warn("You Need Add Rules In Other Extension By Manual Actions");
+		console.warn("Compatible To Other Extension Which Need Proxy Permission");
+	}
 	isNeedUpdate();
 	chrome.storage.local.get('proxylist', function(items) {
 		if(items['proxylist'] != null) {
@@ -815,3 +828,10 @@ function switchCacheMode() {
 	localStorage['flushallow'] = flushallow;
 	initRules();
 }
+
+function switchCompatibleMode() {
+	compatible = compatible ? 0 : 1;
+	console.log("Compatible Mode :" + ( compatible ? "Enable" : "Disable"));
+	localStorage['compatible'] = compatible;
+}
+
