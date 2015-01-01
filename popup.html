@@ -1,4 +1,4 @@
-<!--
+﻿<!--
  * This file is part of ADfree Player Offline
  * <http://bbs.kafan.cn/thread-1514537-1-1.html>,
  * Copyright (C) yndoc xplsy 15536900
@@ -24,10 +24,15 @@
 </head>
 <body>
 <div id="menu">
-    <div id="title" class="item">
-        <span>Offline.Test.DEV</span>
+    <div id="Mode" class="item">
+        <span id="localMode">本地模式</span><span id="onlineMode">在线模式</span>
     </div>
     <div id="separatorProxies" class="separator"></div>
+    
+<div id="CacheMode" class="item">
+        <span>自动清理<input type="checkbox" id="autoFlush" style="vertical-align:middle;"></span>
+    </div>
+
     <div id="getNewRule" class="item">
         <span>更新规则</span><span></span><span class="pts" style='display:none;'></span>
     </div>

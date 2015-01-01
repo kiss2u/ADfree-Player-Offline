@@ -17,14 +17,25 @@ var count = 0;
 
 function init() {
     extension = chrome.extension.getBackgroundPage();
-    getColor();
+    getModColor();
+    getCacheMode();
 }
 
-function getColor(){
+function getModColor(){
     if(extension.localflag){
-        $("#title").css('color','#06a4f4');
+        $("#Mode").css('color','#06a4f4');
+        $("#onlineMode").css('display','none');
     }else{
-        $("#title").css('color','#345');
+        $("#Mode").css('color','#345');
+        $("#localMode").css('display','none');
+    }
+}
+
+function getCacheMode(){
+    if(extension.flushallow){
+        $("#autoFlush").attr("checked",true);
+    }else{
+        $("#autoFlush").attr("checked",false);
     }
 }
 
@@ -35,7 +46,7 @@ function closePopup() {
 function openSupportWebsite() {
     closePopup();
     chrome.tabs.create({
-        url:'http://bbs.kafan.cn/thread-1514537-1-1.html'
+        url:'http://bbs.kafan.cn/thread-1777920-1-1.html'
     });
 }
 
@@ -65,7 +76,14 @@ function reinitRule() {
 function changeMode() {
     extension.recordlog("changeMode!");
     extension.switchMode();
-    getColor();
+    getModColor();
+    closePopup();
+}
+
+function changeCacheMode() {
+    extension.recordlog("changeCacheMode!");
+    extension.switchCacheMode();
+    getCacheMode();
     closePopup();
 }
 
@@ -74,5 +92,6 @@ $(document).ready(function(){
     $("#getNewRule").click(fetchNewRule);
     $("#getinitRule").click(reinitRule);
     $("#getSupport").click(openSupportWebsite);
-    $("#title").click(changeMode);
+    $("#Mode").click(changeMode);
+    $("#CacheMode").click(changeCacheMode);
 });

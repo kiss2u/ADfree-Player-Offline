@@ -41,7 +41,7 @@
     },
     {
         "name": "letv",
-        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf|VLetv)Player[^\.]*\.swf",
+        "find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk|SSDK))(S[\w]{2,3})?(?!Live)[\w]{4}|swf|VLetv)Player[^\.]*\.swf",
         "exfind": "(bili|acfun|(comic|hz)\.letv|duowan)",
         "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
@@ -97,7 +97,7 @@
     },
     {
         "name": "sohu",
-        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+)).*\d+\/(Main|PlayerShell)[^\.]*\.swf",
+        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(ap|live|\d+)).*\d+\/(Main|PlayerShell)[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu.swf",
         "extra": "adkillrule"
