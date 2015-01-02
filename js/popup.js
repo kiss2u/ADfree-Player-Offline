@@ -18,6 +18,7 @@ var count = 0;
 function init() {
     extension = chrome.extension.getBackgroundPage();
     getModColor();
+    getCompatibleMode();
     getCacheMode();
 }
 
@@ -28,6 +29,14 @@ function getModColor(){
     }else{
         $("#Mode").css('color','#345');
         $("#localMode").css('display','none');
+    }
+}
+
+function getCompatibleMode(){
+    if(extension.compatible){
+        $("#autoProxy").attr("checked",false);
+    }else{
+        $("#autoProxy").attr("checked",true);
     }
 }
 
@@ -80,6 +89,13 @@ function changeMode() {
     closePopup();
 }
 
+function changeCompatibleMode() {
+    extension.recordlog("changeCompatibleMode!");
+    extension.switchCompatibleMode();
+    getCompatibleMode();
+    closePopup();
+}
+
 function changeCacheMode() {
     extension.recordlog("changeCacheMode!");
     extension.switchCacheMode();
@@ -93,5 +109,6 @@ $(document).ready(function(){
     $("#getinitRule").click(reinitRule);
     $("#getSupport").click(openSupportWebsite);
     $("#Mode").click(changeMode);
+    $("#CompatibleMode").click(changeCompatibleMode);
     $("#CacheMode").click(changeCacheMode);
 });

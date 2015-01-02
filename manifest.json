@@ -15,6 +15,6 @@
    "minimum_chrome_version": "38.0.2121.3",
    "name": "ADfree.Player.Offline",
    "permissions": [ "storage", "unlimitedStorage", "browsingData", "proxy", "tabs", "webRequest", "webRequestBlocking", "\u003Call_urls>", "http://*/*", "https://*/*" ],
-   "version": "0.4.2.0",
+   "version": "0.4.3.0",
    "web_accessible_resources": [ "swf/*.swf" ]
 }

@@ -12,14 +12,14 @@
  */
 
 var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-var taburls = []; //存放tab的url与flag，用作判断重定向
+var taburls = []; //存放tab的url与flag，用作判断重定向,存储当前proxy位于proxylist中的位置
 var baesite = ['', '','http://127.0.0.1/'];
 //在线播放器地址.后面规则载入使用baesite[2],并会使用规则中tudou_olc的地址来填充baesite[0],而baesite[0]将会作为那些必须在线的swf的载入地址.如果拥有自己的服务器也可在此修改baesite[2],baesite[1]将会被填充为crossdomain的代理地址
 var ruleName = ['configlist','redirectlist','refererslist','proxylist'];
 var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
 var flushallow = 1; //用于控制是否自动清理缓存,1为自动,0为手动,initRules过程中将会改变并使用localStorage[]存取该值
+var compatible = 0;	//用于控制是否启动代理控制,1为禁用,0为启用,initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
-var proxynum = 0;	//当前proxy位于proxylist中的位置
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
 var disable = 0; //升级规则时关闭所有功能
@@ -47,44 +47,46 @@ var pac = {
 };
 //Permission Check + Proxy Control
 function ProxyControl(pram , ip) {
-	chrome.proxy.settings.get({incognito: false}, function(config){
-		//console.log(config.levelOfControl);
-		//console.log(config);
-		//console.log(pac);
+	if(!compatible) {
+		chrome.proxy.settings.get({incognito: false}, function(config){
+			//console.log(config.levelOfControl);
+			//console.log(config);
+			//console.log(pac);
 
-		switch(config.levelOfControl) {
-			case "controllable_by_this_extension":
-			// 可获得proxy控制权限，显示信息
-			console.log("Have Proxy Permission");
-//			proxyflag = 1;
-			if(pram == "set"){
-				console.log("Setup Proxy");
-				chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
+			switch(config.levelOfControl) {
+				case "controllable_by_this_extension":
+				// 可获得proxy控制权限，显示信息
+				console.log("Have Proxy Permission");
+//				proxyflag = 1;
+				if(pram == "set"){
+					console.log("Setup Proxy");
+					chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
+				}
+				break;
+
+				case "controlled_by_this_extension":
+				// 已控制proxy，显示信息
+				console.log("Already controlled");
+//				proxyflag = 2;
+				if(pram == "unset"){
+					console.log("Release Proxy");
+					chrome.proxy.settings.clear({scope: "regular"});
+					if(typeof(ip) == 'undefined') ip = "none";
+					FlushCache(ip);
+				}
+				break;
+
+				default:
+				// 未获得proxy控制权限，显示信息
+				warn();	//添加无权限提醒
+				console.log("No Proxy Permission");
+				console.log("Skip Proxy Control");
+//				proxyflag = 0;
+				break;
+
 			}
-			break;
-
-			case "controlled_by_this_extension":
-			// 已控制proxy，显示信息
-			console.log("Already controlled");
-//			proxyflag = 2;
-			if(pram == "unset"){
-				console.log("Release Proxy");
-				chrome.proxy.settings.clear({scope: "regular"});
-				if(typeof(ip) == 'undefined') ip = "none";
-				FlushCache(ip);
-			}
-			break;
-
-			default:
-			// 未获得proxy控制权限，显示信息
-			warn();	//添加无权限提醒
-			console.log("No Proxy Permission");
-			console.log("Skip Proxy Control");
-//			proxyflag = 0;
-			break;
-
-		}
-	});
+		});
+	}
 }
 function FlushCache(ip) {
 	if(flushallow && !chrome.runtime.lastError && ( cacheflag && ip.slice(0,ip.lastIndexOf(".")) != proxyflag.slice(0,proxyflag.lastIndexOf(".")) || ip == "none") ) { //ip地址前3段一致即可,如果上次出错则跳过
@@ -105,16 +107,27 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		if (proxylist[i].find.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details);
 			console.log('Crossdomin Spoofer Rule : ' + proxylist[i].name);
-			proxynum = i;   //存储当前proxy
+			var id = "tabid" + details.tabId;
+			if(typeof(taburls[id]) == "undefined") {
+				console.log("Init taburls")
+				taburls[id] = []; //初始化
+			}
+			taburls[id][2] = i; //存储当前proxy
 			switch (proxylist[i].name) {
-
+				
+				case "crossdomain_iqiyi|pps-c1":
+				taburls[id][2] = i+2; //定位crossdomain_iqiyi|pps-main规则位置
+				
+				case "crossdomain_iqiyi|pps-c2":
+				taburls[id][2] = i+1; //定位crossdomain_iqiyi|pps-main规则位置
+				
 				case "crossdomain_tudou":   //特殊规则
 				case "crossdomain_tudou_sp":
-				var id = "tabid" + details.tabId;
+				case "crossdomain_iqiyi|pps-main":
 				//taburls[id] = [];
-				taburls[id][2] = false;
 				taburls[id][3] = false;
-
+				taburls[id][4] = false;
+				
 				default:
 				//console.log("In Proxy Set");
 				ProxyControl("set");
@@ -151,19 +164,20 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 			cacheflag = false;
 			cacheflag = details.fromCache;
 			console.log("Capture Moniter Url :" + details.url + " fromCache :" + details.fromCache + " ip :" + details.ip);
-			switch (proxylist[proxynum].name) {
+			var id = "tabid" + details.tabId;
+			switch (proxylist[taburls[id][2]].name) {
 
 				case "crossdomain_tudou":   //特殊规则
 				case "crossdomain_tudou_sp":
-				var id = "tabid" + details.tabId;
-				if(typeof(taburls[id]) != "undefined") {
-					if(proxylist[proxynum].monitor.test(details.url)) taburls[id][2]=true;
-					if(proxylist[proxynum].exfind.test(details.url)) taburls[id][3]=true;
-					if(taburls[id][2] && taburls[id][3]){
+				case "crossdomain_iqiyi|pps-main":
+				if(typeof(taburls[id]) != "undefined" && typeof(proxylist[taburls[id][2]].exfind) != "undefined") {   //防止规则与扩展版本不适应
+					if(proxylist[taburls[id][2]].monitor.test(details.url)) taburls[id][3]=true;
+					if(proxylist[taburls[id][2]].exfind.test(details.url)) taburls[id][4]=true;
+					if(taburls[id][3] && taburls[id][4]){
 						bflag = true;
 					}else{
 						bflag = false;
-						console.log("Hold Proxy in Tudou");
+						console.log("Hold Proxy in " + proxylist[taburls[id][2]].name);
 					}
 				}else{
 				bflag = false;
@@ -659,6 +673,16 @@ function initRules(){
 		flushallow = Number(localStorage['flushallow']);
 	}
 	if(!flushallow) console.warn("Now Extension Has Already Been Set To Manual Flush Mode!! This Mode Can Cause System Instability!!");
+	if(localStorage['compatible'] == undefined){
+		localStorage['compatible'] = compatible;
+	}else{
+		compatible = Number(localStorage['compatible']);
+	}
+	if(compatible) {
+		console.log("Now Extension Has Already Been Set To Compatible Mode!!");
+		console.warn("You Need Add Rules In Other Extension By Manual Actions");
+		console.warn("Compatible To Other Extension Which Need Proxy Permission");
+	}
 	isNeedUpdate();
 	chrome.storage.local.get('proxylist', function(items) {
 		if(items['proxylist'] != null) {
@@ -822,4 +846,10 @@ function switchCacheMode() {
 	console.log("Flush Cache Mode :" + ( flushallow ? "Auto" : "Manual"));
 	localStorage['flushallow'] = flushallow;
 	initRules();
+}
+
+function switchCompatibleMode() {
+	compatible = compatible ? 0 : 1;
+	console.log("Compatible Mode :" + ( compatible ? "Enable" : "Disable"));
+	localStorage['compatible'] = compatible;
 }

@@ -25,14 +25,15 @@
 <body>
 <div id="menu">
     <div id="Mode" class="item">
-        <span id="localMode">本地模式</span><span id="onlineMode">在线模式</span>
+        <span id="localMode">本地模式</span><span id="onlineMode">在线模式</span><input type="checkbox" id="showMode" checked style="vertical-align:middle;">
     </div>
     <div id="separatorProxies" class="separator"></div>
-    
-<div id="CacheMode" class="item">
+    <div id="CompatibleMode" class="item">
+        <span>自动代理<input type="checkbox" id="autoProxy" style="vertical-align:middle;"></span>
+    </div>
+    <div id="CacheMode" class="item">
         <span>自动清理<input type="checkbox" id="autoFlush" style="vertical-align:middle;"></span>
     </div>
-
     <div id="getNewRule" class="item">
         <span>更新规则</span><span></span><span class="pts" style='display:none;'></span>
     </div>
