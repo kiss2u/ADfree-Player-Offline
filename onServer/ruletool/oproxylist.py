@@ -23,7 +23,7 @@
 }, {
 	"name": "crossdomain_iqiyi|pps-c1",
 	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/(Main|Share)?Player_.*)\.swf",
-	"monitor": "notavailable",
+	"monitor": "\w{32}\.\w{3}.*qyid=\w{32}.*ran=\d+",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-c2",
@@ -33,6 +33,7 @@
 }, {
 	"name": "crossdomain_iqiyi|pps-main",
 	"find": "https?:\/\/.*(iqiyi|pps)\.com\/.*\.htm",
+	"exfind": "\w{32}\.\w{3}.*qyid=\w{32}.*ran=\d+",
 	"monitor": "policy\.video\.iqiyi\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {

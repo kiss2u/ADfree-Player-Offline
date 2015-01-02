@@ -12,7 +12,7 @@
  */
 
 var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-var taburls = []; //存放tab的url与flag，用作判断重定向
+var taburls = []; //存放tab的url与flag，用作判断重定向,存储当前proxy位于proxylist中的位置
 var baesite = ['', '','http://127.0.0.1/'];
 //在线播放器地址.后面规则载入使用baesite[2],并会使用规则中tudou_olc的地址来填充baesite[0],而baesite[0]将会作为那些必须在线的swf的载入地址.如果拥有自己的服务器也可在此修改baesite[2],baesite[1]将会被填充为crossdomain的代理地址
 var ruleName = ['configlist','redirectlist','refererslist','proxylist'];
@@ -20,7 +20,6 @@ var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网
 var flushallow = 1; //用于控制是否自动清理缓存,1为自动,0为手动,initRules过程中将会改变并使用localStorage[]存取该值
 var compatible = 0;	//用于控制是否启动代理控制,1为禁用,0为启用,initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
-var proxynum = 0;	//当前proxy位于proxylist中的位置
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
 var disable = 0; //升级规则时关闭所有功能
@@ -108,16 +107,27 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		if (proxylist[i].find.test(details.url) && proxylist[i].extra == "crossdomain") {
 			//console.log(details);
 			console.log('Crossdomin Spoofer Rule : ' + proxylist[i].name);
-			proxynum = i;   //存储当前proxy
+			var id = "tabid" + details.tabId;
+			if(typeof(taburls[id]) == "undefined") {
+				console.log("Init taburls")
+				taburls[id] = []; //初始化
+			}
+			taburls[id][2] = i; //存储当前proxy
 			switch (proxylist[i].name) {
-
+				
+				case "crossdomain_iqiyi|pps-c1":
+				taburls[id][2] = i+2; //定位crossdomain_iqiyi|pps-main规则位置
+				
+				case "crossdomain_iqiyi|pps-c2":
+				taburls[id][2] = i+1; //定位crossdomain_iqiyi|pps-main规则位置
+				
 				case "crossdomain_tudou":   //特殊规则
 				case "crossdomain_tudou_sp":
-				var id = "tabid" + details.tabId;
+				case "crossdomain_iqiyi|pps-main":
 				//taburls[id] = [];
-				taburls[id][2] = false;
 				taburls[id][3] = false;
-
+				taburls[id][4] = false;
+				
 				default:
 				//console.log("In Proxy Set");
 				ProxyControl("set");
@@ -154,19 +164,20 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 			cacheflag = false;
 			cacheflag = details.fromCache;
 			console.log("Capture Moniter Url :" + details.url + " fromCache :" + details.fromCache + " ip :" + details.ip);
-			switch (proxylist[proxynum].name) {
+			var id = "tabid" + details.tabId;
+			switch (proxylist[taburls[id][2]].name) {
 
 				case "crossdomain_tudou":   //特殊规则
 				case "crossdomain_tudou_sp":
-				var id = "tabid" + details.tabId;
-				if(typeof(taburls[id]) != "undefined") {
-					if(proxylist[proxynum].monitor.test(details.url)) taburls[id][2]=true;
-					if(proxylist[proxynum].exfind.test(details.url)) taburls[id][3]=true;
-					if(taburls[id][2] && taburls[id][3]){
+				case "crossdomain_iqiyi|pps-main":
+				if(typeof(taburls[id]) != "undefined" && typeof(proxylist[taburls[id][2]].exfind) != "undefined") {   //防止规则与扩展版本不适应
+					if(proxylist[taburls[id][2]].monitor.test(details.url)) taburls[id][3]=true;
+					if(proxylist[taburls[id][2]].exfind.test(details.url)) taburls[id][4]=true;
+					if(taburls[id][3] && taburls[id][4]){
 						bflag = true;
 					}else{
 						bflag = false;
-						console.log("Hold Proxy in Tudou");
+						console.log("Hold Proxy in " + proxylist[taburls[id][2]].name);
 					}
 				}else{
 				bflag = false;
@@ -834,4 +845,3 @@ function switchCompatibleMode() {
 	console.log("Compatible Mode :" + ( compatible ? "Enable" : "Disable"));
 	localStorage['compatible'] = compatible;
 }
-
