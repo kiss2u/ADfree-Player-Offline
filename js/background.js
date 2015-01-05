@@ -425,14 +425,6 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					}
 				break;
 
-				case "sohu":
-				//console.log("Switch : sohu");
-				letvflag = taburls[id][1];
-				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址的Flash内部调用特例,只处理设置为本地模式的情况
-					newUrl = url.replace(redirectlist[i].find, baesite[0] + 'sohu.swf'); //转换成在线
-				}
-				break;
-
 				case "sohu_live":
 				//console.log("Switch : sohu_live");
 				letvflag = taburls[id][1];
@@ -798,10 +790,6 @@ function genRules(listdata){
 			
 			case "iqiyi":
 			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/iqiyi5.swf');
-			break;
-			
-			case "sohu":
-			if((localflag - chkConfig(list[i].name)) > 0) list[i].replace = getUrl('swf/sohu.swf');
 			break;
 			
 			case "sohu_live":

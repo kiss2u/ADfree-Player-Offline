@@ -20,10 +20,6 @@
         "status": "0"
     },
     {
-        "name": "ssohu",
-        "status": "0"
-    },
-    {
         "name": "ssohu_live",
         "status": "0"
     }

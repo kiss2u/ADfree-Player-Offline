@@ -96,15 +96,8 @@
         "extra": "adkillrule"
     },
     {
-        "name": "sohu",
-        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(ap|live|\d+)).*\d+\/(Main|PlayerShell)[^\.]*\.swf",
-        "exfind": "(bili|acfun)",
-        "replace": "hostsite/sohu.swf",
-        "extra": "adkillrule"
-    },
-    {
         "name": "sohu_live",
-        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(live\/|)\d+|(\d+\.){3}\d+(:\d+)?\/.*player)\/(Main|PlayerShell)[^\.]*\.swf",
+        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!ap).*\d+|(\d+\.){3}\d+(:\d+)?\/.*player)\/(Main|PlayerShell)[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu_live.swf",
         "extra": "adkillrule"
