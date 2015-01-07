@@ -49,7 +49,7 @@
     {
         "name": "letvpccs",
         "find": "http:\/\/www.letv.com\/.*\/playerapi\/pccs_(?!(live|sdk)).*_?(\d+)\.xml",
-        "replace": "http://www.letv.com/cmsdata/playerapi/pccs_sdk_201409191523.xml",
+        "replace": "http://www.letv.com/cmsdata/playerapi/pccs_sdk_20141113.xml",
         "extra": "adkillrule"
     },
     {
@@ -73,7 +73,7 @@
     },
     {
         "name": "sohu",
-        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+)).*\d+\/(main|PlayerShell)\.swf",
+        "find": "http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+|ap)).*\d+\/(main|PlayerShell)\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu.swf",
         "extra": "adkillrule"
