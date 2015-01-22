@@ -52,38 +52,43 @@ function ProxyControl(pram , ip) {
 			//console.log(config.levelOfControl);
 			//console.log(config);
 			//console.log(pac);
+			try
+			{
+				switch(config.levelOfControl) {
+					case "controllable_by_this_extension":
+					// 可获得proxy控制权限，显示信息
+					console.log("Have Proxy Permission");
+	//				proxyflag = 1;
+					if(pram == "set"){
+						console.log("Setup Proxy");
+						chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
+					}
+					break;
 
-			switch(config.levelOfControl) {
-				case "controllable_by_this_extension":
-				// 可获得proxy控制权限，显示信息
-				console.log("Have Proxy Permission");
-//				proxyflag = 1;
-				if(pram == "set"){
-					console.log("Setup Proxy");
-					chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
+					case "controlled_by_this_extension":
+					// 已控制proxy，显示信息
+					console.log("Already controlled");
+	//				proxyflag = 2;
+					if(pram == "unset"){
+						console.log("Release Proxy");
+						chrome.proxy.settings.clear({scope: "regular"});
+						if(typeof(ip) == 'undefined') ip = "none";
+						FlushCache(ip);
+					}
+					break;
+
+					default:
+					// 未获得proxy控制权限，显示信息
+					warn();	//添加无权限提醒
+					console.log("No Proxy Permission");
+					console.log("Skip Proxy Control");
+	//				proxyflag = 0;
+					break;
+
 				}
-				break;
-
-				case "controlled_by_this_extension":
-				// 已控制proxy，显示信息
-				console.log("Already controlled");
-//				proxyflag = 2;
-				if(pram == "unset"){
-					console.log("Release Proxy");
-					chrome.proxy.settings.clear({scope: "regular"});
-					if(typeof(ip) == 'undefined') ip = "none";
-					FlushCache(ip);
-				}
-				break;
-
-				default:
-				// 未获得proxy控制权限，显示信息
-				warn();	//添加无权限提醒
-				console.log("No Proxy Permission");
-				console.log("Skip Proxy Control");
-//				proxyflag = 0;
-				break;
-
+			}
+			catch(err){
+				console.log("ERROR:Can Not Read Proxy !");
 			}
 		});
 	}
