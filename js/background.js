@@ -48,49 +48,64 @@ var pac = {
 //Permission Check + Proxy Control
 function ProxyControl(pram , ip) {
 	if(!compatible) {
-		chrome.proxy.settings.get({incognito: false}, function(config){
-			//console.log(config.levelOfControl);
-			//console.log(config);
-			//console.log(pac);
-			try
-			{
-				switch(config.levelOfControl) {
-					case "controllable_by_this_extension":
-					// 可获得proxy控制权限，显示信息
-					console.log("Have Proxy Permission");
-	//				proxyflag = 1;
-					if(pram == "set"){
-						console.log("Setup Proxy");
-						chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
-					}
-					break;
-
-					case "controlled_by_this_extension":
-					// 已控制proxy，显示信息
-					console.log("Already controlled");
-	//				proxyflag = 2;
-					if(pram == "unset"){
-						console.log("Release Proxy");
-						chrome.proxy.settings.clear({scope: "regular"});
-						if(typeof(ip) == 'undefined') ip = "none";
-						FlushCache(ip);
-					}
-					break;
-
-					default:
-					// 未获得proxy控制权限，显示信息
-					warn();	//添加无权限提醒
-					console.log("No Proxy Permission");
-					console.log("Skip Proxy Control");
-	//				proxyflag = 0;
-					break;
-
+		if(versionPraser() > 39 ) {	//用于应对Chrome 40版本中引入的Proxy BUG
+			console.log("Proxy: Chrome > 39");
+			if(pram == "set"){
+				console.log("Setup Proxy");
+				chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
 				}
-			}
-			catch(err){
-				console.log("ERROR:Can Not Read Proxy !");
-			}
-		});
+			if(pram == "unset"){
+				console.log("Release Proxy");
+				chrome.proxy.settings.clear({scope: "regular"});
+				if(typeof(ip) == 'undefined') ip = "none";
+				FlushCache(ip);
+				}			
+		} else {
+			chrome.proxy.settings.get({incognito: false}, function(config){
+				//console.log(config.levelOfControl);
+				//console.log(config);
+				//console.log(pac);
+				try
+				{
+					switch(config.levelOfControl) {
+						case "controllable_by_this_extension":
+						// 可获得proxy控制权限，显示信息
+						console.log("Have Proxy Permission");
+		//				proxyflag = 1;
+						if(pram == "set"){
+							console.log("Setup Proxy");
+							chrome.proxy.settings.set({value: pac, scope: "regular"}, function(details) {});
+						}
+						break;	
+
+						case "controlled_by_this_extension":
+						// 已控制proxy，显示信息
+						console.log("Already controlled");
+		//				proxyflag = 2;
+						if(pram == "unset"){
+							console.log("Release Proxy");
+							chrome.proxy.settings.clear({scope: "regular"});
+							if(typeof(ip) == 'undefined') ip = "none";
+							FlushCache(ip);
+						}
+						break;	
+
+						default:
+						// 未获得proxy控制权限，显示信息
+						warn();	//添加无权限提醒
+						console.log("No Proxy Permission");
+						console.log("Skip Proxy Control");
+		//				proxyflag = 0;
+						break;	
+
+					}
+				}
+				catch(err){
+					console.log("ERROR:Can Not Read Proxy !");
+				}
+			});
+		}
+
 	}
 }
 function FlushCache(ip) {
@@ -845,4 +860,8 @@ function switchCompatibleMode() {
 	compatible = compatible ? 0 : 1;
 	console.log("Compatible Mode :" + ( compatible ? "Enable" : "Disable"));
 	localStorage['compatible'] = compatible;
+}
+
+function versionPraser() {
+	return(parseInt(/\d+/i.exec(/Chrome\/\d+\.\d+\.\d+\.\d+/i.exec(navigator.userAgent))));
 }
