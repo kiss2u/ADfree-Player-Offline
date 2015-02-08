@@ -20,6 +20,7 @@ var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网
 var flushallow = 1; //用于控制是否自动清理缓存,1为自动,0为手动,initRules过程中将会改变并使用localStorage[]存取该值
 var compatible = 0;	//用于控制是否启动代理控制,1为禁用,0为启用,initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
+var proxyget = 0;//在proxy部分将被临时使用
 var cacheflag = false;	//用于确定是否需要清理缓存,注意由于隐身窗口的cookie与缓存都独立与普通窗口,因此使用API无法清理隐身窗口的缓存与cookie.
 var servertime = 0;  //时间规则时的服务器时间
 var disable = 0; //升级规则时关闭所有功能
@@ -48,7 +49,7 @@ var pac = {
 //Permission Check + Proxy Control
 function ProxyControl(pram , ip) {
 	if(!compatible) {
-		if(versionPraser() > 39 ) {	//用于应对Chrome 40版本中引入的Proxy BUG
+		if(versionPraser() > 39 && versionPraser() < 42 ) {	//用于应对Chrome 40版本中引入的Proxy BUG
 			console.log("Proxy: Chrome > 39");
 			if(pram == "set"){
 				console.log("Setup Proxy");
@@ -168,6 +169,9 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 	for (var i = 0; i < proxylist.length; i++) {
 		//获取Proxy的具体IP地址
 		if(details.url.indexOf(baesite[1].slice(0,-6)) >= 0 && details.url.indexOf("crossdomain.xml") >= 0) {  //:xxxxx 6个字符,差不多就行
+			//只在扩展启动时处理
+			if(!proxyget) return; //不在过程中就终止
+			proxyget = 0;
 			console.log(details.url);
 			if(flushallow && details.fromCache) { //如果crossdomain来自于本地缓存,那么需要清除缓存后重新获取
 				FlushCache("none");
@@ -757,6 +761,7 @@ function initRules(){
 //载入获取Proxy的IP地址
 function getProxyIP() {
 	if(baesite[1] != '') {
+		proxyget = 1;  //设置标记
 		var xhr = new XMLHttpRequest();
 		url = "http://" + baesite[1] + "/crossdomain.xml";
 		xhr.open("GET", url, true);
