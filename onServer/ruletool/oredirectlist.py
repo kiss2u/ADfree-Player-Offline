@@ -53,12 +53,6 @@
         "extra": "adkillrule"
     },
     {
-        "name": "letv_live",
-        "find": "http:\/\/(ark|fz)\.letv\.com\/.*",
-        "replace": "about:blank",
-        "extra": "adkillrule"
-    },
-    {
         "name": "duowan",
         "find": "http:\/\/assets\.dwstatic\.com\/.*\/vppp\.swf",
         "replace": "http://yuntv.letv.com/bcloud.swf",
@@ -85,8 +79,8 @@
     },
     {
         "name": "pps",
-        "find": "https?:\/\/www\.iqiyi\.com\/common\/.*\/pps[\w]+.swf",
-        "replace": "hostsite/iqiyi_out.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
+        "replace": "hostsite/pps.swf",
         "extra": "adkillrule"
     },
     {
