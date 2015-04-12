@@ -54,8 +54,8 @@
     },
     {
         "name": "pplive",
-        "find": "(\/\/|\.)player\.pplive\.cn.*\/PPLivePlugin\.swf",
-        "replace": "about:blank",
+        "find": "http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf",
+        "replace": "hostsite/player4player2.swf",
         "extra": "adkillrule"
     },
     {
