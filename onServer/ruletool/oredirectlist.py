@@ -53,15 +53,9 @@
         "extra": "adkillrule"
     },
     {
-        "name": "duowan",
-        "find": "http:\/\/assets\.dwstatic\.com\/.*\/vppp\.swf",
-        "replace": "http://yuntv.letv.com/bcloud.swf",
-        "extra": "adkillrule"
-    },
-    {
         "name": "pplive",
         "find": "http:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf",
-        "replace": "hostsite/pptv.in.Ikan.swf",
+        "replace": "hostsite/player4player2.swf",
         "extra": "adkillrule"
     },
     {
@@ -72,7 +66,7 @@
     },
     {
         "name": "iqiyi",
-        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main|Share)?Player.*_(.|\w{1,3}\d+))\.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/((PPS)?Main|Share)?Player.*_(.|\w{1,3}\d+))\.swf",
         "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun|(music|tieba)\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
@@ -111,7 +105,7 @@
     {
         "name": "17173_in_Live",
         "find": "http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf",
-        "replace": "hostsite/17173.in.Live.swf",
+        "replace": "hostsite/17173_stream.swf",
         "css": "#livePlayerMin {height: 549px !important;}",
         "extra": "adkillrule"
     },
