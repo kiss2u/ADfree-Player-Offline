@@ -457,14 +457,6 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				}
 				break;
 
-				case "17173_in_Live":
-				//console.log("Switch : 17173_in_Live");
-				if(/v\.17173\.com/i.test(testUrl) && typeof(redirectlist[i].css) != "undefined") { //17173直播主站css修正
-					console.log("17173_in_Live CSS");
-					insertCSS(details.tabId , {code: redirectlist[i].css});
-					}
-				break;
-
 				default:
 				console.log("Switch : Default");
 				break;

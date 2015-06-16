@@ -61,7 +61,7 @@ function openSupportWebsite() {
 
 function fetchNewRule() {
     if(++count){
-        if(count > 0 && count != 32){
+        if(count > 0 && count != 9){
             $(".pts").text(count.toString());
             $(".pts").show();
         }else{
