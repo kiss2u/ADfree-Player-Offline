@@ -25,6 +25,11 @@
 - PPAPI Shockwave Flash >= 11
 - Google Chrome Stable/Chromium >= 38
 
+*Special Tips*
+
+- When PPAPI Shockwave Flash >= 17.0.0.171.
+- The 'Offline' Mode would be unavailable.[BUG 484016](https://code.google.com/p/chromium/issues/detail?id=484016)
+
 ## Contact
 
 Post reply in [Kafan Forums](http://bbs.kafan.cn/thread-1514537-1-1.html)
