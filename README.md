@@ -17,7 +17,7 @@
 - Adobe Cross Domain Policy File (crossdomain.xml must be set to allow-access-from domain="*")
 - Python (version 2.7.2 is OK)
 
-#### Cilent
+#### Client
 
 - PPAPI Shockwave Flash <= 12.0.0.44
 - Google Chrome/Chromium >= 19
