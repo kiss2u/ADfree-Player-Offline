@@ -377,6 +377,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		if (redirectlist[i].find.test(url)) {
 			console.log(url);
 			var newUrl = url.replace(redirectlist[i].find, redirectlist[i].replace);
+			var goRedir = 1;    //重定向标记
 			//重定向细化规则部分开始
 			//console.log(redirectlist[i].name);
 			console.log("Switch : " + redirectlist[i].name);
@@ -463,11 +464,15 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 			}
 
 			//重定向细化规则部分结束
-			console.log(newUrl);
-			newUrl = decodeURIComponent(newUrl);
-			return {
-				redirectUrl: newUrl
-			};
+			if(goRedir){
+				console.log(newUrl);
+				newUrl = decodeURIComponent(newUrl);
+				return {
+					redirectUrl: newUrl
+				};
+			}else{
+			continue;
+			}
 		}
 	}
 
