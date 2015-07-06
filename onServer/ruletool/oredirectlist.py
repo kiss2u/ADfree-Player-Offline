@@ -14,12 +14,6 @@
         "extra": "adkillrule"
     },
     {
-        "name": "ku6",
-        "find": "http:\/\/player\.ku6cdn\.com\/default\/.*\/(v|player)[^\.]*\.swf",
-        "replace": "hostsite/ku6.swf",
-        "extra": "adkillrule"
-    },
-    {
         "name": "tudou",
         "find": "http:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf",
         "exfind": "narutom",
@@ -85,15 +79,9 @@
     },
     {
         "name": "sohu_live",
-        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!ap).*\d+|(\d+\.){3}\d+(:\d+)?\/.*player)\/(Main|PlayerShell)[^\.]*\.swf",
+        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/.*player)\/(Main|PlayerShell)[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu_live.swf",
-        "extra": "adkillrule"
-    },
-    {
-        "name": "baidu_call",
-        "find": "http\:\/\/list\.video\.baidu\.com\/swf\/advPlayer\.swf",
-        "replace": "hostsite/baidu.call.swf",
         "extra": "adkillrule"
     }
 ]

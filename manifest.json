@@ -7,7 +7,7 @@
       "default_popup" : "popup.html",
       "default_title" : "ADfree.Player.Offline"
     },
-   "description": "一款屏蔽国内主要视频网站部分视频广告的扩展，支持：优酷、土豆、酷6、搜狐、爱奇艺、乐视、PPS、PPTV。",
+   "description": "一款屏蔽国内主要视频网站部分视频广告的扩展，支持：优酷、土豆、乐视、搜狐、爱奇艺、PPTV。",
    "icons": {
       "128": "icon/icon128.png"
    },
@@ -15,6 +15,6 @@
    "minimum_chrome_version": "38.0.2121.3",
    "name": "ADfree.Player.Offline",
    "permissions": [ "storage", "unlimitedStorage", "browsingData", "proxy", "tabs", "webRequest", "webRequestBlocking", "\u003Call_urls>", "http://*/*", "https://*/*" ],
-   "version": "0.4.3.5",
+   "version": "0.4.3.6",
    "web_accessible_resources": [ "swf/*.swf" ]
 }
