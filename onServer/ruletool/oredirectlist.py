@@ -1,16 +1,8 @@
 [
     {
-        "name": "youkuloader",
-        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf",
-        "exfind": "(bili|acfun)",
-        "replace": "hostsite/loader.swf",
-        "extra": "adkillrule"
-    },
-    {
-        "name": "youkuplayer",
-        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf",
-        "exfind": "(bili|acfun)",
-        "replace": "hostsite/player.swf",
+        "name": "youkutest",
+        "find": "http:\/\/val[fcopb]\.atm\.youku\.com\/v[fcopb]",
+        "replace": "about:blank",
         "extra": "adkillrule"
     },
     {
