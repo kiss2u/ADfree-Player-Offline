@@ -327,24 +327,19 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 //		console.log(url);
 		taburls[id][1] = 1; //默认值,对于iqiyi来说是载入v5播放器,对于letv来说是载入普通LETV播放器可本地(但在线调用letv播放器如:AB站 Letvcloud LetvViKi,不能使用本地地址)http://www.letv.com/ptv/pplay/90558/2.html
 		//=======================
-		if (/.*\.iqiyi\.com/i.test(url)) { //消耗流量与资源对iqiyi和letv的进一步判断,不过现在只有iqiyi的有作用letv不需要这样判断了
+		if (/v\.youku\.com\/v_show\/id_.*\.html/i.test(url)) { //消耗流量与资源对iqiyi和letv的进一步判断,不过现在只有iqiyi的有作用letv不需要这样判断了
 //		if (/(^((?!(baidu|61)).)*\.iqiyi\.com)|(letv.*\..*htm)/i.test(url)) {
 			var xhr = new XMLHttpRequest();
 			xhr.open("GET", url, true);
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4) {	
 //					console.log(/iqiyi|letv/i.exec(url));
-					switch (/iqiyi|letv/i.exec(url)[0]) {
-						case "iqiyi":
-						console.log("XHR Switch : iqiyi|pps");
-						taburls[id][1] = /data-flashplayerparam-flashurl/i.test(xhr.responseText);
+					switch (/youku/i.exec(url)[0]) {
+						case "youku":
+						console.log("XHR Switch : youku");
+						taburls[id][1] = /="grey"/i.test(xhr.responseText);
 						break;
-/*
-						case "letv":
-						console.log("XHR Switch : letv");
-						taburls[id][1] = !/VLetvPlayer/.test(xhr.responseText);
-						break;
-*/
+
 						default:
 						console.log("XHR Switch : default");
 						break;
@@ -391,12 +386,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					newUrl = url.replace(redirectlist[i].find, baesite[0] + 'letv.swf'); //转换成在线
 				}
 				break;
-/*
-				case "letvpccs":
-				//console.log("Switch : letvpccs");
-				
-				break;
-*/
+
 				case "iqiyi":
 				//console.log("Switch : iqiyi");	
 				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
@@ -412,9 +402,9 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						}
 					} else { //iqiyi本站v4 v5
 						//newUrl = newUrl.replace(/iqiyi5/i,'iqiyi');	//先行替换成v4
-						console.log("Judge Flag");
-						v5flag = taburls[id][1]; //读取flag存储
-						if (!v5flag || /pps\.tv/i.test(testUrl)) {	//不满足v5条件换成v4,或者在pps.tv域名下强制改变
+						//console.log("Judge Flag");
+						//v5flag = taburls[id][1]; //读取flag存储
+						if ( /pps\.tv/i.test(testUrl)) {	//不满足v5条件换成v4,或者在pps.tv域名下强制改变
 							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi');
 						} 
 					}
@@ -423,21 +413,54 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 				case "youkuloader":
 				//console.log("Switch : youku");
-				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
-				//		newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
+				console.log("Judge Flag");
+				v5flag = taburls[id][1]; //读取flag存储
+				if ( v5flag) {	//youku出现特殊标示
+					newUrl = url;   //不替换
+					goRedir = 0;
+				}
+				else
+				{
+					if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
+//						newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
 						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'loader.swf');
 					}
+				}
 				break;
 
 				case "youkuplayer":
 				//console.log("Switch : youku");
-				if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
+				console.log("Judge Flag");
+				v5flag = taburls[id][1]; //读取flag存储
+				if ( v5flag) {	//youku出现特殊标示
+					newUrl = url;   //不替换
+					goRedir = 0;
+				}
+				else
+				{
+					if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
 				//		newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
 						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'player.swf');
+						
+						console.log("Judge Flag");
+						v5flag = taburls[id][1]; //读取flag存储
+						if ( v5flag) {	//youku出现特殊标示
+							newUrl = url;   //不替换
+							goRedir = 0;
+						}
 					}
+				}
 				break;
 
-				//case "tudou_sp":
+				case "youkujson":
+				console.log("Judge Flag");
+				v5flag = taburls[id][1]; //读取flag存储
+				if ( !v5flag ) {	//youku 不满足不替换
+					newUrl = url;   //不替换
+					goRedir = 0;
+				}
+				break;
+				
 				case "tudou":
 				//console.log("Switch : tudou");
 				if (redirectlist[i].exfind.test(testUrl)) { //特殊网址由于网页本身参数不全无法替换tudou
