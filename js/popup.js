@@ -108,7 +108,7 @@ $(document).ready(function(){
     $("#getNewRule").click(fetchNewRule);
     $("#getinitRule").click(reinitRule);
     $("#getSupport").click(openSupportWebsite);
-    $("#Mode").click(changeMode);
+    //$("#Mode").click(changeMode);
     $("#CompatibleMode").click(changeCompatibleMode);
     $("#CacheMode").click(changeCacheMode);
 });
