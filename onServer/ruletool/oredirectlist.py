@@ -1,5 +1,11 @@
 [
     {
+        "name": "youkujson",
+        "find": "http:\/\/val[fcopb]\.atm\.youku\.com\/v[fcopb]",
+        "replace": "about:blank",
+        "extra": "adkillrule"
+    },
+    {
         "name": "youkuloader",
         "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?[^\.]*\.swf",
         "exfind": "(bili|acfun)",
