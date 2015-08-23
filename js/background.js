@@ -16,7 +16,7 @@ var taburls = []; //存放tab的url与flag，用作判断重定向,存储当前p
 var baesite = ['', '','http://127.0.0.1/'];
 //在线播放器地址.后面规则载入使用baesite[2],并会使用规则中tudou_olc的地址来填充baesite[0],而baesite[0]将会作为那些必须在线的swf的载入地址.如果拥有自己的服务器也可在此修改baesite[2],baesite[1]将会被填充为crossdomain的代理地址
 var ruleName = ['configlist','redirectlist','refererslist','proxylist'];
-var localflag = 1; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
+var localflag = 0; //本地模式开启标示,1为本地,0为在线.在特殊网址即使开启本地模式仍会需要使用在线服务器,程序将会自行替换 initRules过程中将会改变并使用localStorage[]存取该值
 var flushallow = 1; //用于控制是否自动清理缓存,1为自动,0为手动,initRules过程中将会改变并使用localStorage[]存取该值
 var compatible = 0;	//用于控制是否启动代理控制,1为禁用,0为启用,initRules过程中将会改变并使用localStorage[]存取该值
 var proxyflag = "";	//proxy调试标记,改为存储proxy的具体IP地址
@@ -414,22 +414,24 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				case "youkuloader":
 				//console.log("Switch : youku");
 				console.log("Judge Flag");
-				try{
-					v5flag = taburls[id][1]; //读取flag存储
-				}
-				catch(e)
-				{
-					v5flag = false;
-				}
-				if (v5flag) {	//youku出现特殊标示
-					newUrl = url;   //不替换
-					goRedir = 0;
-				}
-				else
-				{
-					if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
-//						newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
-						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'loader.swf');
+				if (/youku\.com/i.test(testUrl)) {
+					try{
+						v5flag = taburls[id][1]; //读取flag存储
+					}
+					catch(e)
+					{
+						v5flag = false;
+					}
+					if (v5flag) {	//youku出现特殊标示
+						newUrl = url;   //不替换
+						goRedir = 0;
+					}
+					else
+					{
+						if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
+							//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
+							newUrl = url.replace(redirectlist[i].find, baesite[0] + 'loader.swf');
+						}
 					}
 				}
 				break;
@@ -437,28 +439,30 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				case "youkuplayer":
 				//console.log("Switch : youku");
 				console.log("Judge Flag");
-				try{
-					v5flag = taburls[id][1]; //读取flag存储
-				}
-				catch(e)
-				{
-					v5flag = false;
-				}
-				if (v5flag) {	//youku出现特殊标示
-					newUrl = url;   //不替换
-					goRedir = 0;
-				}
-				else
-				{
-					if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
-				//		newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
-						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'player.swf');
-						
-						console.log("Judge Flag");
+				if (/youku\.com/i.test(testUrl)) {
+					try{
 						v5flag = taburls[id][1]; //读取flag存储
-						if ( v5flag) {	//youku出现特殊标示
-							newUrl = url;   //不替换
-							goRedir = 0;
+					}
+					catch(e)
+					{
+						v5flag = false;
+					}
+					if (v5flag) {	//youku出现特殊标示
+						newUrl = url;   //不替换
+						goRedir = 0;
+					}
+					else
+					{
+						if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
+							//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
+							newUrl = url.replace(redirectlist[i].find, baesite[0] + 'player.swf');
+						
+							console.log("Judge Flag");
+							v5flag = taburls[id][1]; //读取flag存储
+							if ( v5flag) {	//youku出现特殊标示
+								newUrl = url;   //不替换
+								goRedir = 0;
+							}
 						}
 					}
 				}
@@ -466,16 +470,18 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 				case "youkujson":
 				console.log("Judge Flag");
-				try{
-					v5flag = taburls[id][1]; //读取flag存储
-				}
-				catch(e)
-				{
-					v5flag = false;
-				}
-				if (!v5flag) {	//youku 不满足不替换
-					newUrl = url;   //不替换
-					goRedir = 0;
+				if (/(youku|tudou)\.com/i.test(testUrl)) {
+					try{
+						v5flag = taburls[id][1]; //读取flag存储
+					}
+					catch(e)
+					{
+						v5flag = false;
+					}
+					if (!v5flag) {	//youku 不满足不替换
+						newUrl = url;   //不替换
+						goRedir = 0;
+					}
 				}
 				break;
 				

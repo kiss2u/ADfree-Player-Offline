@@ -17,12 +17,12 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_sohu",
-	"find": "http:\/\/(tv\.sohu\.com\/|(\d+\.){3}\d+(:\d+)?).*\/(Main|PlayerShell)\.swf",
+	"find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/webplayer)\/(Main|PlayerShell)[^\.]*\.swf",
 	"monitor": "http:\/\/(photocdn|live\.tv)\.sohu\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-c1",
-	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/((PPS)?Main|Share)?Player.*_(.|ad\d+))\.swf",
+	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/((PPS)?Main|Coop|Share|Enjon)?Player.*_(.|ad\d+))\.swf",
 	"monitor": "\w{32}\.\w{3}.*qyid=\w{32}.*ran=\d+",
 	"extra": "crossdomain"
 }, {

@@ -15,5 +15,5 @@
    "minimum_chrome_version": "38.0.2121.3",
    "name": "ADfree.Player.Online",
    "permissions": [ "storage", "unlimitedStorage", "browsingData", "proxy", "tabs", "webRequest", "webRequestBlocking", "\u003Call_urls>", "http://*/*", "https://*/*" ],
-   "version": "0.4.4.1"
+   "version": "0.4.4.2"
 }

@@ -9,11 +9,6 @@
 	"replace": "",
 	"extra": "remove"
 }, {
-	"name": "referer_56",
-	"find": "\.56\.com",
-	"replace": "",
-	"extra": "remove"
-}, {
 	"name": "referer_iqiyi",
 	"find": "cache\.video\.qiyi\.com",
 	"replace": "",
