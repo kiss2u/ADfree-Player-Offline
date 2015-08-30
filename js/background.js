@@ -414,10 +414,16 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				case "youkuloader":
 				//console.log("Switch : youku");
 				console.log("Judge Flag");
-				try{
-					v5flag = taburls[id][1]; //读取flag存储
+				if (/youku\.com/i.test(testUrl)) {
+					try{
+						v5flag = taburls[id][1]; //读取flag存储
+					}
+					catch(e)
+					{
+						v5flag = false;
+					}
 				}
-				catch(e)
+				else
 				{
 					v5flag = false;
 				}
@@ -437,10 +443,16 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				case "youkuplayer":
 				//console.log("Switch : youku");
 				console.log("Judge Flag");
-				try{
-					v5flag = taburls[id][1]; //读取flag存储
+				if (/youku\.com/i.test(testUrl)) {
+					try{
+						v5flag = taburls[id][1]; //读取flag存储
+					}
+					catch(e)
+					{
+						v5flag = false;
+					}
 				}
-				catch(e)
+				else
 				{
 					v5flag = false;
 				}
@@ -466,10 +478,16 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 				case "youkujson":
 				console.log("Judge Flag");
-				try{
-					v5flag = taburls[id][1]; //读取flag存储
+				if (/youku\.com/i.test(testUrl)) {
+					try{
+						v5flag = taburls[id][1]; //读取flag存储
+					}
+					catch(e)
+					{
+						v5flag = false;
+					}
 				}
-				catch(e)
+				else
 				{
 					v5flag = false;
 				}

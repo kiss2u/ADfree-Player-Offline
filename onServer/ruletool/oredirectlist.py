@@ -54,7 +54,7 @@
     },
     {
         "name": "letvpccs",
-        "find": "http:\/\/www.letv.com\/.*\/playerapi\/pccs_(?!(live|sdk)).*_?(\d+)\.xml",
+        "find": "http:\/\/www.letv.com\/.*\/playerapi\/pccs_(?!(.*live|sdk)).*_?(\d+)\.xml",
         "replace": "http://www.letv.com/cmsdata/playerapi/pccs_sdk_20141113.xml",
         "extra": "adkillrule"
     },
@@ -66,8 +66,8 @@
     },
     {
         "name": "iqiyi",
-        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main|Share|Enjoy)?Player.*_(.|\w{1,3}\d+))\.swf",
-        "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|yaku\.tv|bilibili|acfun|(music|tieba)\.baidu",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*)|common\/flashplayer\/\d+\/(Main|Share|Enjon)?Player.*_(.|\w{1,3}\d+))\.swf",
+        "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|bilibili|acfun|(music|tieba)\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
     },
