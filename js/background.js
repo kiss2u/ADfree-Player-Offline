@@ -422,16 +422,20 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					{
 						v5flag = false;
 					}
-					if (v5flag) {	//youku出现特殊标示
-						newUrl = url;   //不替换
-						goRedir = 0;
-					}
-					else
-					{
-						if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
-							//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
-							newUrl = url.replace(redirectlist[i].find, baesite[0] + 'loader.swf');
-						}
+				}
+				else
+				{
+					v5flag = false;
+				}
+				if (v5flag) {	//youku出现特殊标示
+					newUrl = url;   //不替换
+					goRedir = 0;
+				}
+				else
+				{
+					if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
+						//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
+						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'loader.swf');
 					}
 				}
 				break;
@@ -447,22 +451,26 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					{
 						v5flag = false;
 					}
-					if (v5flag) {	//youku出现特殊标示
-						newUrl = url;   //不替换
-						goRedir = 0;
-					}
-					else
-					{
-						if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
-							//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
-							newUrl = url.replace(redirectlist[i].find, baesite[0] + 'player.swf');
+				}
+				else
+				{
+					v5flag = false;
+				}
+				if (v5flag) {	//youku出现特殊标示
+					newUrl = url;   //不替换
+					goRedir = 0;
+				}
+				else
+				{
+					if (redirectlist[i].exfind.test(testUrl) && localflag) { //特殊网址Flash内部调用切换到非本地模式
+						//newUrl = url.replace(redirectlist[i].find,baesite[ getRandom(3) ] + 'loader.swf' + "?showAd=0&VideoIDS=$2");	//多服务器均衡,因服务器原因暂未开启
+						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'player.swf');
 						
-							console.log("Judge Flag");
-							v5flag = taburls[id][1]; //读取flag存储
-							if ( v5flag) {	//youku出现特殊标示
-								newUrl = url;   //不替换
-								goRedir = 0;
-							}
+						console.log("Judge Flag");
+						v5flag = taburls[id][1]; //读取flag存储
+						if ( v5flag) {	//youku出现特殊标示
+							newUrl = url;   //不替换
+							goRedir = 0;
 						}
 					}
 				}
@@ -478,10 +486,14 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					{
 						v5flag = false;
 					}
-					if (!v5flag) {	//youku 不满足不替换
-						newUrl = url;   //不替换
-						goRedir = 0;
-					}
+				}
+				else
+				{
+					v5flag = false;
+				}
+				if (!v5flag) {	//youku 不满足不替换
+					newUrl = url;   //不替换
+					goRedir = 0;
 				}
 				break;
 				
