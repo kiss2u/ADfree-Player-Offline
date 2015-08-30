@@ -37,6 +37,11 @@
 	"monitor": "policy\.video\.iqiyi\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
+	"name": "crossdomain_letv",
+	"find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
+	"monitor": "http:\/\/player\.letvcdn\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
 	"name": "yk.pp.navi.youku.com:80",
 	"find": "",
 	"monitor": "",
