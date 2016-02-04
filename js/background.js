@@ -325,19 +325,19 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		taburls[id] = []; //二维数组
 		taburls[id][0] = url;
 //		console.log(url);
-		taburls[id][1] = 1; //默认值,对于iqiyi来说是载入v5播放器,对于letv来说是载入普通LETV播放器可本地(但在线调用letv播放器如:AB站 Letvcloud LetvViKi,不能使用本地地址)http://www.letv.com/ptv/pplay/90558/2.html
+		taburls[id][1] = 1; //默认值,目前用于yk
 		//=======================
-		if (/v\.youku\.com\/v_show\/id_.*\.html/i.test(url)) { //消耗流量与资源对iqiyi和letv的进一步判断,不过现在只有iqiyi的有作用letv不需要这样判断了
-//		if (/(^((?!(baidu|61)).)*\.iqiyi\.com)|(letv.*\..*htm)/i.test(url)) {
+		if (/.*\.youku\.com\/v_show\/id_(.*)\.html/i.test(url)) { //消耗流量与资源对yk进一步判断
 			var xhr = new XMLHttpRequest();
-			xhr.open("GET", url, true);
+			var infoUrl = url.replace(/.*\.youku\.com\/v_show\/id_(.*)\.html.*/i,"http://play.youku.com/play/get.json?vid=$1&ct=10");
+			infoUrl = infoUrl + "&ran=" + (0 ^ Math.random() * 9999);
+			xhr.open("GET", infoUrl, true);
 			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4) {	
-//					console.log(/iqiyi|letv/i.exec(url));
+				if (xhr.readyState == 4) {
 					switch (/youku/i.exec(url)[0]) {
 						case "youku":
 						console.log("XHR Switch : youku");
-						taburls[id][1] = /="grey"/i.test(xhr.responseText);
+						taburls[id][1] = /"transfer_mode":"rtmp"/i.test(xhr.responseText);
 						break;
 
 						default:
