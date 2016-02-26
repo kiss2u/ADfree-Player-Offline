@@ -20,15 +20,10 @@
         "extra": "adkillrule"
     },
     {
-        "name": "tudou_olc",
-        "find": "http:\/\/js\.tudouui\.com\/.*olc[^\.]*\.swf",
-        "replace": "hostsite/olc_8.swf",
-        "extra": "adkillrule"
-    },
-    {
-        "name": "tudou_sp",
-        "find": "http:\/\/js\.tudouui\.com\/.*SocialPlayer[^\.]*\.swf",
-        "replace": "hostsite/sp.swf",
+        "name": "tudou",
+        "find": "http:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf",
+        "exfind": "narutom",
+        "replace": "hostsite/tudou.swf",
         "extra": "adkillrule"
     },
     {
@@ -64,6 +59,12 @@
         "extra": "adkillrule"
     },
     {
+        "name": "iqiyi_p2p",
+        "find": "http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/\d+\.swf",
+        "replace": "http://www.iqiyi.com/common/flashplayer/20151119/3022.swf",
+        "extra": "adkillrule"
+    },
+    {
         "name": "pps",
         "find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
         "replace": "hostsite/pps.swf",
@@ -77,7 +78,7 @@
     },
     {
         "name": "sohu_live",
-        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/webplayer)\/(Main|PlayerShell)[^\.]*\.swf",
+        "find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/(web|test)player)\/(Main|PlayerShell)[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu_live.swf",
         "extra": "adkillrule"
