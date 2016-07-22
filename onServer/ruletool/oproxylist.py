@@ -1,24 +1,24 @@
 [{
 	"name": "crossdomain_youku",
-	"find": "http:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf",
-	"monitor": "http:\/\/v\.youku\.com\/crossdomain\.xml",
+	"find": "https?:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf",
+	"monitor": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_tudou",
 	"find": ".*PortalPlayer[^\.]*\.swf",
-	"exfind": "http:\/\/v\.youku\.com\/crossdomain\.xml",
-	"monitor": "http:\/\/www\.tudou\.com\/crossdomain\.xml",
+	"exfind": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
+	"monitor": "https?:\/\/www\.tudou\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_tudou_sp",
 	"find": ".*olc[^\.]*\.swf",
-	"exfind": "http:\/\/v\.youku\.com\/crossdomain\.xml",
-	"monitor": "http:\/\/www\.tudou\.com\/crossdomain\.xml",
+	"exfind": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
+	"monitor": "https?:\/\/www\.tudou\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_sohu",
-	"find": "http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/webplayer)\/(Main|PlayerShell)[^\.]*\.swf",
-	"monitor": "http:\/\/(photocdn|live\.tv)\.sohu\.com\/crossdomain\.xml",
+	"find": "https?:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/webplayer)\/(Main|PlayerShell)[^\.]*\.swf",
+	"monitor": "https?:\/\/(photocdn|live\.tv)\.sohu\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-c1",
@@ -38,8 +38,13 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_letv",
-	"find": "http:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
-	"monitor": "http:\/\/player\.letvcdn\.com\/crossdomain\.xml",
+	"find": "https?:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
+	"monitor": "https?:\/\/player\.letvcdn\.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
+	"name": "crossdomain_douyu",
+	"find": "https?:\/\/staticlive\.douyutv\.com\/common\/simplayer\/WebRoomNormal\.swf",
+	"monitor": "https?:\/\/www\.douyu\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "yk.pp.navi.youku.com:80",
