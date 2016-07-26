@@ -189,36 +189,36 @@ chrome.webRequest.onCompleted.addListener(function(details) {
 			cacheflag = details.fromCache;
 			console.log("Capture Moniter Url :" + details.url + " fromCache :" + details.fromCache + " ip :" + details.ip);
 			var id = "tabid" + details.tabId;
-			switch (proxylist[taburls[id][2]].name) {
-
-				case "crossdomain_tudou":   //特殊规则
-				case "crossdomain_tudou_sp":
-				case "crossdomain_iqiyi|pps-main":
-				if(typeof(taburls[id]) != "undefined" && typeof(proxylist[taburls[id][2]].exfind) != "undefined") {   //防止规则与扩展版本不适应
-					if(proxylist[taburls[id][2]].monitor.test(details.url)) taburls[id][3]=true;
-					if(proxylist[taburls[id][2]].exfind.test(details.url)) taburls[id][4]=true;
-					if(taburls[id][3] && taburls[id][4]){
-						bflag = true;
-					}else{
+			if(typeof(proxylist[taburls[id][2]]) != "undefined") {	//防止出现monitor中监视的地址出在在载入播放器之前
+				switch (proxylist[taburls[id][2]].name) {
+					case "crossdomain_tudou":   //特殊规则
+					case "crossdomain_tudou_sp":
+					case "crossdomain_iqiyi|pps-main":
+					if(typeof(taburls[id]) != "undefined" && typeof(proxylist[taburls[id][2]].exfind) != "undefined") {   //防止规则与扩展版本不适应
+						if(proxylist[taburls[id][2]].monitor.test(details.url)) taburls[id][3]=true;
+						if(proxylist[taburls[id][2]].exfind.test(details.url)) taburls[id][4]=true;
+						if(taburls[id][3] && taburls[id][4]){
+							bflag = true;
+						} else {
+							bflag = false;
+							console.log("Hold Proxy in " + proxylist[taburls[id][2]].name);
+						}
+					} else {
 						bflag = false;
-						console.log("Hold Proxy in " + proxylist[taburls[id][2]].name);
+						console.log("Error!(Hold Proxy) ");
 					}
-				}else{
-				bflag = false;
-				console.log("Error!(Hold Proxy) ");
-				}
-				//break;
+					//break;
 
-				default:
-				if(bflag) {
-					console.log("Now Release Proxy ");
-					ProxyControl("unset" , details.ip);
-				}
-				break;
+					default:
+					if(bflag) {
+						console.log("Now Release Proxy ");
+						ProxyControl("unset" , details.ip);
+					}
+					break;
 
+				}
+				if(bflag) break;
 			}
-			
-			if(bflag) break;
 		}
 	}
 	
