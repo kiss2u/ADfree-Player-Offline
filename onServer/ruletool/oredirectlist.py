@@ -10,6 +10,7 @@
         "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/loader.swf",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
         "extra": "adkillrule"
     },
     {
@@ -17,6 +18,7 @@
         "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player[^\.]*|\w{13})\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
         "extra": "adkillrule"
     },
     {
@@ -53,7 +55,7 @@
     },
     {
         "name": "iqiyi",
-        "find": "https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/(Main|Coop|share|Enjoy)?(Player[^\.]*|\d+(f98c2359|5b45a8bb)))\.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/(Main|Coop|share|Enjoy)?(Player[^\.]*(.|\w{1,3}\d+)|[\d]{4}[\w]{4}[\w]{2}(?!aa)[\w]{2}))\.swf",
         "exfind": "https?:\/\/(baidu|61|178)\.iqiyi\.com|weibo|bilibili|acfun|(music|tieba)\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"

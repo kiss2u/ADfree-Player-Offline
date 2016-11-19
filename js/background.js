@@ -298,6 +298,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 ["blocking", "requestHeaders"]);
 
 //====================================CSS injector
+function cssInjector(regexp ,testUrl ,css ,tabId) {
+	if(regexp.test(testUrl) && typeof(css) != "undefined") { //tudou主站css修正
+			console.log("CSS injector");
+			insertCSS(tabId , {code: css});
+		}
+}
 function insertCSS(tabId , Details) {
 	chrome.tabs.insertCSS(tabId ,Details, function() {
 		if (chrome.runtime.lastError) {
@@ -324,6 +330,8 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 		//console.log(url);
 		taburls[id] = []; //二维数组
 		taburls[id][0] = url;
+		//新增验证
+		taburls[id][5] = 0; //初始化时为0
 //		console.log(url);
 		taburls[id][1] = 1; //默认值
 		//=======================
@@ -332,13 +340,14 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 			var infoUrl = url.replace(/.*\.youku\.com\/v_show\/id_(.*)\.html.*/i,"http://play.youku.com/play/get.json?vid=$1&ct=10");
 			infoUrl = infoUrl + "&ran=" + (0 ^ Math.random() * 9999);
 			xhr.open("GET", infoUrl, true);
+			xhr.setRequestHeader("X-Forwarded-For",details.url);	//临时存放一下数据
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4) {	
 //					console.log(/iqiyi|letv/i.exec(url));
 					switch (/youku/i.exec(url)[0]) {
 						case "youku":
 						console.log("XHR Switch : youku");
-						taburls[id][1] = /"rtmp"/i.test(xhr.responseText);
+						taburls[id][1] = /"transfer_mode":"rtmp"/i.test(xhr.responseText);
 						break;
 
 						default:
@@ -390,7 +399,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 
 				case "iqiyi":
 				//console.log("Switch : iqiyi");	
-				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用v5flag进行判断的特殊类型
+				if(/v\..*iqiyi\.com/i.test(testUrl)){	//强制v5名单 无法使用adjflag进行判断的特殊类型
 					console.log("Force to iqiyi5");
 				} else {
 					if (redirectlist[i].exfind.test(testUrl) || /share/i.test(url)) { //外链名单
@@ -404,7 +413,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 					} else { //iqiyi本站v4 v5
 						//newUrl = newUrl.replace(/iqiyi5/i,'iqiyi');	//先行替换成v4
 						//console.log("Judge Flag");
-						//v5flag = taburls[id][1]; //读取flag存储
+						//adjflag = taburls[id][1]; //读取flag存储
 						if ( /pps\.tv/i.test(testUrl)) {	//不满足v5条件换成v4,或者在pps.tv域名下强制改变
 							newUrl = newUrl.replace(/iqiyi5/i, 'iqiyi');
 						}
@@ -416,19 +425,19 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				//console.log("Switch : youku");
 				console.log("Judge Flag");
 				if (/youku\.com/i.test(testUrl)) {
-					try{
-						v5flag = taburls[id][1]; //读取flag存储
+				try{
+					adjflag = taburls[id][1]; //读取flag存储
 					}
 					catch(e)
 					{
-						v5flag = false;
+						adjflag = false;
 					}
 				}
 				else
 				{
-					v5flag = false;
+					adjflag = false;
 				}
-				if (v5flag) {	//youku出现特殊标示
+				if (adjflag) {	//youku出现特殊标示
 					newUrl = url;   //不替换
 					goRedir = 0;
 				}
@@ -439,6 +448,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'loader.swf');
 					}
 				}
+				cssInjector(/youku\.com/i ,testUrl ,redirectlist[i].css ,details.tabId);
 				break;
 
 				case "youkuplayer":
@@ -446,18 +456,18 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 				console.log("Judge Flag");
 				if (/youku\.com/i.test(testUrl)) {
 					try{
-						v5flag = taburls[id][1]; //读取flag存储
+						adjflag = taburls[id][1]; //读取flag存储
 					}
 					catch(e)
 					{
-						v5flag = false;
+						adjflag = false;
 					}
 				}
 				else
 				{
-					v5flag = false;
+					adjflag = false;
 				}
-				if (v5flag) {	//youku出现特殊标示
+				if (adjflag) {	//youku出现特殊标示
 					newUrl = url;   //不替换
 					goRedir = 0;
 				}
@@ -468,31 +478,32 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						newUrl = url.replace(redirectlist[i].find, baesite[0] + 'player.swf');
 						
 						console.log("Judge Flag");
-						v5flag = taburls[id][1]; //读取flag存储
-						if ( v5flag) {	//youku出现特殊标示
+						adjflag = taburls[id][1]; //读取flag存储
+						if ( adjflag) {	//youku出现特殊标示
 							newUrl = url;   //不替换
 							goRedir = 0;
 						}
 					}
 				}
+				cssInjector(/youku\.com/i ,testUrl ,redirectlist[i].css ,details.tabId);
 				break;
 
 				case "youkujson":
 				console.log("Judge Flag");
 				if (/(youku|tudou)\.com/i.test(testUrl)) {
 					try{
-						v5flag = taburls[id][1]; //读取flag存储
+						adjflag = taburls[id][1]; //读取flag存储
 					}
 					catch(e)
 					{
-						v5flag = false;
+						adjflag = false;
 					}
 				}
 				else
 				{
-					v5flag = false;
+					adjflag = false;
 				}
-				if (!v5flag) {	//youku 不满足不替换
+				if (!adjflag) {	//youku 不满足不替换
 					newUrl = url;   //不替换
 					goRedir = 0;
 				}
@@ -504,10 +515,13 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 						console.log("Can not redirect Player!");
 						newUrl = url;
 					}
+				cssInjector(/tudou\.com/i ,testUrl ,redirectlist[i].css ,details.tabId);
+				/*
 				if(/tudou\.com/i.test(testUrl) && typeof(redirectlist[i].css) != "undefined") { //tudou主站css修正
 					console.log("Tudou CSS");
 					insertCSS(details.tabId , {code: redirectlist[i].css});
 					}
+				*/
 				break;
 
 				case "sohu_live":
