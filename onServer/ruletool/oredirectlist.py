@@ -28,7 +28,7 @@
     },
     {
         "name": "letv",
-        "find": "https?:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk|SSDK))(S[\w]{2,3})?(?!Live)[\w]{4}|swf|VLetv)Player[^\.]*\.swf",
+        "find": "https?:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk|SSDK))(S[\w]{2,3})?(?!Live)[\w]{4}|swf|(!(\d+)\/)VLetv)Player[^\.]*\.swf",
         "exfind": "(bili|acfun|(comic|hz)\.letv|duowan)",
         "replace": "hostsite/letv.swf",
         "extra": "adkillrule"
@@ -53,7 +53,7 @@
     },
     {
         "name": "iqiyi",
-        "find": "https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/(Main|Coop|share|Enjoy)?(Player[^\.]*|\d+f98c2359))\.swf",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/(Main|Coop|share|Enjoy)?(Player[^\.]*|\d+(f98c2359|5b45a8bb)))\.swf",
         "exfind": "https?:\/\/(baidu|61|178)\.iqiyi\.com|weibo|bilibili|acfun|(music|tieba)\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
@@ -72,7 +72,7 @@
     },
     {
         "name": "sohu_live",
-        "find": "https?:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56|qianfan)).*\d+|(\d+\.){3}\d+(:\d+)?\/(web|test)player)\/(Main|PlayerShell)[^\.]*\.swf",
+        "find": "https?:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56|qianfan)).*\d+|(\d+\.){3}\d+(:\d+)?\/(web|wp8|test)player)\/(Main|PlayerShell)[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu_live.swf",
         "extra": "adkillrule"
