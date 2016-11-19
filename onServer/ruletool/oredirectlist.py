@@ -10,7 +10,7 @@
         "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?[^\.]*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/loader.swf",
-        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;} .play_area{margin-bottom: 70px !important;}",
         "extra": "adkillrule"
     },
     {
@@ -18,7 +18,7 @@
         "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player[^\.]*|\w{13})\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
-        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;} .play_area{margin-bottom: 70px !important;}",
         "extra": "adkillrule"
     },
     {
