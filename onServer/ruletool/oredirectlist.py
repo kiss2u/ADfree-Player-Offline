@@ -10,6 +10,7 @@
         "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/loader.swf",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
         "extra": "adkillrule"
     },
     {
@@ -17,6 +18,7 @@
         "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
         "extra": "adkillrule"
     },
     {
