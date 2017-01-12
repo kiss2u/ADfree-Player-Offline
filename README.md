@@ -29,6 +29,8 @@
 
 - When PPAPI Shockwave Flash >= 17.0.0.171.
 - The 'Offline' Mode would be unavailable.[BUG 484016](https://code.google.com/p/chromium/issues/detail?id=484016)
+- - AND
+- Proxy may have trouble in HTTPS when installed with proxy extensions and Chrome > 52.[BUG 593759](https://bugs.chromium.org/p/chromium/issues/detail?id=593759)[BUG 619097/FEATURE?](https://bugs.chromium.org/p/chromium/issues/detail?id=619097)
 
 ## Contact
 
