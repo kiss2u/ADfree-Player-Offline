@@ -43,11 +43,11 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_douyu",
-	"find": "https?:\/\/staticlive\.douyutv\.com\/common\/simplayer\/WebRoomNormal\.swf",
-	"monitor": "https?:\/\/www\.douyu\.com\/crossdomain\.xml",
+	"find": "https?:\/\/staticlive\.douyucdn\.cn\/common\/simplayer\/WebRoom.*\.swf",
+	"monitor": "https?:\/\/www\.douyu\.com\/lapi\/live\/getPlay\/[\d+]",
 	"extra": "crossdomain"
 }, {
-	"name": "yk.pp.navi.youku.com:80",
+	"name": "irs01.com:80",
 	"find": "",
 	"monitor": "",
 	"extra": "proxy"
