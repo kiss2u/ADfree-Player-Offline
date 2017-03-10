@@ -7,7 +7,7 @@
     },
     {
         "name": "youkuloader",
-        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?\.swf",
+        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/.*\/loaders?\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/loader.swf",
         "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
@@ -15,7 +15,7 @@
     },
     {
         "name": "youkuplayer",
-        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/q?player.*\.swf",
+        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/.*\/q?player.*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
         "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
