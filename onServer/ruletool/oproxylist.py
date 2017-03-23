@@ -47,7 +47,7 @@
 	"monitor": "https?:\/\/www\.douyu\.com\/lapi\/live\/getPlay\/[\d+]",
 	"extra": "crossdomain"
 }, {
-	"name": "irs01.com:80",
+	"name": "aclog3.huomaotv.cn:80",
 	"find": "",
 	"monitor": "",
 	"extra": "proxy"
