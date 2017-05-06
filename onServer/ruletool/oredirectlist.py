@@ -55,12 +55,6 @@
         "extra": "adkillrule"
     },
     {
-        "name": "letvpccs",
-        "find": "https?:\/\/www\.le(tv)?\.com\/.*\/playerapi\/pccs_(?!(.*live|sdk)).*_?(\d+)\.xml",
-        "replace": "https?://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml",
-        "extra": "adkillrule"
-    },
-    {
         "name": "pplive",
         "find": "https?:\/\/player\.pplive\.cn\/ikan\/.*\/player4player2\.swf",
         "replace": "hostsite/player4player2.swf",
