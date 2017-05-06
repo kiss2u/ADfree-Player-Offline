@@ -48,10 +48,10 @@
         "extra": "adkillrule"
     },
     {
-        "name": "letv",
-        "find": "https?:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf)Player*\.swf",
+        "name": "letvsdk",
+        "find": "https?:\/\/player\.letvcdn\.com\/.*\/newplayer\/LetvPlayerSDK\.swf",
         "exfind": "(bili|acfun|com\/zt|duowan)",
-        "replace": "hostsite/letv.swf",
+        "replace": "hostsite/letvsdk.swf",
         "extra": "adkillrule"
     },
     {
