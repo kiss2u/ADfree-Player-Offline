@@ -1,6 +1,6 @@
 [{
 	"name": "crossdomain_youku",
-	"find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/.*\/q?player.*\.swf",
+	"find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/.*\/(q?player|loader).*\.swf",
 	"monitor": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
