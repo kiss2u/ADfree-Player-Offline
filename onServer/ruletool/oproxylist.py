@@ -1,13 +1,13 @@
 [{
 	"name": "crossdomain_youku",
-	"find": "https?:\/\/static\.youku\.com\/.*?q?(player|loaders?)(_[^.]+)?\.swf",
+	"find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/.*\/q?player.*\.swf",
 	"monitor": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_tudou",
-	"find": ".*PortalPlayer[^\.]*\.swf",
-	"exfind": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
-	"monitor": "https?:\/\/www\.tudou\.com\/crossdomain\.xml",
+	"find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/custom\/.*\/q?player.*\.swf",
+	"monitor": "https?:\/\/static.youku.com\/crossdomain\.xml",
+	"exfind": "https?:\/\/static.youku.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_tudou_sp",
