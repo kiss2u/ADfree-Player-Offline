@@ -39,6 +39,9 @@ var pac = {
 	pacScript: {
 	data: "function FindProxyForURL(url, host) {\n" +
 		"	var regexpr = /.*\\/crossdomain\\.xml/;\n" +	//使用过程中\\将被解析成\,所以在正常正则表达式中的\/需要改写成\\/
+		"	if(url.substring(0,5)=='https'){\n " +
+		"		return 'DIRECT';\n" +
+		"	}\n" +
 		"	if(regexpr.test(url)){\n " +
 		"		return 'PROXY yk.pp.navi.youku.com:80';\n" +
 		"	}\n" +
