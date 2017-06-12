@@ -7,38 +7,51 @@
     },
     {
         "name": "youkuloader",
-        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?[^\.]*\.swf",
+        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/.*\/loaders?\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/loader.swf",
-        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;} .play_area{margin-bottom: 70px !important;}",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
         "extra": "adkillrule"
     },
     {
         "name": "youkuplayer",
-        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player[^\.]*|\w{13})\.swf",
+        "find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/.*\/q?player.*\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/player.swf",
-        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;} .play_area{margin-bottom: 70px !important;}",
+        "css": ".danmuoff .vpactionv5_iframe_wrap {top: auto !important;}",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "ku6",
+        "find": "https?:\/\/player\.ku6cdn\.com\/default\/.*\/(v|player)\.swf",
+        "replace": "hostsite/ku6.swf",
         "extra": "adkillrule"
     },
     {
         "name": "tudou",
-        "find": "https?:\/\/js\.tudouui\.com\/.*PortalPlayer[^\.]*\.swf",
+        "find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/custom\/.*\/q?player.*\.swf",
         "exfind": "narutom",
         "replace": "hostsite/tudou.swf",
+        "css": ".player {height: inherit !important;}",
         "extra": "adkillrule"
     },
     {
-        "name": "letv",
-        "find": "https?:\/\/.*letv[\w]*\.com\/.*\/((?!(Live|seed|Disk|SSDK))(S[\w]{2,3})?(?!Live)[\w]{4}|swf|(!(\d+)\/)VLetv)Player[^\.]*\.swf",
-        "exfind": "(bili|acfun|(comic|hz)\.letv|duowan)",
-        "replace": "hostsite/letv.swf",
+        "name": "tudou_olc",
+        "find": "https?:\/\/js\.tudouui\.com\/.*olc[^\.]*\.swf",
+        "replace": "hostsite/olc_8.swf",
         "extra": "adkillrule"
     },
     {
-        "name": "letvpccs",
-        "find": "https?:\/\/www.le(tv)?.com\/.*\/playerapi\/pccs_(?!(.*live|sdk)).*_?(\d+)\.xml",
-        "replace": "http://www.le.com/cmsdata/playerapi/pccs_sdk_20141113.xml",
+        "name": "tudou_sp",
+        "find": "https?:\/\/js\.tudouui\.com\/.*SocialPlayer[^\.]*\.swf",
+        "replace": "hostsite/sp.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "letvsdk",
+        "find": "https?:\/\/player\.letvcdn\.com\/.*\/newplayer\/LetvPlayerSDK\.swf",
+        "exfind": "(bili|acfun|com\/zt|duowan)",
+        "replace": "hostsite/letvsdk.swf",
         "extra": "adkillrule"
     },
     {
@@ -48,35 +61,29 @@
         "extra": "adkillrule"
     },
     {
-        "name": "pplive_live",
-        "find": "https?:\/\/player\.pplive\.cn\/live\/.*\/player4live2\.swf",
-        "replace": "hostsite/pptv.in.Live.swf",
-        "extra": "adkillrule"
-    },
-    {
         "name": "iqiyi",
-        "find": "https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/(Main|Coop|share|Enjoy)?(Player[^\.]*(.|\w{1,3}\d+)|[\d]{4}[\w]{4}[\w]{2}(?!aa)[\w]{2}))\.swf",
-        "exfind": "https?:\/\/(baidu|61|178)\.iqiyi\.com|weibo|bilibili|acfun|(music|tieba)\.baidu",
+        "find": "https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/((Main)?Player_.*|[\d]{4}[a-z]+((?!aa).){6,7}))\.swf",
+        "exfind": "(baidu|61|178)\.iqiyi\.com|weibo|bilibili|acfun|(music|tieba)\.baidu",
         "replace": "hostsite/iqiyi5.swf",
         "extra": "adkillrule"
     },
     {
         "name": "pps",
-        "find": "https?:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf",
-        "replace": "hostsite/pps.swf",
-        "extra": "adkillrule"
-    },
-    {
-        "name": "pps_live",
-        "find": "https?:\/\/www\.iqiyi\.com\/common\/.*\/am[^\.]*.swf",
-        "replace": "about:blank",
+        "find": "https?:\/\/www\.iqiyi\.com\/common\/.*\/pps[\w]+.swf",
+        "replace": "hostsite/iqiyi_out.swf",
         "extra": "adkillrule"
     },
     {
         "name": "sohu_live",
-        "find": "https?:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56|qianfan)).*\d+|(\d+\.){3}\d+(:\d+)?\/(web|wp8|test)player)\/(Main|PlayerShell)[^\.]*\.swf",
+        "find": "https?:\/\/(tv\.sohu\.com\/upload\/swf\/(p2p\/)?\d+|(\d+\.){3}\d+\/webplayer)\/Main\.swf",
         "exfind": "(bili|acfun)",
         "replace": "hostsite/sohu_live.swf",
+        "extra": "adkillrule"
+    },
+    {
+        "name": "duowan",
+        "find": "https?:\/\/untitled\.dwstatic\.com\/.*",
+        "replace": "about:blank",
         "extra": "adkillrule"
     }
 ]

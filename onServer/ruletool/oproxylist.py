@@ -1,22 +1,28 @@
 [{
 	"name": "crossdomain_youku",
-	"find": "https?:\/\/static\.youku\.com\/(?!(custom)).*?q?(player|loaders?|\w{13})(_[^.]+)?\.swf",
+	"find": "https?:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/.*\/(q?player|loader).*\.swf",
 	"monitor": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_tudou",
-	"find": ".*PortalPlayer[^\.]*\.swf",
+	"find": "http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/custom\/.*\/q?player.*\.swf",
+	"monitor": "https?:\/\/static.youku.com\/crossdomain\.xml",
+	"exfind": "https?:\/\/static.youku.com\/crossdomain\.xml",
+	"extra": "crossdomain"
+}, {
+	"name": "crossdomain_tudou_sp",
+	"find": ".*olc[^\.]*\.swf",
 	"exfind": "https?:\/\/v\.youku\.com\/crossdomain\.xml",
 	"monitor": "https?:\/\/www\.tudou\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_sohu",
-	"find": "https?:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56|qianfan)).*\d+|(\d+\.){3}\d+(:\d+)?\/webplayer)\/(Main|PlayerShell)[^\.]*\.swf",
+	"find": "https?:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/webplayer)\/(Main|PlayerShell)[^\.]*\.swf",
 	"monitor": "https?:\/\/(photocdn|live\.tv)\.sohu\.com\/crossdomain\.xml",
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_iqiyi|pps-c1",
-	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/((PPS)?Main|Coop|share|Enjoy)?(Player[^\.]*|\d+f98c2359))\.swf",
+	"find": "https?:\/\/www\.iqiyi\.com\/(player\/(\d+\/Player|[a-z0-9]*|cupid\/.*\/(pps[\w]+|clear))|common\/flashplayer\/\d+\/((PPS)?Main|Coop|Share|Enjon)?Player.*_(.|ad\d+))\.swf",
 	"monitor": "\w{32}\.\w{3}.*qyid=\w{32}.*ran=\d+",
 	"extra": "crossdomain"
 }, {
@@ -37,11 +43,11 @@
 	"extra": "crossdomain"
 }, {
 	"name": "crossdomain_douyu",
-	"find": "https?:\/\/staticlive\.douyutv\.com\/common\/simplayer\/WebRoomNormal\.swf",
-	"monitor": "https?:\/\/www\.douyu\.com\/crossdomain\.xml",
+	"find": "https?:\/\/staticlive\.douyucdn\.cn\/common\/simplayer\/WebRoom.*\.swf",
+	"monitor": "https?:\/\/www\.douyu\.com\/lapi\/live\/getPlay\/[\d+]",
 	"extra": "crossdomain"
 }, {
-	"name": "yk.pp.navi.youku.com:80",
+	"name": "aclog3.huomaotv.cn:80",
 	"find": "",
 	"monitor": "",
 	"extra": "proxy"
